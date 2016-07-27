@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.txyd.database.dao.TableDao">
+
+	<resultMap id="tableBean" type="com.txyd.database.bean.TableBean">
+		<result property="tableSchema" column="table_schema" />
+		<result property="tableName" column="table_name" />
+		<result property="tableType" column="table_type" />
+		<result property="comments" column="comments" />
+		<result property="primaryKeyNum" column="primary_key_num" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		table_schema,table_name,table_type,comments,primary_key_num
+	    ]]>
+	</sql>
+	
+	
+	<select id="select" resultMap="tableBean">
+		SELECT
+		<include refid="columns" />
+		 from
+	    <![CDATA[
+	    (
+			SELECT
+			    r.table_schema as table_schema,
+				r.table_name AS table_name,
+				if(r.TABLE_TYPE='VIEW','view','table') table_type,
+				r.table_comment AS comments,
+				cast(tt.PRIMARY_KEY_NUM  as SIGNED   ) as PRIMARY_KEY_NUM
+			FROM
+				information_schema.`TABLES` r				
+				LEFT JOIN (
+							SELECT
+								t.TABLE_SCHEMA,t.TABLE_NAME,
+								sum(IF(t.COLUMN_KEY = 'PRI', 1, 0)) as PRIMARY_key_num
+							FROM
+								information_schema.`COLUMNS` t
+							WHERE t.TABLE_SCHEMA=#{t.tableSchema}
+							GROUP BY t.TABLE_SCHEMA,t.TABLE_NAME
+					)tt on r.TABLE_SCHEMA=tt.TABLE_SCHEMA and r.TABLE_NAME=tt.TABLE_NAME				
+			WHERE
+				r.Table_SCHEMA = #{t.tableSchema}
+
+	    )t
+	    ]]>
+	</select>
+</mapper>
+

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<bean id="sqlDataType" class="com.txyd.database.bean.SqlDataType">
+		<!-- 二进制类型 -->
+		<property name="TINYBLOB" value="java.lang.Byte[]" /><!--TINYBLOB 0-255字节 不超过 255 个字符的二进制字符串 -->
+		<property name="MEDIUMBLOB" value="java.lang.Byte[]" /><!-- MEDIUMBLOB 0-16 777 215字节 二进制形式的中等长度文本数据  -->
+		<property name="BLOB" value="java.lang.Byte[]" /><!-- BLOB 0-65 535字节 二进制形式的长文本数据  -->
+		<property name="LONGBLOB" value="java.lang.Byte[]" /><!-- LOGNGBLOB 0-4 294 967 295字节 二进制形式的极大文本数据-->
+		<!-- 整形 -->
+		<!-- <property name="BIT" value="java.lang.Integer" /> --><!-- 1字节，范围（-128~127） -->
+		<!-- <property name="TINYINT" value="java.lang.Integer" /> --><!-- 1字节，范围（-128~127） -->
+		<!-- <property name="SMALLINT" value="java.lang.Integer" /> --><!-- 2字节，范围（-32768~32767） -->
+		<!-- <property name="MEDIUMINT" value="java.lang.Integer" /> --><!-- 3字节，范围（-8388608~8388607） -->
+		<!-- <property name="INT" value="java.lang.Integer" /> --><!-- 4字节，范围（-2147483648~2147483647） -->
+		<!-- <property name="INTEGER" value="java.lang.Integer" /> --><!-- 4字节，范围（-2147483648~2147483647） -->
+		<!-- <property name="BIGINT" value="java.math.BigInteger" /> --><!-- 8字节，范围（+-9.22*10的18次方） -->		
+		
+		<property name="BIT" value="java.lang.Integer" /><!-- 1字节，范围（-128~127） -->
+		<property name="TINYINT" value="java.lang.Integer" /><!-- 1字节，范围（-128~127） -->
+		<property name="SMALLINT" value="java.lang.Integer" /><!-- 2字节，范围（-32768~32767） -->
+		<property name="MEDIUMINT" value="java.lang.Integer" /><!-- 3字节，范围（-8388608~8388607） -->
+		<property name="INT" value="java.lang.Integer" /><!-- 4字节，范围（-2147483648~2147483647） -->
+		<property name="INTEGER" value="java.lang.Integer" /><!-- 4字节，范围（-2147483648~2147483647） -->
+		<property name="BIGINT" value="java.lang.Long" /><!-- 8字节，范围（+-9.22*10的18次方） -->
+		<!-- 浮点 -->
+		<!-- <property name="FLOAT" value="java.lang.Double" /> --><!-- float(m, d)	4字节，单精度浮点型，m总个数，d小数位 -->
+		<!-- <property name="DOUBLE" value="java.lang.Double" /> --><!-- double(m, d)	8字节，双精度浮点型，m总个数，d小数位 -->
+		<!-- <property name="DECIMA" value="java.math.BigDecimal" /> --><!-- decimal(m, d)	decimal是存储为字符串的浮点数 -->
+		
+		<property name="FLOAT" value="java.lang.Float" /><!-- float(m, d)	4字节，单精度浮点型，m总个数，d小数位 -->
+		<property name="DOUBLE" value="java.lang.Double" /><!-- double(m, d)	8字节，双精度浮点型，m总个数，d小数位 -->
+		<property name="DECIMAL" value="java.math.BigDecimal" /><!-- decimal(m, d)	decimal是存储为字符串的浮点数 -->
+		<!-- 文本类型 -->
+		<property name="CHAR" value="java.lang.String" /><!-- char(n)	固定长度，最多255个字符 -->
+		<property name="VARCHAR" value="java.lang.String" /><!-- varchar(n)	可变长度，最多65535个字符 -->
+		<property name="TINYTEXT" value="java.lang.String" /><!-- tinytext	可变长度，最多255个字符 -->
+		<property name="MEDIUMTEXT" value="java.lang.String" /><!-- text	可变长度，最多65535个字符 -->
+		<property name="TEXT" value="java.lang.String" /><!-- mediumtext	可变长度，最多2的24次方-1个字符  -->
+		<property name="LONGTEXT" value="java.lang.String" /><!-- longtext	可变长度，最多2的32次方-1个字符 -->
+		
+		<!-- 时间类型 -->
+		<property name="DATE" value="java.sql.Date" /><!-- 3字节，日期，格式：2014-09-18 -->
+		<property name="TIME" value="java.sql.Time" /><!-- 3字节，时间，格式：08:42:30 -->
+		<property name="DATETIME" value="java.sql.Timestamp" /><!-- 8字节，日期时间，格式：2014-09-18 08:42:30 -->
+		<property name="TIMESTAMP" value="java.sql.Timestamp" /><!-- 4字节，自动存储记录修改的时间，格式：2015-06-04 17:29:15 -->
+		<property name="YEAR" value="java.sql.Date" /><!-- 1字节，年份 格式：2015-->
+	
+		<!-- 集合类 -->
+		<property name="SET" value="java.lang.String" /><!-- set最多可以包含64个元素，并且可以任意取到集合中的元素,也就是说set是多项选择-->
+		<property name="ENUM" value="java.lang.String" /><!-- 最多包含65536个元素 ,enum是单项选择-->
+	</bean>
+
+	<bean id="javaConfig" class="com.txyd.database.bean.JavaConfigBean">
+		<property name="comment" value="编译配置文件" />		
+		<property name="generateMybatisType" value="mapper" /><!-- 编译类型：dao：有dao层（默认为此值）；mapper：无dao层； -->		
+		<property name="author" value="" /><!-- 作者 -->		
+		<property name="outRoot" value="" /><!-- 生成的文件所在的路径 -->		
+		<property name="unicode" value="utf-8" /><!-- 文件 -->		
+		<property name="projectName" value="javaProject" /><!-- 项目名称 -->		
+		<property name="javaPathRoot" value="src" /><!-- java文件所在的根目录 -->		
+		<property name="databaseType" value="mysql" /><!-- 数据库类型 -->		
+		<property name="databaseOwner" value="root" /><!-- 数据库所属用户 -->		
+		<property name="databaseSchema" value="test" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
+		<property name="basePackage" value="com.txyd.lottery.activity" /><!-- 基础包名 -->		
+		<property name="basePackageMapper" value="com.txyd.lottery.activity.dao" /><!-- 基础包名 ：mapper -->		
+		<property name="basePackageDao" value="com.txyd.dao" /><!-- 基础包名 ：dao -->		
+		<property name="basePackageDaoImpl" value="com.txyd.dao.impl" /><!-- 基础包名 ：dao实现包 -->		
+		<property name="basePackageModel" value="com.txyd.lottery.activity.entity" /><!-- 基础包名 ：model -->
+		<property name="basePackageParam" value="com.txyd.lottery.activity.param" /><!-- 基础包名 ：param -->		
+		<property name="modelKey" value="Key" /><!-- 如果model所对应的表含联合主键，生成的model所对应的主键类名的后缀 -->		
+		<property name="basePackageService" value="com.txyd.lottery.activity.manager" /><!-- 基础包名：service -->		
+		<property name="basePackageServiceImpl" value="com.txyd.lottery.activity.manager.impl" /><!-- 基础包名：service实现包 -->		
+		<property name="xmlMapper" value="Mapper" /><!-- xml文件名称后缀 -->		
+		<property name="xmlPath" value="mapper" /><!-- 基础包名：xml所在路径 -->		
+		<property name="xmlBaseMapper" value="BaseMapper" /><!-- xml基础文件名称后缀 -->	
+		<property name="xmlBasePath" value="mapper.base" /><!-- 基础包名：xml基础文件所在路径 -->
+		<!-- <property name="xmlConfigPath" value="com.txyd.model.resources" /> --><!-- 基础包名：xml的配置所在路径 -->
+		<property name="xmlConfigPath" value="" /><!-- 基础包名：xml的配置所在路径 -->		
+		<property name="annotationPath" value="com.txyd.annotation" /><!-- 基础包名：注解所在的路径 -->		
+		<property name="enumPath" value="com.txyd.inter" /><!-- 基础包名：enum所在的路径 -->
+		<!-- 需要移除的表名前缀,如果有多个使用“|”进行分隔多个前缀,如果有多个，以第一个的权限最高， 示例值: t_|t_whorksheet|picc_ 
+			,如果表名为t_worksheet_client，则去除后为worksheet_client -->
+		<property name="tablePrefixes">
+			<set>
+				<!-- <value>t_</value> -->
+				<value>t_lottery_</value>
+				<value>t_market_</value>
+				<value>t_promote_</value>
+				<value>t_worksheet_</value>
+				<value>t_cms_</value>
+				<value>picc_</value>
+			</set>
+		</property>		
+		<property name="tableAlias" value="tb" /><!-- 表别名 -->
+		<property name="sqlDataType" ref="sqlDataType" /><!-- 数据库列类型和java数据类型的对比关系 -->
+	</bean>
+</beans>

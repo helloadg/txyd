@@ -1,0 +1,406 @@
+#set($javabeanNameWithPackage=$jcb.getBasePackageModel()+"."+$tableBean.getJavabeanModelClassName())
+#set($namespace="")
+#set($resultMapId="rm_"+$tableBean.getJavabeanModelClassName())
+#if($jcb.getGenerateMybatisType().trim().equalsIgnoreCase("dao")||$jcb.getGenerateMybatisType().trim().equals(""))
+	#set($namespace=$javabeanNameWithPackage)
+#elseif($jcb.getGenerateMybatisType().trim().equalsIgnoreCase("mapper"))
+	#set($namespace=$jcb.getBasePackageMapper()+"."+$tableBean.getJavabeanMapperClassName())
+#end
+######
+#set($columnNames="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+    #end
+    #if($foreach.index == $tableBean.getListColumn().size() - 1 )##最后一个
+    	#set($columnNames=$columnNames+$columnName)
+    #else
+    	#if($foreach.index >0 && $foreach.index % 5 == 0  )
+    		#set($columnNames=$columnNames+$columnName+",")
+    	#else
+    		#set($columnNames=$columnNames+$columnName+",")
+    	#end
+    #end
+#end
+##### #{xxx}
+#set($columnJavaBeanNames="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnJavaBeanName=$columnBean.getJavabeanFieldName())
+    #if($foreach.index == $tableBean.getListColumn().size() - 1 )##最后一个
+    	#set($columnJavaBeanNames=$columnJavaBeanNames+"#{"+$columnJavaBeanName+"}")
+    #else
+    	#set($columnJavaBeanNames=$columnJavaBeanNames+"#{"+$columnJavaBeanName+"},")
+    #end
+#end
+##### #{item.xxx}
+#set($columnJavaBeanNamesWithItem="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnJavaBeanName=$columnBean.getJavabeanFieldName())
+    #if($foreach.index == $tableBean.getListColumn().size() - 1 )##最后一个
+    	#set($columnJavaBeanNamesWithItem=$columnJavaBeanNamesWithItem+"#{item."+$columnJavaBeanName+"}")
+    #else
+    	#set($columnJavaBeanNamesWithItem=$columnJavaBeanNamesWithItem+"#{item."+$columnJavaBeanName+"},")
+    #end
+#end
+#####自增id名称
+#set($idExtra="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #if(!$null.isNull($columnBean.isPrimaryKey) && $columnBean.isPrimaryKey && !$null.isNull($columnBean.getExtra())  && !$columnBean.getExtra().trim().equals("") )
+    	#set($idExtra=$columnBean.columnName)
+    #end
+#end
+##### 主键组合
+#set($ids="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #if(!$null.isNull($columnBean.isPrimaryKey) &&  $columnBean.isPrimaryKey )
+    	#set($columnName=$columnBean.getColumnName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+        #end
+    	#set($ids=$ids+$columnName+",")
+	#end
+#end
+#set($ids=$ids.substring(0,$ids.lastIndexOf(",")))
+##### 主键组合
+#set($idJavaBeanNamesWithItem="")
+#foreach($columnBean in $tableBean.getListColumn() )
+    #if(!$null.isNull($columnBean.isPrimaryKey) &&  $columnBean.isPrimaryKey )
+    #set($columnJavaBeanName=$columnBean.getJavabeanFieldName())
+    	#set($idJavaBeanNamesWithItem=$idJavaBeanNamesWithItem+"#{item."+$columnJavaBeanName+"},")
+	#end
+#end
+#set($idJavaBeanNamesWithItem=$idJavaBeanNamesWithItem.substring(0,$idJavaBeanNamesWithItem.lastIndexOf(",")))
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- use namespace for search -->
+<mapper namespace="$namespace">
+  <!--database table: ($tableBean.getTableName()) with javabean : ($javabeanNameWithPackage)-->
+  <resultMap id="$resultMapId" type="$javabeanNameWithPackage">
+#foreach($columnBean in $tableBean.getListColumn() )
+	<result property="$columnBean.getJavabeanFieldName()" column="$columnBean.getColumnName()"/>
+#end    
+  </resultMap>
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[ 
+		$columnNames
+     ]]>
+  </sql>
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+	#end
+
+      <if test="$columnBean.getJavabeanFieldName() != null">
+        and $columnName = #{$javabeanFieldName}
+      </if>
+#end
+    </where>
+  </sql>
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #set($javabeanFieldName=$jcb.getTableAlias().trim()+"."+$columnBean.getJavabeanFieldName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+    #end
+
+      <if test="$javabeanFieldName != null">
+        and $columnName = #{$javabeanFieldName}
+      </if>
+#end##
+    </where>
+  </sql>
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+    #end
+
+            <when test="key!=null and '$javabeanFieldName'.equalsIgnoreCase(key)">
+              $columnName
+            </when>
+#end##
+            
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+    #end
+
+      <if test="$javabeanFieldName != null">
+        $columnName = #{$javabeanFieldName} ,
+      </if>
+#end##
+    </set>
+  </sql>
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+#foreach($columnBean in $tableBean.getListColumn() )
+    #set($columnName=$columnBean.getColumnName())
+    #set($javabeanFieldName=$jcb.getTableAlias().trim()+"."+$columnBean.getJavabeanFieldName())
+    #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+    	#set($columnName="`"+$columnName+"`")
+    #end
+
+      <if test="$javabeanFieldName != null">
+        $columnName = #{$javabeanFieldName} ,
+      </if>
+#end##
+    </set>
+  </sql>
+
+#if($tableBean.getPrimaryKeyNum() > 0)
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE $tableBean.getTableName() 
+    <include refid="update_with_alias_sql"/>
+	<where>
+	#foreach($columnBean in $tableBean.getListColumn())
+        #set($columnName=$columnBean.getColumnName())
+        #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+        #end
+		#if($columnBean.isPrimaryKey == true)
+##
+
+		and $columnName = #{$javabeanFieldName}
+		#end
+	#end##
+	
+	</where>
+  </update>
+#end
+
+#if($idExtra)
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="$idExtra">
+    <![CDATA[
+      INSERT INTO $tableBean.getTableName()
+        ($columnNames)
+      VALUES
+        ($columnJavaBeanNames)
+    ]]>
+  </insert>	
+#end
+
+#if($idExtra)
+  <!-- insert into table withnot null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="$idExtra">
+    INSERT INTO  $tableBean.getTableName() 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	#foreach($columnBean in $tableBean.getListColumn())
+        #set($columnName=$columnBean.getColumnName())
+        #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+		#end##
+
+#####
+      <if test="$javabeanFieldName != null">
+        $columnName,
+      </if>
+	#end##
+	
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+	#foreach($columnBean in $tableBean.getListColumn())
+        #set($columnName=$columnBean.getColumnName())
+        #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+		#end##
+
+#####
+      <if test="$javabeanFieldName != null">
+        #{$javabeanFieldName},
+      </if>
+	#end##
+	
+    </trim>
+  </insert>
+#end
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO $tableBean.getTableName()
+      ($columnNames)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+        ($columnJavaBeanNamesWithItem)
+    </foreach>
+  </insert>
+  
+#if($tableBean.getPrimaryKeyNum() > 0)
+  <!-- get the records by id -->
+  <select id="getById" resultMap="$resultMapId">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM $tableBean.getTableName()  
+    ]]>
+	<where>
+	#foreach($columnBean in $tableBean.getListColumn())
+        #set($columnName=$columnBean.getColumnName())
+        #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+        #end
+		#if($columnBean.isPrimaryKey == true)
+##
+
+		and $columnName = #{$javabeanFieldName}
+
+		#end
+	#end##
+	
+	</where>
+
+  </select>
+#end
+
+#if($tableBean.getPrimaryKeyNum() > 0)
+	#if($tableBean.getPrimaryKeyNum()==1)
+
+##
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="$resultMapId" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM $tableBean.getTableName()
+	  WHERE $ids in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+	#else##
+
+##
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="$resultMapId" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM $tableBean.getTableName()  
+	  WHERE ($ids) in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      ($idJavaBeanNamesWithItem)
+    </foreach>
+  </select>
+	#end
+#end
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="$resultMapId">
+    SELECT * FROM $tableBean.getTableName()
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset #{offset}
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit}
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM $tableBean.getTableName()
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM $tableBean.getTableName()
+    <include refid="where_sql"/>
+  </delete>
+
+#if($tableBean.getPrimaryKeyNum() > 0)	
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM $tableBean.getTableName() 
+    <where>
+	#foreach($columnBean in $tableBean.getListColumn())
+        #set($columnName=$columnBean.getColumnName())
+        #set($javabeanFieldName=$columnBean.getJavabeanFieldName())
+        #if($KeyWords.MYSQL.contains($columnName.toUpperCase().trim()))
+        	#set($columnName="`"+$columnName+"`")
+        #end
+		#if($columnBean.isPrimaryKey == true)
+##
+
+		and $columnName = #{$javabeanFieldName}
+		#end
+	#end##
+	
+    </where>
+  </delete>
+#end
+
+#if($tableBean.getPrimaryKeyNum() > 0)
+	#if($tableBean.getPrimaryKeyNum()==1)
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from $tableBean.getTableName() 
+      WHERE $ids in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+	#else
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from $tableBean.getTableName() 
+	  WHERE ($ids) in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      ($idJavaBeanNamesWithItem)
+    </foreach>
+  </delete>
+	#end
+#end
+
+</mapper>

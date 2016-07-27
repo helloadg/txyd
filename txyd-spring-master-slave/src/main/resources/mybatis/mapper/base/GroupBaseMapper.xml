@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- use namespace for search -->
+<mapper namespace="com.txyd.mapper.GroupMapper">
+  <!--database table: (t_market_group) with javabean : (com.txyd.model.GroupModel)-->
+  <resultMap id="rm_GroupModel" type="com.txyd.model.GroupModel">
+  <result property="id" column="id"/>
+  <result property="name" column="name"/>
+  <result property="startTime" column="start_time"/>
+  <result property="endTime" column="end_time"/>
+  <result property="remark" column="remark"/>
+  <result property="fplateId" column="f_plate_id"/>
+  <result property="cityId" column="city_id"/>
+  <result property="status" column="status"/>
+  <result property="$operator" column="operator"/>
+  <result property="ct" column="c_t"/>
+  <result property="ut" column="u_t"/>
+  <result property="isDeleted" column="is_deleted"/>
+  <result property="cityName" column="city_name"/>
+  <result property="sortNum" column="sort_num"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,name,start_time,end_time,remark,
+		f_plate_id,city_id,status,operator,c_t,
+		u_t,is_deleted,city_name,sort_num
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="name != null">
+        and name =  #{name}
+      </if>
+      <if test="startTime != null">
+        and start_time =  #{startTime}
+      </if>
+      <if test="endTime != null">
+        and end_time =  #{endTime}
+      </if>
+      <if test="remark != null">
+        and remark =  #{remark}
+      </if>
+      <if test="fplateId != null">
+        and f_plate_id =  #{fplateId}
+      </if>
+      <if test="cityId != null">
+        and city_id =  #{cityId}
+      </if>
+      <if test="status != null">
+        and status =  #{status}
+      </if>
+      <if test="$operator != null">
+        and operator =  #{$operator}
+      </if>
+      <if test="ct != null">
+        and c_t =  #{ct}
+      </if>
+      <if test="ut != null">
+        and u_t =  #{ut}
+      </if>
+      <if test="isDeleted != null">
+        and is_deleted =  #{isDeleted}
+      </if>
+      <if test="cityName != null">
+        and city_name =  #{cityName}
+      </if>
+      <if test="sortNum != null">
+        and sort_num =  #{sortNum}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.name != null">
+        and name =  #{tb.name}
+      </if>
+      <if test="tb.startTime != null">
+        and start_time =  #{tb.startTime}
+      </if>
+      <if test="tb.endTime != null">
+        and end_time =  #{tb.endTime}
+      </if>
+      <if test="tb.remark != null">
+        and remark =  #{tb.remark}
+      </if>
+      <if test="tb.fplateId != null">
+        and f_plate_id =  #{tb.fplateId}
+      </if>
+      <if test="tb.cityId != null">
+        and city_id =  #{tb.cityId}
+      </if>
+      <if test="tb.status != null">
+        and status =  #{tb.status}
+      </if>
+      <if test="tb.$operator != null">
+        and operator =  #{tb.$operator}
+      </if>
+      <if test="tb.ct != null">
+        and c_t =  #{tb.ct}
+      </if>
+      <if test="tb.ut != null">
+        and u_t =  #{tb.ut}
+      </if>
+      <if test="tb.isDeleted != null">
+        and is_deleted =  #{tb.isDeleted}
+      </if>
+      <if test="tb.cityName != null">
+        and city_name =  #{tb.cityName}
+      </if>
+      <if test="tb.sortNum != null">
+        and sort_num =  #{tb.sortNum}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'name'.equalsIgnoreCase(key)">
+              name
+            </when>
+            <when test="key!=null and 'startTime'.equalsIgnoreCase(key)">
+              start_time
+            </when>
+            <when test="key!=null and 'endTime'.equalsIgnoreCase(key)">
+              end_time
+            </when>
+            <when test="key!=null and 'remark'.equalsIgnoreCase(key)">
+              remark
+            </when>
+            <when test="key!=null and 'fplateId'.equalsIgnoreCase(key)">
+              f_plate_id
+            </when>
+            <when test="key!=null and 'cityId'.equalsIgnoreCase(key)">
+              city_id
+            </when>
+            <when test="key!=null and 'status'.equalsIgnoreCase(key)">
+              status
+            </when>
+            <when test="key!=null and '$operator'.equalsIgnoreCase(key)">
+              operator
+            </when>
+            <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              c_t
+            </when>
+            <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+              u_t
+            </when>
+            <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+              is_deleted
+            </when>
+            <when test="key!=null and 'cityName'.equalsIgnoreCase(key)">
+              city_name
+            </when>
+            <when test="key!=null and 'sortNum'.equalsIgnoreCase(key)">
+              sort_num
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="name != null">
+        name =  #{name} ,
+      </if>
+      <if test="startTime != null">
+        start_time =  #{startTime} ,
+      </if>
+      <if test="endTime != null">
+        end_time =  #{endTime} ,
+      </if>
+      <if test="remark != null">
+        remark =  #{remark} ,
+      </if>
+      <if test="fplateId != null">
+        f_plate_id =  #{fplateId} ,
+      </if>
+      <if test="cityId != null">
+        city_id =  #{cityId} ,
+      </if>
+      <if test="status != null">
+        status =  #{status} ,
+      </if>
+      <if test="$operator != null">
+        operator =  #{$operator} ,
+      </if>
+      <if test="ct != null">
+        c_t =  #{ct} ,
+      </if>
+      <if test="ut != null">
+        u_t =  #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted =  #{isDeleted} ,
+      </if>
+      <if test="cityName != null">
+        city_name =  #{cityName} ,
+      </if>
+      <if test="sortNum != null">
+        sort_num =  #{sortNum} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="id != null">
+        id = #{id} ,
+      </if>
+      <if test="name != null">
+        name = #{name} ,
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime} ,
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime} ,
+      </if>
+      <if test="remark != null">
+        remark = #{remark} ,
+      </if>
+      <if test="fplateId != null">
+        f_plate_id = #{fplateId} ,
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId} ,
+      </if>
+      <if test="status != null">
+        status = #{status} ,
+      </if>
+      <if test="$operator != null">
+        operator = #{$operator} ,
+      </if>
+      <if test="ct != null">
+        c_t = #{ct} ,
+      </if>
+      <if test="ut != null">
+        u_t = #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted} ,
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName} ,
+      </if>
+      <if test="sortNum != null">
+        sort_num = #{sortNum} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE $tableBean.getTableName() 
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO t_market_group
+        (
+			id,name,start_time,end_time,remark,	
+			f_plate_id,city_id,status,operator,c_t,	
+			u_t,is_deleted,city_name,sort_num	
+		)
+      VALUES
+      	(
+			#{id},#{name},#{startTime},#{endTime},#{remark},	
+			#{fplateId},#{cityId},#{status},#{$operator},#{ct},	
+			#{ut},#{isDeleted},#{cityName},#{sortNum}	
+      	)
+    ]]>
+  </insert>	
+
+  <!-- insert into table withnot null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  t_market_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="fplateId != null">
+        f_plate_id,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="$operator != null">
+        operator,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+      <if test="ut != null">
+        u_t,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="sortNum != null">
+        sort_num,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="name != null">
+         #{name} ,
+      </if>
+      <if test="startTime != null">
+         #{startTime} ,
+      </if>
+      <if test="endTime != null">
+         #{endTime} ,
+      </if>
+      <if test="remark != null">
+         #{remark} ,
+      </if>
+      <if test="fplateId != null">
+         #{fplateId} ,
+      </if>
+      <if test="cityId != null">
+         #{cityId} ,
+      </if>
+      <if test="status != null">
+         #{status} ,
+      </if>
+      <if test="$operator != null">
+         #{$operator} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+      <if test="ut != null">
+         #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+         #{isDeleted} ,
+      </if>
+      <if test="cityName != null">
+         #{cityName} ,
+      </if>
+      <if test="sortNum != null">
+         #{sortNum} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO t_market_group
+      (
+			id,name,start_time,end_time,remark,
+			f_plate_id,city_id,status,operator,c_t,
+			u_t,is_deleted,city_name,sort_num
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.id},#{item.name},#{item.startTime},#{item.endTime},#{item.remark},
+			#{item.fplateId},#{item.cityId},#{item.status},#{item.$operator},#{item.ct},
+			#{item.ut},#{item.isDeleted},#{item.cityName},#{item.sortNum}
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_GroupModel">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM t_market_group 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_GroupModel" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM t_market_group
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_GroupModel">
+    SELECT * FROM t_market_group
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM t_market_group
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM t_market_group
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM t_market_group
+    <where>
+		and id = #{id},
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_market_group 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>

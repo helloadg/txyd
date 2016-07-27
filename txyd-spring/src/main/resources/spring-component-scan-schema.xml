@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xsi:schemaLocation="  
+           http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+           
+      	   http://www.springframework.org/schema/context   
+     	   http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+     	   
+           http://www.springframework.org/schema/tx   
+           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+           
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+
+	<!-- 可以将类中的所有的注解全部去除
+	<bean id="bBean" class="test.spring.component.scan.B" />
+	<bean id="cBean" class="test.spring.component.scan.C" />
+	<bean id="aBean" class="test.spring.component.scan.A">
+		<property name="b" ref="bBean" />
+		<property name="c" ref="cBean" />
+	</bean>
+	 -->
+	<!-- 配置了context:annotation-config 此时@Autowired才会起作用 --> 
+	<!-- 
+	<context:annotation-config />
+	<bean id="bBean" class="test.spring.component.scan.B" />
+	<bean id="cBean" class="test.spring.component.scan.C" />
+	<bean id="aBean" class="test.spring.component.scan.A2" />	
+	 -->
+	<!-- 全自动扫描 -->
+	<context:component-scan base-package="test.spring.component.scan.auto" />
+	<!-- 
+	<context:component-scan base-package="test.spring.component.scan.auto" use-default-filters="false">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	 -->
+	<!-- 
+	<context:component-scan base-package="test.spring.component.scan.auto" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	 -->
+	<!-- 
+	<context:component-scan base-package="test.spring.component.autowired"/>
+	 -->
+</beans>

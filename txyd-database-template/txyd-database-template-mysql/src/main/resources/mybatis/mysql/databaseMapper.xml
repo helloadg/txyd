@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.txyd.database.dao.DatabaseDao">
+
+	<resultMap id="databaseBean" type="com.txyd.database.bean.DatabaseBean">
+		<result property="schemaName" column="schema_name" />
+		<result property="comments" column="comments" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		schema_name,comments
+	    ]]>
+	</sql>
+	
+	
+	<select id="select" resultMap="databaseBean">
+		SELECT
+		<include refid="columns" />
+		 from
+	    <![CDATA[
+	    (
+	     SELECT
+				r.schema_name,
+				concat( 
+					'DEFAULT_CHARACTER_SET_NAME:',	
+					ifnull(r.DEFAULT_CHARACTER_SET_NAME,'') ,
+					';DEFAULT_COLLATION_NAME',
+					ifnull(r.DEFAULT_COLLATION_NAME,'')
+				) as comments
+				
+			FROM
+				information_schema.SCHEMATA r
+			WHERE
+				r.SCHEMA_NAME = #{t.schemaName}
+
+	    )t
+	    ]]>
+	</select>
+	<!-- 
+	<select id="selectOracle" resultMap="databaseBean">
+		SELECT
+		<include refid="columns" />
+	</select>
+	 -->
+</mapper>
+

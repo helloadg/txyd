@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com-txyd</groupId>
+	<artifactId>txyd</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>txyd-utils</module>
+		<module>txyd-velocity</module>
+		<module>txyd-test</module>
+		<module>txyd-elasticsearch</module>
+		<module>txyd-spring</module>
+		<module>txyd-freemarker</module>
+		<module>txyd-database-template</module>
+		<module>txyd-redis</module>
+		<module>txyd-json</module>
+		<module>txyd-thread</module>
+		<module>txyd-spring-master-slave</module>
+		<module>txyd-spring-ehcache</module>
+		<module>txyd-aes</module>
+    	<module>txyd-aes-web</module>
+    	<module>txyd-image</module>
+    	<module>txyd-java8</module>
+		<module>txyd-mybatis</module>
+        <module>txyd-qcode</module>
+    </modules>
+	<properties>
+		<!-- 自身版本号 -->
+		<self.version>0.0.1</self.version>
+		<!-- jdbc -->
+		<jdk.version>1.8</jdk.version>
+
+		<!-- character encode -->
+		<build.file.encoding>UTF-8</build.file.encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+		<!-- spring version -->
+		<spring.version>4.1.6.RELEASE</spring.version>
+
+		<!-- aop version -->
+		<aspectjweaver.version>1.8.8</aspectjweaver.version>
+
+
+		<!-- httpclient version -->
+		<httpclient.version>4.1.1</httpclient.version>
+
+		<!-- log4j version -->
+		<log4j.version>1.2.17</log4j.version>
+
+		<!-- jackson json version -->
+		<jackson-json.version>2.3.0</jackson-json.version>
+
+		<!-- data base -->
+		<dbcp.version>1.4</dbcp.version>
+		<mysql.driver.version>5.1.37</mysql.driver.version>
+		<guava.version>11.0.1</guava.version>
+		<hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
+
+		<!-- mybatis version -->
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<mybatis.version>3.2.8</mybatis.version>
+		<!-- javax.servlet-api -->
+		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+		<!-- commons-net -->
+		<commons-net.version>3.3</commons-net.version>
+		<!-- poi.version -->
+		<poi.version>3.12</poi.version>
+		<!-- 3.12 -->
+		<dom4j.version>1.6.1</dom4j.version>
+
+		<!-- velocity.version -->
+		<velocity.version>1.7</velocity.version>
+		<!-- freemarker.version -->
+		<freemarker.version>2.3.8</freemarker.version>
+		<!--redis -->
+		<jedis.version>2.7.3</jedis.version>
+		<!-- jackson json version -->
+		<jackson.json.version>2.3.0</jackson.json.version>
+
+        <!-- json -->
+        <fastjson.version>1.2.7</fastjson.version>
+        
+        <!-- spring aop -->
+        <aspectjweaver.version>1.8.8</aspectjweaver.version>
+        <!-- ehcache -->
+        <ehcache.version>2.10.1</ehcache.version>
+		<!-- jsqlparser.version -->
+		<jsqlparser.version>0.9.4</jsqlparser.version>
+
+	</properties>
+</project>

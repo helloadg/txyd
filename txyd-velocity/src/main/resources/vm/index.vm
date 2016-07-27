@@ -1,0 +1,95 @@
+##这是一行注释，不会输出  
+#*这是多行注释，不会输出
+*   多行注释
+*#
+#*注：
+*	加减乘除运算要放到#set()中
+*   输出变量：$name；或者${name}
+*   调用方法：$name.method();而不能使用${name.method()};
+*   调用对象的属性可以使用${name.property}或者$name.getProperty()   
+*	方法参数里面不能套用方法：比如$StringUtil.removeDoubleSlash($table.getJavabeanName()))
+*	#[[ XXXXX  ]]#，中间的xxxx代码会被原样保留输出
+*#
+#*注：格式问题
+*	#if()…………#end之后不要有换行
+*	在输出之前添加一个注释行
+*# 
+// ---------- 1.变量赋值输出------------  
+Welcome $name to Javayou.com!  
+// -----------2.设置变量值,所有变量都以${}开头----------------
+#set( $iAmVariable = "good!" )  
+$iAmVariable
+// ---------- 3.单引号和双引号的区别------------  
+#set($name = "oschina")
+#set($s1 = "Welcome to $name")
+#set($s2 = 'Welcome to $name')
+$s1
+$s2
+//-------------3.if,else判断--------------------------  
+#set ($admin = "admin")  
+#set ($people = "people")  
+#if ($admin == $people)  
+	Welcome admin!  
+#else  
+	Welcome people!  
+#end
+//-------------3.判断是否为空--------------------------  
+#if ($null.isNull($dd))  
+	is null  
+#else  
+	$dd  
+#end 
+#if(!($dd))
+	为空
+#else
+	$dd
+#end
+$dd
+$dd ：$!dd 
+${dd} ：$!{dd}
+//--------------4.迭代数据List---------------------  
+#foreach( $item in $list )  
+	$item q  ${item}q
+#end  
+  
+// ------------5.迭代数据HashSet-----------------  
+#foreach($key in $hashMap.keySet() )    
+	$key 's value:  $hashMap.get($key)  
+#end  
+  
+
+//-----------6.迭代数据List Bean($velocityCount为列举序号，默认从1开始，可调整)  
+#foreach ($s in $listBean)  
+	第 $velocityCount 条记录 :{ id:${s.id}; name: $s.name  }
+#end
+//-----------7.自定义数组 
+#set($colors = ["red", "blue", "white", "blank", "orange"])
+#foreach($c in $colors)
+    #if($foreach.index == 0)
+      $c
+    #else
+    ${c}
+#end
+#end
+
+//-----------9.宏定义--------------  
+#macro(userShow $user)
+   $user.id $user.name ;
+#end
+#userShow($user)
+
+//-----------10.时间--------------  
+$date.year - $date.month - $date.day
+//-----------11.导入其它文件,多个文件用逗号隔开--------------  
+每个页面，通常会有一些公用的头、尾，
+可以用include或parse来包括其它vm文件（或txt/html文件），
+这二个的区别在于include只是简单的把其它文件导入进来，不会执行任何vm语法的解析。
+而parse导入其它vm文件时，如果其它vm文件里有一些指令，比如定义变量，定义宏之类，parse会解析执行。
+关于加载的路径，这里要重点解释一下，官方文档上也讲得不清不楚，
+Velocity支持二种路径加载机制，按classPath或按filePath，
+默认是按classPath路径加载，即：只要被包含的.vm文件在/WEB-INF/classes目录下即可。
+上面的示例，将在/WEB-INF/classes/template目录下，搜索header.vm、footer.vm这二个文件，
+如果找到就加载，否则出错
+$user
+#parse("vm/footer.vm")
+#include("vm/footer.vm") 

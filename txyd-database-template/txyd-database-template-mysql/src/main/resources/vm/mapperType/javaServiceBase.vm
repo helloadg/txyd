@@ -1,0 +1,103 @@
+package ${jcb.basePackageService.toLowerCase()};
+import java.util.List;
+import java.util.LinkedHashMap;
+
+
+public interface ${baseServiceClassName}<T,ID> {
+	/**
+	 * 保存
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int insert(T object);
+
+	/**
+	 * 保存
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int insertNotNull(T object);
+
+	/**
+	 * 保存
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int insertBatch(List<T> list);
+
+	/**
+	 * 修改
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int updateById(T t, ID id);
+
+	/**
+	 * 删除
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int delete(T object);
+
+	/**
+	 * 删除
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int deleteById(ID id);
+
+	/**
+	 * 删除
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int deleteByIds(List<ID> list);
+	/**
+	 * 
+	 * @param id
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public T getById(ID id);
+	/**
+	 * 
+	 * @param id
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> getByIds(List<ID> id);
+
+	/**
+	 * 根据条件查询
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort,  Integer offset,   Integer limit);
+##
+##	/**
+##	 * 分页查询
+##	 * @param object
+##	 * @param offset
+##	 * @param limit
+##	 * @author ${jcb.author}
+##	 * @return
+##	 */
+##	public List<T> select(T object,int offset, int limit);
+
+	/**
+	 * 获取总条数
+	 * @param object
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public int selectCount(T object);
+
+}

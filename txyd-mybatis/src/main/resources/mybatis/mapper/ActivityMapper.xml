@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- use namespace for search -->
+<mapper namespace="com.txyd.mybatis.dao.ActivityDao">
+	<select id="getByParam" resultMap="rm_ActivityEntity">
+		select
+		<include refid="columns" />
+		FROM t_lottery_activity
+		<where>
+			<!--<![CDATA[  and name like '%活动\'%' ]]>--><!--\'会编译为\\\'-->
+			<!--<![CDATA[  and name like '%'  '活动\'' /*dd*/ &#45;&#45; '%' ]]>-->
+			<!--<![CDATA[  and name like '%'  '活动\'' /*dd*/ \n &#45;&#45; '%' ]]>  \n 报错-->
+			<![CDATA[  and name like '%'  '活动\'' /*dd*/ \n '%' -- ]]>
+
+			<if test="name !=null and ! name.trim().equals('')">
+				<![CDATA[  and name like '%' #{name} '%' ]]>
+			</if>
+		</where>
+	</select>
+</mapper>

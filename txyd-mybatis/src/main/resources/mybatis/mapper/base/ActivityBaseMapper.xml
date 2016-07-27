@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.txyd.mybatis.dao.ActivityDao">
+  <!--database table: (t_lottery_activity) with javabean : (com.ActivityEntity)-->
+  <resultMap id="rm_ActivityEntity" type="com.txyd.mybatis.entity.ActivityEntity">
+  	<result property="id" column="id"/>
+  	<result property="template" column="template"/>
+  	<result property="name" column="name"/>
+  	<result property="url" column="url"/>
+  	<result property="activityStartTime" column="activity_start_time"/>
+  	<result property="activityEndTime" column="activity_end_time"/>
+  	<result property="lotteryStartTime" column="lottery_start_time"/>
+  	<result property="lotteryEndTime" column="lottery_end_time"/>
+  	<result property="activityArea" column="activity_area"/>
+  	<result property="everydayStartTime" column="everyday_start_time"/>
+  	<result property="everydayEndTime" column="everyday_end_time"/>
+  	<result property="shareTitile" column="share_titile"/>
+  	<result property="shareDesc" column="share_desc"/>
+  	<result property="shareUrl" column="share_url"/>
+  	<result property="shareImg" column="share_img"/>
+  	<result property="qfIsLogin" column="qf_is_login"/>
+  	<result property="qfIsLastdayOrder" column="qf_is_lastday_order"/>
+  	<result property="orderMoneyLimit" column="order_money_limit"/>
+  	<result property="lotteryTimesType" column="lottery_times_type"/>
+  	<result property="lotteryTimes" column="lottery_times"/>
+  	<result property="createUserId" column="create_user_id"/>
+  	<result property="createUserName" column="create_user_name"/>
+  	<result property="updateUserId" column="update_user_id"/>
+  	<result property="isMustWin" column="is_must_win"/>
+  	<result property="updateUserName" column="update_user_name"/>
+  	<result property="status" column="status"/>
+  	<result property="ruleDesc" column="rule_desc"/>
+  	<result property="ct" column="c_t"/>
+  	<result property="ut" column="u_t"/>
+  	<result property="isDeleted" column="is_deleted"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,template,name,url,activity_start_time,
+		activity_end_time,lottery_start_time,lottery_end_time,activity_area,everyday_start_time,
+		everyday_end_time,share_titile,share_desc,share_url,share_img,
+		qf_is_login,qf_is_lastday_order,order_money_limit,lottery_times_type,lottery_times,
+		create_user_id,create_user_name,update_user_id,is_must_win,update_user_name,
+		status,rule_desc,c_t,u_t,is_deleted
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="template != null">
+        and template =  #{template}
+      </if>
+      <if test="name != null">
+        and name =  #{name}
+      </if>
+      <if test="url != null">
+        and url =  #{url}
+      </if>
+      <if test="activityStartTime != null">
+        and activity_start_time =  #{activityStartTime}
+      </if>
+      <if test="activityEndTime != null">
+        and activity_end_time =  #{activityEndTime}
+      </if>
+      <if test="lotteryStartTime != null">
+        and lottery_start_time =  #{lotteryStartTime}
+      </if>
+      <if test="lotteryEndTime != null">
+        and lottery_end_time =  #{lotteryEndTime}
+      </if>
+      <if test="activityArea != null">
+        and activity_area =  #{activityArea}
+      </if>
+      <if test="everydayStartTime != null">
+        and everyday_start_time =  #{everydayStartTime}
+      </if>
+      <if test="everydayEndTime != null">
+        and everyday_end_time =  #{everydayEndTime}
+      </if>
+      <if test="shareTitile != null">
+        and share_titile =  #{shareTitile}
+      </if>
+      <if test="shareDesc != null">
+        and share_desc =  #{shareDesc}
+      </if>
+      <if test="shareUrl != null">
+        and share_url =  #{shareUrl}
+      </if>
+      <if test="shareImg != null">
+        and share_img =  #{shareImg}
+      </if>
+      <if test="qfIsLogin != null">
+        and qf_is_login =  #{qfIsLogin}
+      </if>
+      <if test="qfIsLastdayOrder != null">
+        and qf_is_lastday_order =  #{qfIsLastdayOrder}
+      </if>
+      <if test="orderMoneyLimit != null">
+        and order_money_limit =  #{orderMoneyLimit}
+      </if>
+      <if test="lotteryTimesType != null">
+        and lottery_times_type =  #{lotteryTimesType}
+      </if>
+      <if test="lotteryTimes != null">
+        and lottery_times =  #{lotteryTimes}
+      </if>
+      <if test="createUserId != null">
+        and create_user_id =  #{createUserId}
+      </if>
+      <if test="createUserName != null">
+        and create_user_name =  #{createUserName}
+      </if>
+      <if test="updateUserId != null">
+        and update_user_id =  #{updateUserId}
+      </if>
+      <if test="isMustWin != null">
+        and is_must_win =  #{isMustWin}
+      </if>
+      <if test="updateUserName != null">
+        and update_user_name =  #{updateUserName}
+      </if>
+      <if test="status != null">
+        and status =  #{status}
+      </if>
+      <if test="ruleDesc != null">
+        and rule_desc =  #{ruleDesc}
+      </if>
+      <if test="ct != null">
+        and c_t =  #{ct}
+      </if>
+      <if test="ut != null">
+        and u_t =  #{ut}
+      </if>
+      <if test="isDeleted != null">
+        and is_deleted =  #{isDeleted}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.template != null">
+        and template =  #{tb.template}
+      </if>
+      <if test="tb.name != null">
+        and name =  #{tb.name}
+      </if>
+      <if test="tb.url != null">
+        and url =  #{tb.url}
+      </if>
+      <if test="tb.activityStartTime != null">
+        and activity_start_time =  #{tb.activityStartTime}
+      </if>
+      <if test="tb.activityEndTime != null">
+        and activity_end_time =  #{tb.activityEndTime}
+      </if>
+      <if test="tb.lotteryStartTime != null">
+        and lottery_start_time =  #{tb.lotteryStartTime}
+      </if>
+      <if test="tb.lotteryEndTime != null">
+        and lottery_end_time =  #{tb.lotteryEndTime}
+      </if>
+      <if test="tb.activityArea != null">
+        and activity_area =  #{tb.activityArea}
+      </if>
+      <if test="tb.everydayStartTime != null">
+        and everyday_start_time =  #{tb.everydayStartTime}
+      </if>
+      <if test="tb.everydayEndTime != null">
+        and everyday_end_time =  #{tb.everydayEndTime}
+      </if>
+      <if test="tb.shareTitile != null">
+        and share_titile =  #{tb.shareTitile}
+      </if>
+      <if test="tb.shareDesc != null">
+        and share_desc =  #{tb.shareDesc}
+      </if>
+      <if test="tb.shareUrl != null">
+        and share_url =  #{tb.shareUrl}
+      </if>
+      <if test="tb.shareImg != null">
+        and share_img =  #{tb.shareImg}
+      </if>
+      <if test="tb.qfIsLogin != null">
+        and qf_is_login =  #{tb.qfIsLogin}
+      </if>
+      <if test="tb.qfIsLastdayOrder != null">
+        and qf_is_lastday_order =  #{tb.qfIsLastdayOrder}
+      </if>
+      <if test="tb.orderMoneyLimit != null">
+        and order_money_limit =  #{tb.orderMoneyLimit}
+      </if>
+      <if test="tb.lotteryTimesType != null">
+        and lottery_times_type =  #{tb.lotteryTimesType}
+      </if>
+      <if test="tb.lotteryTimes != null">
+        and lottery_times =  #{tb.lotteryTimes}
+      </if>
+      <if test="tb.createUserId != null">
+        and create_user_id =  #{tb.createUserId}
+      </if>
+      <if test="tb.createUserName != null">
+        and create_user_name =  #{tb.createUserName}
+      </if>
+      <if test="tb.updateUserId != null">
+        and update_user_id =  #{tb.updateUserId}
+      </if>
+      <if test="tb.isMustWin != null">
+        and is_must_win =  #{tb.isMustWin}
+      </if>
+      <if test="tb.updateUserName != null">
+        and update_user_name =  #{tb.updateUserName}
+      </if>
+      <if test="tb.status != null">
+        and status =  #{tb.status}
+      </if>
+      <if test="tb.ruleDesc != null">
+        and rule_desc =  #{tb.ruleDesc}
+      </if>
+      <if test="tb.ct != null">
+        and c_t =  #{tb.ct}
+      </if>
+      <if test="tb.ut != null">
+        and u_t =  #{tb.ut}
+      </if>
+      <if test="tb.isDeleted != null">
+        and is_deleted =  #{tb.isDeleted}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null and sort.size() >0 ">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'template'.equalsIgnoreCase(key)">
+              template
+            </when>
+            <when test="key!=null and 'name'.equalsIgnoreCase(key)">
+              name
+            </when>
+            <when test="key!=null and 'url'.equalsIgnoreCase(key)">
+              url
+            </when>
+            <when test="key!=null and 'activityStartTime'.equalsIgnoreCase(key)">
+              activity_start_time
+            </when>
+            <when test="key!=null and 'activityEndTime'.equalsIgnoreCase(key)">
+              activity_end_time
+            </when>
+            <when test="key!=null and 'lotteryStartTime'.equalsIgnoreCase(key)">
+              lottery_start_time
+            </when>
+            <when test="key!=null and 'lotteryEndTime'.equalsIgnoreCase(key)">
+              lottery_end_time
+            </when>
+            <when test="key!=null and 'activityArea'.equalsIgnoreCase(key)">
+              activity_area
+            </when>
+            <when test="key!=null and 'everydayStartTime'.equalsIgnoreCase(key)">
+              everyday_start_time
+            </when>
+            <when test="key!=null and 'everydayEndTime'.equalsIgnoreCase(key)">
+              everyday_end_time
+            </when>
+            <when test="key!=null and 'shareTitile'.equalsIgnoreCase(key)">
+              share_titile
+            </when>
+            <when test="key!=null and 'shareDesc'.equalsIgnoreCase(key)">
+              share_desc
+            </when>
+            <when test="key!=null and 'shareUrl'.equalsIgnoreCase(key)">
+              share_url
+            </when>
+            <when test="key!=null and 'shareImg'.equalsIgnoreCase(key)">
+              share_img
+            </when>
+            <when test="key!=null and 'qfIsLogin'.equalsIgnoreCase(key)">
+              qf_is_login
+            </when>
+            <when test="key!=null and 'qfIsLastdayOrder'.equalsIgnoreCase(key)">
+              qf_is_lastday_order
+            </when>
+            <when test="key!=null and 'orderMoneyLimit'.equalsIgnoreCase(key)">
+              order_money_limit
+            </when>
+            <when test="key!=null and 'lotteryTimesType'.equalsIgnoreCase(key)">
+              lottery_times_type
+            </when>
+            <when test="key!=null and 'lotteryTimes'.equalsIgnoreCase(key)">
+              lottery_times
+            </when>
+            <when test="key!=null and 'createUserId'.equalsIgnoreCase(key)">
+              create_user_id
+            </when>
+            <when test="key!=null and 'createUserName'.equalsIgnoreCase(key)">
+              create_user_name
+            </when>
+            <when test="key!=null and 'updateUserId'.equalsIgnoreCase(key)">
+              update_user_id
+            </when>
+            <when test="key!=null and 'isMustWin'.equalsIgnoreCase(key)">
+              is_must_win
+            </when>
+            <when test="key!=null and 'updateUserName'.equalsIgnoreCase(key)">
+              update_user_name
+            </when>
+            <when test="key!=null and 'status'.equalsIgnoreCase(key)">
+              status
+            </when>
+            <when test="key!=null and 'ruleDesc'.equalsIgnoreCase(key)">
+              rule_desc
+            </when>
+            <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              c_t
+            </when>
+            <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+              u_t
+            </when>
+            <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+              is_deleted
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="template != null">
+        template =  #{template} ,
+      </if>
+      <if test="name != null">
+        name =  #{name} ,
+      </if>
+      <if test="url != null">
+        url =  #{url} ,
+      </if>
+      <if test="activityStartTime != null">
+        activity_start_time =  #{activityStartTime} ,
+      </if>
+      <if test="activityEndTime != null">
+        activity_end_time =  #{activityEndTime} ,
+      </if>
+      <if test="lotteryStartTime != null">
+        lottery_start_time =  #{lotteryStartTime} ,
+      </if>
+      <if test="lotteryEndTime != null">
+        lottery_end_time =  #{lotteryEndTime} ,
+      </if>
+      <if test="activityArea != null">
+        activity_area =  #{activityArea} ,
+      </if>
+      <if test="everydayStartTime != null">
+        everyday_start_time =  #{everydayStartTime} ,
+      </if>
+      <if test="everydayEndTime != null">
+        everyday_end_time =  #{everydayEndTime} ,
+      </if>
+      <if test="shareTitile != null">
+        share_titile =  #{shareTitile} ,
+      </if>
+      <if test="shareDesc != null">
+        share_desc =  #{shareDesc} ,
+      </if>
+      <if test="shareUrl != null">
+        share_url =  #{shareUrl} ,
+      </if>
+      <if test="shareImg != null">
+        share_img =  #{shareImg} ,
+      </if>
+      <if test="qfIsLogin != null">
+        qf_is_login =  #{qfIsLogin} ,
+      </if>
+      <if test="qfIsLastdayOrder != null">
+        qf_is_lastday_order =  #{qfIsLastdayOrder} ,
+      </if>
+      <if test="orderMoneyLimit != null">
+        order_money_limit =  #{orderMoneyLimit} ,
+      </if>
+      <if test="lotteryTimesType != null">
+        lottery_times_type =  #{lotteryTimesType} ,
+      </if>
+      <if test="lotteryTimes != null">
+        lottery_times =  #{lotteryTimes} ,
+      </if>
+      <if test="createUserId != null">
+        create_user_id =  #{createUserId} ,
+      </if>
+      <if test="createUserName != null">
+        create_user_name =  #{createUserName} ,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id =  #{updateUserId} ,
+      </if>
+      <if test="isMustWin != null">
+        is_must_win =  #{isMustWin} ,
+      </if>
+      <if test="updateUserName != null">
+        update_user_name =  #{updateUserName} ,
+      </if>
+      <if test="status != null">
+        status =  #{status} ,
+      </if>
+      <if test="ruleDesc != null">
+        rule_desc =  #{ruleDesc} ,
+      </if>
+      <if test="ct != null">
+        c_t =  #{ct} ,
+      </if>
+      <if test="ut != null">
+        u_t =  #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted =  #{isDeleted} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="tb.id != null">
+        id = #{tb.id} ,
+      </if>
+      <if test="tb.template != null">
+        template = #{tb.template} ,
+      </if>
+      <if test="tb.name != null">
+        name = #{tb.name} ,
+      </if>
+      <if test="tb.url != null">
+        url = #{tb.url} ,
+      </if>
+      <if test="tb.activityStartTime != null">
+        activity_start_time = #{tb.activityStartTime} ,
+      </if>
+      <if test="tb.activityEndTime != null">
+        activity_end_time = #{tb.activityEndTime} ,
+      </if>
+      <if test="tb.lotteryStartTime != null">
+        lottery_start_time = #{tb.lotteryStartTime} ,
+      </if>
+      <if test="tb.lotteryEndTime != null">
+        lottery_end_time = #{tb.lotteryEndTime} ,
+      </if>
+      <if test="tb.activityArea != null">
+        activity_area = #{tb.activityArea} ,
+      </if>
+      <if test="tb.everydayStartTime != null">
+        everyday_start_time = #{tb.everydayStartTime} ,
+      </if>
+      <if test="tb.everydayEndTime != null">
+        everyday_end_time = #{tb.everydayEndTime} ,
+      </if>
+      <if test="tb.shareTitile != null">
+        share_titile = #{tb.shareTitile} ,
+      </if>
+      <if test="tb.shareDesc != null">
+        share_desc = #{tb.shareDesc} ,
+      </if>
+      <if test="tb.shareUrl != null">
+        share_url = #{tb.shareUrl} ,
+      </if>
+      <if test="tb.shareImg != null">
+        share_img = #{tb.shareImg} ,
+      </if>
+      <if test="tb.qfIsLogin != null">
+        qf_is_login = #{tb.qfIsLogin} ,
+      </if>
+      <if test="tb.qfIsLastdayOrder != null">
+        qf_is_lastday_order = #{tb.qfIsLastdayOrder} ,
+      </if>
+      <if test="tb.orderMoneyLimit != null">
+        order_money_limit = #{tb.orderMoneyLimit} ,
+      </if>
+      <if test="tb.lotteryTimesType != null">
+        lottery_times_type = #{tb.lotteryTimesType} ,
+      </if>
+      <if test="tb.lotteryTimes != null">
+        lottery_times = #{tb.lotteryTimes} ,
+      </if>
+      <if test="tb.createUserId != null">
+        create_user_id = #{tb.createUserId} ,
+      </if>
+      <if test="tb.createUserName != null">
+        create_user_name = #{tb.createUserName} ,
+      </if>
+      <if test="tb.updateUserId != null">
+        update_user_id = #{tb.updateUserId} ,
+      </if>
+      <if test="tb.isMustWin != null">
+        is_must_win = #{tb.isMustWin} ,
+      </if>
+      <if test="tb.updateUserName != null">
+        update_user_name = #{tb.updateUserName} ,
+      </if>
+      <if test="tb.status != null">
+        status = #{tb.status} ,
+      </if>
+      <if test="tb.ruleDesc != null">
+        rule_desc = #{tb.ruleDesc} ,
+      </if>
+      <if test="tb.ct != null">
+        c_t = #{tb.ct} ,
+      </if>
+      <if test="tb.ut != null">
+        u_t = #{tb.ut} ,
+      </if>
+      <if test="tb.isDeleted != null">
+        is_deleted = #{tb.isDeleted} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE t_lottery_activity
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO t_lottery_activity
+        (
+			template,name,url,activity_start_time,activity_end_time,	
+			lottery_start_time,lottery_end_time,activity_area,everyday_start_time,everyday_end_time,	
+			share_titile,share_desc,share_url,share_img,qf_is_login,	
+			qf_is_lastday_order,order_money_limit,lottery_times_type,lottery_times,create_user_id,	
+			create_user_name,update_user_id,is_must_win,update_user_name,status,	
+			rule_desc,c_t,u_t,is_deleted	
+		)
+      VALUES
+      	(
+			#{template},#{name},#{url},#{activityStartTime},#{activityEndTime},	
+			#{lotteryStartTime},#{lotteryEndTime},#{activityArea},#{everydayStartTime},#{everydayEndTime},	
+			#{shareTitile},#{shareDesc},#{shareUrl},#{shareImg},#{qfIsLogin},	
+			#{qfIsLastdayOrder},#{orderMoneyLimit},#{lotteryTimesType},#{lotteryTimes},#{createUserId},	
+			#{createUserName},#{updateUserId},#{isMustWin},#{updateUserName},#{status},	
+			#{ruleDesc},#{ct},#{ut},#{isDeleted}	
+      	)
+    ]]>
+  </insert>
+
+  <!-- insert into table withnot null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  t_lottery_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="template != null">
+        template,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="activityStartTime != null">
+        activity_start_time,
+      </if>
+      <if test="activityEndTime != null">
+        activity_end_time,
+      </if>
+      <if test="lotteryStartTime != null">
+        lottery_start_time,
+      </if>
+      <if test="lotteryEndTime != null">
+        lottery_end_time,
+      </if>
+      <if test="activityArea != null">
+        activity_area,
+      </if>
+      <if test="everydayStartTime != null">
+        everyday_start_time,
+      </if>
+      <if test="everydayEndTime != null">
+        everyday_end_time,
+      </if>
+      <if test="shareTitile != null">
+        share_titile,
+      </if>
+      <if test="shareDesc != null">
+        share_desc,
+      </if>
+      <if test="shareUrl != null">
+        share_url,
+      </if>
+      <if test="shareImg != null">
+        share_img,
+      </if>
+      <if test="qfIsLogin != null">
+        qf_is_login,
+      </if>
+      <if test="qfIsLastdayOrder != null">
+        qf_is_lastday_order,
+      </if>
+      <if test="orderMoneyLimit != null">
+        order_money_limit,
+      </if>
+      <if test="lotteryTimesType != null">
+        lottery_times_type,
+      </if>
+      <if test="lotteryTimes != null">
+        lottery_times,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createUserName != null">
+        create_user_name,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="isMustWin != null">
+        is_must_win,
+      </if>
+      <if test="updateUserName != null">
+        update_user_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="ruleDesc != null">
+        rule_desc,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+      <if test="ut != null">
+        u_t,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="template != null">
+         #{template} ,
+      </if>
+      <if test="name != null">
+         #{name} ,
+      </if>
+      <if test="url != null">
+         #{url} ,
+      </if>
+      <if test="activityStartTime != null">
+         #{activityStartTime} ,
+      </if>
+      <if test="activityEndTime != null">
+         #{activityEndTime} ,
+      </if>
+      <if test="lotteryStartTime != null">
+         #{lotteryStartTime} ,
+      </if>
+      <if test="lotteryEndTime != null">
+         #{lotteryEndTime} ,
+      </if>
+      <if test="activityArea != null">
+         #{activityArea} ,
+      </if>
+      <if test="everydayStartTime != null">
+         #{everydayStartTime} ,
+      </if>
+      <if test="everydayEndTime != null">
+         #{everydayEndTime} ,
+      </if>
+      <if test="shareTitile != null">
+         #{shareTitile} ,
+      </if>
+      <if test="shareDesc != null">
+         #{shareDesc} ,
+      </if>
+      <if test="shareUrl != null">
+         #{shareUrl} ,
+      </if>
+      <if test="shareImg != null">
+         #{shareImg} ,
+      </if>
+      <if test="qfIsLogin != null">
+         #{qfIsLogin} ,
+      </if>
+      <if test="qfIsLastdayOrder != null">
+         #{qfIsLastdayOrder} ,
+      </if>
+      <if test="orderMoneyLimit != null">
+         #{orderMoneyLimit} ,
+      </if>
+      <if test="lotteryTimesType != null">
+         #{lotteryTimesType} ,
+      </if>
+      <if test="lotteryTimes != null">
+         #{lotteryTimes} ,
+      </if>
+      <if test="createUserId != null">
+         #{createUserId} ,
+      </if>
+      <if test="createUserName != null">
+         #{createUserName} ,
+      </if>
+      <if test="updateUserId != null">
+         #{updateUserId} ,
+      </if>
+      <if test="isMustWin != null">
+         #{isMustWin} ,
+      </if>
+      <if test="updateUserName != null">
+         #{updateUserName} ,
+      </if>
+      <if test="status != null">
+         #{status} ,
+      </if>
+      <if test="ruleDesc != null">
+         #{ruleDesc} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+      <if test="ut != null">
+         #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+         #{isDeleted} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO t_lottery_activity
+      (
+			template,name,url,activity_start_time,activity_end_time,	
+			lottery_start_time,lottery_end_time,activity_area,everyday_start_time,everyday_end_time,	
+			share_titile,share_desc,share_url,share_img,qf_is_login,	
+			qf_is_lastday_order,order_money_limit,lottery_times_type,lottery_times,create_user_id,	
+			create_user_name,update_user_id,is_must_win,update_user_name,status,	
+			rule_desc,c_t,u_t,is_deleted	
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.template},#{item.name},#{item.url},#{item.activityStartTime},#{item.activityEndTime},	
+			#{item.lotteryStartTime},#{item.lotteryEndTime},#{item.activityArea},#{item.everydayStartTime},#{item.everydayEndTime},	
+			#{item.shareTitile},#{item.shareDesc},#{item.shareUrl},#{item.shareImg},#{item.qfIsLogin},	
+			#{item.qfIsLastdayOrder},#{item.orderMoneyLimit},#{item.lotteryTimesType},#{item.lotteryTimes},#{item.createUserId},	
+			#{item.createUserName},#{item.updateUserId},#{item.isMustWin},#{item.updateUserName},#{item.status},	
+			#{item.ruleDesc},#{item.ct},#{item.ut},#{item.isDeleted}	
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_ActivityEntity">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM t_lottery_activity 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_ActivityEntity" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM t_lottery_activity
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_ActivityEntity">
+    SELECT 
+    	<include refid="columns"/>
+		FROM t_lottery_activity
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM t_lottery_activity
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM t_lottery_activity
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM t_lottery_activity
+    <where>
+		and id = #{id}
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_lottery_activity 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>

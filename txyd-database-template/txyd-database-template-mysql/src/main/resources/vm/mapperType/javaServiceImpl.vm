@@ -1,0 +1,42 @@
+#set ($baseServiceClassName = "BaseService")
+#set ($basePackageService = ${jcb.basePackageService.toLowerCase()})
+#if(! $null.isNull($basePackageService) && ! ${basePackageService.trim().isEmpty()})
+	#set ($basePackageService =  ${basePackageService.trim()} ) 
+	#set ($point =  "." ) 
+	#set ($lastIndexOfPoint = $basePackageService.lastIndexOf($point) )
+	#set ($lastIndexOfPoint = $lastIndexOfPoint  + 1 )
+	#set ($lastWord =  $basePackageService.substring($lastIndexOfPoint) )
+	#set ($baseServiceClassName = "Base"+${StringUtil.toUpperCaseOfFirstChar(${lastWord})})
+#end
+#set ($baseServiceImplClassName = $baseServiceClassName+"Impl")
+
+#set($javabeanModelClassNameKey="")
+#if($tableBean.getPrimaryKeyNum()>1)
+	#set($modelKey="Key")
+	#if(! $null.isNull($jcb.getModelKey()) && ! $jcb.getModelKey().trim().equals(""))
+		#set($modelKey=$StringUtil.getJavabeanClassName($jcb.getModelKey().trim()))
+	#end
+	#set($javabeanModelClassNameKey=$tableBean.getJavabeanModelClassName()+$modelKey)
+#else
+	#foreach($columnBean in $tableBean.getListColumn())
+		#if(!$null.isNull($columnBean.isPrimaryKey) && $columnBean.isPrimaryKey)
+			#set($javabeanModelClassNameKey=$ModelUtil.getColumnJavaDataType($columnBean,$jcb))
+			#set($javabeanModelClassNameKey=$javabeanModelClassNameKey.replace("java.lang.", ""))
+		#end
+		
+	#end
+	
+#end
+
+package ${jcb.basePackageServiceImpl.toLowerCase()};
+
+import org.springframework.stereotype.Service;
+import ${jcb.getBasePackageModel()}.${tableBean.javabeanModelClassName};
+#if($tableBean.getPrimaryKeyNum()>1)
+import ${jcb.getBasePackageModel()}.${javabeanModelClassNameKey};
+#end
+
+@Service
+public class ${tableBean.getJavabeanServiceImplClassName()} extends ${baseServiceImplClassName} <${tableBean.javabeanModelClassName},${javabeanModelClassNameKey}>   implements ${tableBean.getJavabeanServiceClassName()}{
+	
+}

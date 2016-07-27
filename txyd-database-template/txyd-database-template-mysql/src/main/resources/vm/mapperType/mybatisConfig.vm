@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--mybatis配置文件-->
+<configuration>
+  <settings>
+    <setting name="cacheEnabled" value="true"/>
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="multipleResultSetsEnabled" value="true"/>
+    <setting name="useColumnLabel" value="true"/>
+    <setting name="defaultExecutorType" value="REUSE"/>
+    <setting name="defaultStatementTimeout" value="25000"/>
+  </settings>
+  <typeAliases>
+#foreach( $table in $tableList)
+	#set($alias=$StringUtil.toLowerCaseOfFirstChar($table.javabeanModelClassName))
+	#set($type=$jcb.basePackageModel+"."+$table.javabeanModelClassName)
+	<typeAlias alias="${alias}" type="${type}" />
+#end
+  </typeAliases>
+  <mappers>
+	<!--the base xml of sql with  add and delete and update and select    -->
+#foreach( $table in $tableList)
+	#set($baseMapper="BaseMapper")
+    #if(!$null.isNull(${jcb.xmlBaseMapper}) && ! $jcb.xmlBaseMapper.trim().equals(""))
+    	#set($baseMapper=$jcb.xmlBaseMapper.trim())
+	#end
+	#set($outModel=$jcb.getXmlBasePath().toLowerCase().replace(".", "/"))
+	#set($outModelPath=$outModel+"/"+$table.getJavabeanName()+$baseMapper)
+	#set($outModelPath=$StringUtil.removeDoubleSlash($outModelPath))
+	#set($resource=$outModelPath+".xml")
+	<mapper resource="$resource"/>
+#end
+	<!--the extends xml of sql with something  defined by youself  -->
+#foreach( $table in $tableList)
+	#set($mapper="Mapper")
+    #if(!$null.isNull(${jcb.xmlMapper}) && $jcb.xmlMapper.trim().equals(""))
+    	#set($mapper=$StringUtil.getJavabeanClassName($jcb.xmlMapper.trim()))
+    #end
+	#set($outModel=$jcb.xmlPath.toLowerCase().replace(".", "/"))
+	#set($outModelPath=$outModel+"/"+$table.getJavabeanName()+$mapper)
+	#set($outModelPath=$StringUtil.removeDoubleSlash($outModelPath))
+	#set($resource=$outModelPath+".xml")
+	<mapper resource="$resource"/>
+#end
+  </mappers>
+</configuration>

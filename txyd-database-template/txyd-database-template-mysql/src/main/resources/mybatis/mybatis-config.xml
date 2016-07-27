@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="20"/>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+    </settings>
+
+
+<!--    <typeAliases>
+        <typeAlias alias="databasebean" type="com.txyd.database.bean.DatabaseBean"/>
+        <typeAlias alias="tablebean" type="com.txyd.database.bean.TableBean"/>
+        <typeAlias alias="columnbean" type="com.txyd.database.bean.ColumnBean"/>
+    </typeAliases>-->
+
+    <mappers>
+        <!--
+            <mapper resource="classpath:mybatis/mysql/databaseMapper.xml" />
+            <mapper resource="classpath:mybatis/mysql/tableMapper.xml" />
+            <mapper resource="classpath:mybatis/mysql/columnMapper.xml" />
+         -->
+        <!--
+            <mapper resource="mysql/databaseMapper.xml" />
+            <mapper resource="mysql/tableMapper.xml" />
+            <mapper resource="mysql/columnMapper.xml" />
+         -->
+        <!--
+            <mapper resource="/mybatis/mysql/databaseMapper.xml" />
+            <mapper resource="/mybatis/mysql/tableMapper.xml" />
+            <mapper resource="/mybatis/mysql/columnMapper.xml" />
+         -->
+        <mapper resource="mybatis/mysql/databaseMapper.xml"/>
+        <mapper resource="mybatis/mysql/tableMapper.xml"/>
+        <mapper resource="mybatis/mysql/columnMapper.xml"/>
+    </mappers>
+
+</configuration>

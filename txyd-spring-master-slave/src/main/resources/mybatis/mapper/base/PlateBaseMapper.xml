@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- use namespace for search -->
+<mapper namespace="com.txyd.mapper.PlateMapper">
+  <!--database table: (t_market_plate) with javabean : (com.txyd.model.PlateModel)-->
+  <resultMap id="rm_PlateModel" type="com.txyd.model.PlateModel">
+  <result property="id" column="id"/>
+  <result property="name" column="name"/>
+  <result property="showTemplate" column="show_template"/>
+  <result property="remark" column="remark"/>
+  <result property="status" column="status"/>
+  <result property="operatorId" column="operator_id"/>
+  <result property="operatorName" column="operator_name"/>
+  <result property="pic" column="pic"/>
+  <result property="ct" column="c_t"/>
+  <result property="ut" column="u_t"/>
+  <result property="isDeleted" column="is_deleted"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,name,show_template,remark,status,
+		operator_id,operator_name,pic,c_t,u_t,
+		is_deleted
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <where>
+      <if test="id != null">
+        and id =  #{id}
+      </if>
+      <if test="name != null">
+        and name =  #{name}
+      </if>
+      <if test="showTemplate != null">
+        and show_template =  #{showTemplate}
+      </if>
+      <if test="remark != null">
+        and remark =  #{remark}
+      </if>
+      <if test="status != null">
+        and status =  #{status}
+      </if>
+      <if test="operatorId != null">
+        and operator_id =  #{operatorId}
+      </if>
+      <if test="operatorName != null">
+        and operator_name =  #{operatorName}
+      </if>
+      <if test="pic != null">
+        and pic =  #{pic}
+      </if>
+      <if test="ct != null">
+        and c_t =  #{ct}
+      </if>
+      <if test="ut != null">
+        and u_t =  #{ut}
+      </if>
+      <if test="isDeleted != null">
+        and is_deleted =  #{isDeleted}
+      </if>
+    </where>
+  </sql>
+  
+  <!--the 'where' sql with table alias of search  -->
+  <sql id="where_with_alias_sql">
+    <where>
+      <if test="tb.id != null">
+        and id =  #{tb.id}
+      </if>
+      <if test="tb.name != null">
+        and name =  #{tb.name}
+      </if>
+      <if test="tb.showTemplate != null">
+        and show_template =  #{tb.showTemplate}
+      </if>
+      <if test="tb.remark != null">
+        and remark =  #{tb.remark}
+      </if>
+      <if test="tb.status != null">
+        and status =  #{tb.status}
+      </if>
+      <if test="tb.operatorId != null">
+        and operator_id =  #{tb.operatorId}
+      </if>
+      <if test="tb.operatorName != null">
+        and operator_name =  #{tb.operatorName}
+      </if>
+      <if test="tb.pic != null">
+        and pic =  #{tb.pic}
+      </if>
+      <if test="tb.ct != null">
+        and c_t =  #{tb.ct}
+      </if>
+      <if test="tb.ut != null">
+        and u_t =  #{tb.ut}
+      </if>
+      <if test="tb.isDeleted != null">
+        and is_deleted =  #{tb.isDeleted}
+      </if>
+    </where>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <trim>
+      <if test="sort != null">
+        ORDER BY
+        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+          <choose>
+            <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              id
+            </when>
+            <when test="key!=null and 'name'.equalsIgnoreCase(key)">
+              name
+            </when>
+            <when test="key!=null and 'showTemplate'.equalsIgnoreCase(key)">
+              show_template
+            </when>
+            <when test="key!=null and 'remark'.equalsIgnoreCase(key)">
+              remark
+            </when>
+            <when test="key!=null and 'status'.equalsIgnoreCase(key)">
+              status
+            </when>
+            <when test="key!=null and 'operatorId'.equalsIgnoreCase(key)">
+              operator_id
+            </when>
+            <when test="key!=null and 'operatorName'.equalsIgnoreCase(key)">
+              operator_name
+            </when>
+            <when test="key!=null and 'pic'.equalsIgnoreCase(key)">
+              pic
+            </when>
+            <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              c_t
+            </when>
+            <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+              u_t
+            </when>
+            <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+              is_deleted
+            </when>
+          </choose>
+          <choose>
+            <when test="'asc'.equalsIgnoreCase(value)">
+              asc
+            </when>
+            <when test="'desc'.equalsIgnoreCase(value)">
+              desc
+            </when>
+            <otherwise>
+              asc
+            </otherwise>
+          </choose>
+        </foreach>
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <set>
+      <if test="id != null">
+        id =  #{id} ,
+      </if>
+      <if test="name != null">
+        name =  #{name} ,
+      </if>
+      <if test="showTemplate != null">
+        show_template =  #{showTemplate} ,
+      </if>
+      <if test="remark != null">
+        remark =  #{remark} ,
+      </if>
+      <if test="status != null">
+        status =  #{status} ,
+      </if>
+      <if test="operatorId != null">
+        operator_id =  #{operatorId} ,
+      </if>
+      <if test="operatorName != null">
+        operator_name =  #{operatorName} ,
+      </if>
+      <if test="pic != null">
+        pic =  #{pic} ,
+      </if>
+      <if test="ct != null">
+        c_t =  #{ct} ,
+      </if>
+      <if test="ut != null">
+        u_t =  #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted =  #{isDeleted} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <set>
+      <if test="id != null">
+        id = #{id} ,
+      </if>
+      <if test="name != null">
+        name = #{name} ,
+      </if>
+      <if test="showTemplate != null">
+        show_template = #{showTemplate} ,
+      </if>
+      <if test="remark != null">
+        remark = #{remark} ,
+      </if>
+      <if test="status != null">
+        status = #{status} ,
+      </if>
+      <if test="operatorId != null">
+        operator_id = #{operatorId} ,
+      </if>
+      <if test="operatorName != null">
+        operator_name = #{operatorName} ,
+      </if>
+      <if test="pic != null">
+        pic = #{pic} ,
+      </if>
+      <if test="ct != null">
+        c_t = #{ct} ,
+      </if>
+      <if test="ut != null">
+        u_t = #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted} ,
+      </if>
+    </set>
+  </sql>
+  
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    UPDATE $tableBean.getTableName() 
+    <include refid="update_with_alias_sql"/>
+	<where>
+		and id = #{id}
+	</where>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO t_market_plate
+        (
+			id,name,show_template,remark,status,	
+			operator_id,operator_name,pic,c_t,u_t,	
+			is_deleted	
+		)
+      VALUES
+      	(
+			#{id},#{name},#{showTemplate},#{remark},#{status},	
+			#{operatorId},#{operatorName},#{pic},#{ct},#{ut},	
+			#{isDeleted}	
+      	)
+    ]]>
+  </insert>	
+
+  <!-- insert into table withnot null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  t_market_plate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="showTemplate != null">
+        show_template,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="operatorId != null">
+        operator_id,
+      </if>
+      <if test="operatorName != null">
+        operator_name,
+      </if>
+      <if test="pic != null">
+        pic,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+      <if test="ut != null">
+        u_t,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="name != null">
+         #{name} ,
+      </if>
+      <if test="showTemplate != null">
+         #{showTemplate} ,
+      </if>
+      <if test="remark != null">
+         #{remark} ,
+      </if>
+      <if test="status != null">
+         #{status} ,
+      </if>
+      <if test="operatorId != null">
+         #{operatorId} ,
+      </if>
+      <if test="operatorName != null">
+         #{operatorName} ,
+      </if>
+      <if test="pic != null">
+         #{pic} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+      <if test="ut != null">
+         #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+         #{isDeleted} ,
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    INSERT INTO t_market_plate
+      (
+			id,name,show_template,remark,status,
+			operator_id,operator_name,pic,c_t,u_t,
+			is_deleted
+		)
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+    	(
+			#{item.id},#{item.name},#{item.showTemplate},#{item.remark},#{item.status},
+			#{item.operatorId},#{item.operatorName},#{item.pic},#{item.ct},#{item.ut},
+			#{item.isDeleted}
+    	)
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_PlateModel">
+    SELECT
+    <include refid="columns"/>
+    <![CDATA[
+      FROM t_market_plate 
+    ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_PlateModel" parameterType="java.util.List">
+    SELECT
+    <include refid="columns"/>
+    FROM t_market_plate
+	  WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+     #{item}      
+    </foreach>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_PlateModel">
+    SELECT * FROM t_market_plate
+    <include refid="where_with_alias_sql"/>
+    <include refid="sort_sql"/>
+    <choose>
+      <when test="limit != null  and offset != null">
+        limit #{limit} offset  #{offset}  
+      </when>
+      <when test="limit != null  and offset == null">
+        limit #{limit} 
+      </when>
+    </choose>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    SELECT count(1) FROM t_market_plate
+    <include refid="where_with_alias_sql"/>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    DELETE FROM t_market_plate
+    <include refid="where_sql"/>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    DELETE FROM t_market_plate
+    <where>
+		and id = #{id},
+    </where>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_market_plate 
+      WHERE id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">      
+	  #{item}
+    </foreach>
+  </delete> 
+</mapper>

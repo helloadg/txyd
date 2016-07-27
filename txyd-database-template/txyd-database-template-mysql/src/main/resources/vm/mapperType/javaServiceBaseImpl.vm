@@ -1,0 +1,94 @@
+package ${jcb.basePackageServiceImpl.toLowerCase()};
+
+## 类名称
+#set ($baseServiceClassName = "BaseService")
+#set ($basePackageService = ${jcb.basePackageService.toLowerCase()})
+#if(! $null.isNull($basePackageService) && ! ${basePackageService.trim().isEmpty()})
+	#set ($basePackageService =  ${basePackageService.trim()} ) 
+	#set ($point =  "." ) 
+	#set ($lastIndexOfPoint = $basePackageService.lastIndexOf($point) )
+	#set ($lastIndexOfPoint = $lastIndexOfPoint  + 1 )
+	#set ($lastWord =  $basePackageService.substring($lastIndexOfPoint) )
+	#set ($baseServiceClassName = "Base"+${StringUtil.toUpperCaseOfFirstChar(${lastWord})})
+#end
+#set ($baseServiceImplClassName = $baseServiceClassName+"Impl")
+## basemapper名称
+#set($BaseMapper="BaseMapper")
+#set($baseMapper="baseMapper")
+#set($basePackageMapper=${jcb.basePackageMapper.toLowerCase()})
+#if(! $null.isNull($basePackageMapper) && ! ${basePackageMapper.trim().isEmpty()})
+	#set ($basePackageMapper =  ${basePackageMapper.trim()} ) 
+	#set ($point =  "." ) 
+	#set ($lastIndexOfPoint = $basePackageMapper.lastIndexOf($point) )
+	#set ($lastIndexOfPoint = $lastIndexOfPoint  + 1 )
+	#set ($lastWord =  $basePackageMapper.substring($lastIndexOfPoint) )
+	#set ($BaseMapper = "Base"+${StringUtil.toUpperCaseOfFirstChar(${lastWord})})
+	#set ($baseMapper = "base"+${StringUtil.toUpperCaseOfFirstChar(${lastWord})})
+#end
+
+import java.util.List;
+import java.util.LinkedHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import ${jcb.basePackageMapper}.${BaseMapper};
+import ${jcb.basePackageService}.${baseServiceClassName};
+
+public class ${baseServiceImplClassName}<T,ID> implements ${baseServiceClassName}<T,ID>{
+	
+	@Autowired
+	private ${BaseMapper}<T, ID> ${baseMapper};
+	
+	@Override
+	public int insert(T object) {
+		return this.${baseMapper}.insert(object);
+	}
+	
+	@Override
+	public int insertNotNull(T object) {
+		return this.${baseMapper}.insertNotNull(object);
+	}
+	
+	@Override	
+	public int insertBatch(List<T> list) {
+		return this.${baseMapper}.insertBatch(list);
+	}
+
+	@Override
+	public int updateById(T t, ID id) {
+		return this.${baseMapper}.updateById(t,id);
+	}
+	@Override
+	public int delete(T object) {
+		return this.${baseMapper}.delete(object);
+	}
+	
+	@Override
+	public int deleteById(ID id) {
+		return this.${baseMapper}.deleteById(id);
+	}
+	
+	@Override
+	public int deleteByIds(List<ID> list) {;
+		return this.${baseMapper}.deleteByIds(list);
+	}
+	
+	@Override
+	public List<T> select(T object,  LinkedHashMap<String,String> sort,  Integer offset,   Integer limit) {
+		return this.${baseMapper}.select(object,sort,  offset,  limit);
+	}
+
+	@Override
+	public int selectCount(T object) {
+		return this.${baseMapper}.selectCount(object);
+	}
+	
+	@Override
+	public T getById(ID  id) {
+		return this.${baseMapper}.getById(id);
+	}
+	
+	@Override
+	public List<T> getByIds(List<ID>  ids) {
+		return this.${baseMapper}.getByIds(ids);
+	}
+	
+}
