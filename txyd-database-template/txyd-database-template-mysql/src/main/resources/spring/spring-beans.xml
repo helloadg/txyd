@@ -64,15 +64,15 @@
 		<property name="databaseType" value="mysql" /><!-- 数据库类型 -->		
 		<property name="databaseOwner" value="root" /><!-- 数据库所属用户 -->		
 		<property name="databaseSchema" value="test" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
-		<property name="basePackage" value="com.txyd.lottery.activity" /><!-- 基础包名 -->		
-		<property name="basePackageMapper" value="com.txyd.lottery.activity.dao" /><!-- 基础包名 ：mapper -->		
+		<property name="basePackage" value="com.sprucetec.cms.plan" /><!-- 基础包名 -->
+		<property name="basePackageMapper" value="com.sprucetec.cms.plan.dao" /><!-- 基础包名 ：mapper -->
 		<property name="basePackageDao" value="com.txyd.dao" /><!-- 基础包名 ：dao -->		
 		<property name="basePackageDaoImpl" value="com.txyd.dao.impl" /><!-- 基础包名 ：dao实现包 -->		
-		<property name="basePackageModel" value="com.txyd.lottery.activity.entity" /><!-- 基础包名 ：model -->
-		<property name="basePackageParam" value="com.txyd.lottery.activity.param" /><!-- 基础包名 ：param -->		
+		<property name="basePackageModel" value="com.sprucetec.cms.entity" /><!-- 基础包名 ：model -->
+		<property name="basePackageParam" value="com.sprucetec.cms.param" /><!-- 基础包名 ：param -->
 		<property name="modelKey" value="Key" /><!-- 如果model所对应的表含联合主键，生成的model所对应的主键类名的后缀 -->		
-		<property name="basePackageService" value="com.txyd.lottery.activity.manager" /><!-- 基础包名：service -->		
-		<property name="basePackageServiceImpl" value="com.txyd.lottery.activity.manager.impl" /><!-- 基础包名：service实现包 -->		
+		<property name="basePackageService" value="com.sprucetec.cms.plan.manager" /><!-- 基础包名：service -->
+		<property name="basePackageServiceImpl" value="com.sprucetec.cms.plan.manager.impl" /><!-- 基础包名：service实现包 -->
 		<property name="xmlMapper" value="Mapper" /><!-- xml文件名称后缀 -->		
 		<property name="xmlPath" value="mapper" /><!-- 基础包名：xml所在路径 -->		
 		<property name="xmlBaseMapper" value="BaseMapper" /><!-- xml基础文件名称后缀 -->	
@@ -85,13 +85,13 @@
 			,如果表名为t_worksheet_client，则去除后为worksheet_client -->
 		<property name="tablePrefixes">
 			<set>
-				<!-- <value>t_</value> -->
 				<value>t_lottery_</value>
 				<value>t_market_</value>
 				<value>t_promote_</value>
 				<value>t_worksheet_</value>
 				<value>t_cms_</value>
 				<value>picc_</value>
+				<value>t_</value>
 			</set>
 		</property>		
 		<property name="tableAlias" value="tb" /><!-- 表别名 -->
