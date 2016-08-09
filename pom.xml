@@ -14,7 +14,6 @@
 		<module>txyd-freemarker</module>
 		<module>txyd-database-template</module>
 		<module>txyd-redis</module>
-		<module>txyd-json</module>
 		<module>txyd-thread</module>
 		<module>txyd-spring-master-slave</module>
 		<module>txyd-spring-ehcache</module>
@@ -24,6 +23,7 @@
     	<module>txyd-java8</module>
 		<module>txyd-mybatis</module>
         <module>txyd-qcode</module>
+        <module>txyd-json</module>
     </modules>
 	<properties>
 		<!-- 自身版本号 -->
@@ -76,11 +76,15 @@
 		<freemarker.version>2.3.8</freemarker.version>
 		<!--redis -->
 		<jedis.version>2.7.3</jedis.version>
+
 		<!-- jackson json version -->
 		<jackson.json.version>2.3.0</jackson.json.version>
 
-        <!-- json -->
+        <!-- fastjson  json version  -->
         <fastjson.version>1.2.7</fastjson.version>
+
+		<!-- gson  json version  -->
+		<gson.version>2.6.2</gson.version>
         
         <!-- spring aop -->
         <aspectjweaver.version>1.8.8</aspectjweaver.version>
