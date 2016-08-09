@@ -13,8 +13,9 @@ public class SingleTest2 {
 			SerSingleton s1=null;
 			try {
 				ObjectInputStream os=new ObjectInputStream(new FileInputStream("d:/test/SerSingleton.txt"));
-				System.out.println(os.readObject());
-//				s1=(SerSingleton)os.readObject();
+//				System.out.println(os.readObject());
+				s1=(SerSingleton)os.readObject();
+				System.out.println(s1.toString());
 //				System.out.println(s1.getName());
 //				System.out.println(s1.getSex());
 //				System.out.println(s1.getScore());

@@ -8,10 +8,10 @@ import java.io.*;
  */
 public class SingleTest {
 	public static void main(String[] args) {
-		SerSingleton s2=SerSingleton.getInstance();
+//		SerSingleton s2=SerSingleton.getInstance();
 		
 		try {
-//			SerSingleton s2=new SerSingleton();
+			SerSingleton s2=new SerSingleton();
 			s2.setName("name2");
 			s2.setSex(100);
 			s2.setScore(88.0);
