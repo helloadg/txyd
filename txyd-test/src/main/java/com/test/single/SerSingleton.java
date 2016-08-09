@@ -2,6 +2,7 @@ package com.test.single;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
@@ -49,7 +50,7 @@ public class SerSingleton implements Serializable {
 	
 	
 	
-//	private static final SerSingleton instance=new SerSingleton();
+	private static final SerSingleton instance=new SerSingleton();
 	private static final long serialVersionUID = -4951987105271831320L;
 
 //	public static SerSingleton getInstance1(){
@@ -88,32 +89,48 @@ public class SerSingleton implements Serializable {
 //		System.out.println("createString()");
 //	}
 	
-//	/**
-//	 * 此方法可以阻止生成新的实例
-//	 * 缺点：为保证序列化之后的对象和序列化之前的对象所有值都一致，必须在方法中将所有的字段值重新赋一遍
-//	 * @return
-//	 */
-//	private Object readResolve(){
-//		//如果没有这几行赋值语句，那么反序列化后得到的仅仅是一个初始化的对象；
-//		instance.setName(name);
-//		instance.setSex(sex);
-//		instance.setScore(score);
-//		instance.setId(id);
-//		instance.setSalary(salary);
-//		instance.setSalary2(salary2);
-//		return instance;
-//	}
+	//系统总是先调用writeReplace()方法
+	private Object writeReplace()throws ObjectStreamException
+	{
+		//如果没有这几行赋值语句，那么反序列化后得到的仅仅是一个初始化的对象；
+		instance.setName(name);
+		instance.setSex(sex);
+		instance.setScore(score);
+		instance.setId(id);
+		instance.setSalary2(salary2);
+		instance.setSalary(salary);
+		System.out.println("writeReplace()");
+		return instance;
+	}
+	/**
+	 * 此方法可以阻止生成新的实例
+	 * 缺点：为保证序列化之后的对象和序列化之前的对象所有值都一致，必须在方法中将所有的字段值重新赋一遍
+	 * @return
+	 */
+	private Object readResolve(){
+		//如果没有这几行赋值语句，那么反序列化后得到的仅仅是一个初始化的对象；
+		instance.setName(name);
+		instance.setSex(sex);
+		instance.setScore(score);
+		instance.setId(id);
+		instance.setSalary(salary);
+		instance.setSalary2(salary2);
+		System.out.println("readResolve()");
+		return instance;
+	}
 //
 	private void writeObject(ObjectOutputStream out) throws  Exception {
 		out.defaultWriteObject();
 		out.writeObject(salary2);
 		out.writeObject(salary);
+		System.out.println("writeObject()");
 	}
 
 	private void readObject(ObjectInputStream in) throws  Exception {
 		in.defaultReadObject();
 		salary=(double)in.readObject();
 		salary2=(double)in.readObject();
+		System.out.println("readObject()");
 
 	}
 	
