@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>txgl-json</artifactId>
+    <artifactId>txyd-json</artifactId>
     <dependencies>
         <!-- jackjson -->
         <dependency>
@@ -36,11 +36,11 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>1.2.2</version>
-        </dependency>
+        </dependency>-->
 
 
     </dependencies>
