@@ -1,5 +1,8 @@
 package com.txyd.database.annotation;
 
+import com.txyd.database.inter.NullAble;
+import com.txyd.database.inter.Primarykey;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -7,8 +10,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.txyd.database.inter.NullAble;
-import com.txyd.database.inter.Primarykey;
 
 /**
  * 元注解
@@ -35,7 +36,7 @@ import com.txyd.database.inter.Primarykey;
  * @author     
  *
  */
-@Target({ElementType.FIELD,ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.PARAMETER,ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.PARAMETER,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

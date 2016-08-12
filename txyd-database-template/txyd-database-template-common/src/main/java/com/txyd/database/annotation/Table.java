@@ -1,8 +1,15 @@
 package com.txyd.database.annotation;
 
-import java.lang.annotation.*;
 import com.txyd.database.inter.DatabaseType;
 import com.txyd.database.inter.TableType;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 
 /**
  * 元注解
@@ -17,9 +24,9 @@ import com.txyd.database.inter.TableType;
  * 		@Target(ElementType.METHOD) //方法
  *		@Target(ElementType.PARAMETER) //方法参数
  * 		@Target(ElementType.CONSTRUCTOR)  //构造函数
- * 		@Target(ElementType.LOCAL_VARIABLE)//局部变量 * 
+ * 		@Target(ElementType.LOCAL_VARIABLE)//局部变量 *
  * 		@Target(ElementType.ANNOTATION_TYPE)//注解
- *		@Target(ElementType.PACKAGE) ///包   
+ *		@Target(ElementType.PACKAGE) ///包
  * @Document：说明该注解将被包含在javadoc中
  * @Inherited：说明子类可以继承父类中的该注解
  */
@@ -29,10 +36,10 @@ import com.txyd.database.inter.TableType;
  * 运行时
  * 注释
  * 可继承
- * @author     
+ * @author
  *
  */
-@Target({ElementType.FIELD,ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.PARAMETER,ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.PARAMETER,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
