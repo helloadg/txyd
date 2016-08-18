@@ -1,6 +1,6 @@
 package txyd.util;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Administrator on 2016/8/18.
  */
 public class BeanUtil {
-	private static Logger logger = Logger.getLogger(BeanUtil.class);
+//	private static Logger logger = Logger.getLogger(BeanUtil.class);
 	
 	public static <T> void copy(T source,T desc){
 		if(source==null||desc==null){
@@ -27,7 +27,7 @@ public class BeanUtil {
 		}else if(source instanceof Object[] && desc instanceof Object[]){
 			Object[] sourceCol=(Object[])source;
 			Object[] descCol=(Object[])desc;
-			descCol= Arrays.copyOf(sourceCol,descCol.length);
+//			descCol= Arrays.copyOf(sourceCol,descCol.length);
 //			Arrays.copyOf()
 			
 			

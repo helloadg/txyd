@@ -63,5 +63,19 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 		this.${columnBean.javabeanFieldName} = ${columnBean.javabeanFieldName};
 	}
 	</#if>
+
 </#list>
+
+	@Override
+	public String toString() {
+		return "${tableBean.javabeanModelClassName}{"
+<#list columnBeanList as columnBean >
+	<#if columnBean_has_next>
+			+" \"${columnBean.javabeanFieldName}\":" = this.${columnBean.javabeanFieldName} +","
+	<#else>
+    		+" \"${columnBean.javabeanFieldName}\":" = this.${columnBean.javabeanFieldName} +""
+	</#if>
+</#list>
+		+"}";
+	}
 }
