@@ -41,6 +41,8 @@ public class TestJackson {
 			user.setName("txyd"+i);
 			user.setChName("天雪易懂"+i);
 			user.setBirthday(new Date());
+			user.setCt(1471489290);
+			user.setUt(null);
 			users.add(user);
 			
 		}

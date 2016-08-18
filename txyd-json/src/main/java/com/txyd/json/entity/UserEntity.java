@@ -3,6 +3,8 @@ package com.txyd.json.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.txyd.jackson.TimeStampJsonSerializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,6 +30,13 @@ public class UserEntity implements Serializable  {
 	@JsonProperty("birthday")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private Date birthday;
+	
+	@JsonProperty("c_t")
+	@JsonSerialize(using = TimeStampJsonSerializer.class)
+	private Integer ct;
+	
+	@JsonProperty("u_t")
+	private Integer ut;
 	
 	public Long getId() {
 		return id;
@@ -61,6 +70,23 @@ public class UserEntity implements Serializable  {
 		this.birthday = birthday;
 	}
 	
+	public Integer getCt() {
+		return ct;
+	}
+	
+	public void setCt(Integer ct) {
+		this.ct = ct;
+	}
+	
+	public Integer getUt() {
+		return ut;
+	}
+	
+	public void setUt(Integer ut) {
+		this.ut = ut;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "UserEntity{" +
@@ -68,6 +94,8 @@ public class UserEntity implements Serializable  {
 				", name='" + name + '\'' +
 				", chName='" + chName + '\'' +
 				", birthday=" + birthday +
+				", ct=" + ct +
+				", ut=" + ut +
 				'}';
 	}
 }

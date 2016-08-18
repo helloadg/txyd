@@ -11,6 +11,12 @@
 
     <artifactId>txyd-json</artifactId>
     <dependencies>
+        <!-- -->
+        <dependency>
+            <groupId>com-txyd</groupId>
+            <artifactId>txyd-utils</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <!-- jackjson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

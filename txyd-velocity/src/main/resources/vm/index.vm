@@ -92,4 +92,4 @@ Velocity支持二种路径加载机制，按classPath或按filePath，
 如果找到就加载，否则出错
 $user
 #parse("vm/footer.vm")
-#include("vm/footer.vm") 
+#include("vm/footer.vm")
