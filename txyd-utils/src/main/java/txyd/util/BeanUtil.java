@@ -2,6 +2,9 @@ package txyd.util;
 
 //import org.apache.log4j.Logger;
 
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
+
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +17,24 @@ import java.util.Set;
  */
 public class BeanUtil {
 //	private static Logger logger = Logger.getLogger(BeanUtil.class);
-	
+
+    /**
+     * 判断是否可以转化
+     * @param tClass
+     * @param <T>
+     * @param <U>
+     * @return
+     */
+    public static <T> boolean is(Class<T> tClass  ){
+        if(tClass.isPrimitive()||void.class==tClass ){
+
+        }
+
+        Integer i=new Integer(100);
+        return true ; 
+
+    }
+
 	public static <T> void copy(T source,T desc){
 		if(source==null||desc==null){
 			return;
@@ -34,15 +54,30 @@ public class BeanUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+        {
+//            System.out.println(Integer.class.isPrimitive());
+//            System.out.println(int.class.isPrimitive());
+//            System.out.println(int.class.isAssignableFrom(Integer.class)   );
+        }
+        {
+//            Constructor<Integer> constructor=Integer.class.getConstructor(new Class[]{int.class});
+//            constructor.setAccessible(true);
+//            Integer integer=constructor.newInstance(100);
+//            System.out.println(integer);
+        }
 		{
 			List<Long> source= new ArrayList<Long>(){{add(100000L);add(2L);add(3L);add(3L);}};
 
-//		List<Integer> desc= new ArrayList<>();
-			Set<String> desc=new HashSet<>();
-			desc.add(new String("ddd"));
-			copy(source,desc);
-			System.out.println(desc);
+			source.forEach(e->{
+                System.out.println(e.TYPE);
+            });
+//
+////		List<Integer> desc= new ArrayList<>();
+//			Set<String> desc=new HashSet<>();
+//			desc.add(new String("ddd"));
+//			copy(source,desc);
+//			System.out.println(desc);
 		}
 		
 		{
