@@ -8,7 +8,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserSub  {
+public   class UserSub<T>  {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class UserSub  {
 	private String name;
 	
 	@JsonProperty("users")
-	private List<UserEntity> users;
+	private List<T> users;
 	
 	public Long getId() {
 		return id;
@@ -40,11 +40,11 @@ public class UserSub  {
 		this.name = name;
 	}
 	
-	public List<UserEntity> getUsers() {
+	public List<T> getUsers() {
 		return users;
 	}
 	
-	public void setUsers(List<UserEntity> users) {
+	public void setUsers(List<T> users) {
 		this.users = users;
 	}
 	

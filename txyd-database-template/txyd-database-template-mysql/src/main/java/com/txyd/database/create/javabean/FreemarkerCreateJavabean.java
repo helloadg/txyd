@@ -1,21 +1,20 @@
 package com.txyd.database.create.javabean;
 
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.txyd.database.bean.ColumnBean;
 import com.txyd.database.bean.DatabaseBean;
 import com.txyd.database.bean.JavaConfigBean;
 import com.txyd.database.bean.TableBean;
 import com.txyd.database.create.FreemarkerCreateBase;
 import com.txyd.database.utils.StringUtil;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class FreemarkerCreateJavabean extends FreemarkerCreateBase {
 

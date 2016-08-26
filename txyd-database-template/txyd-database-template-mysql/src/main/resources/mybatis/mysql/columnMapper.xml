@@ -17,7 +17,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<result property="dataLength" column="data_length" />
 		<result property="defaultValue" column="default_value" />
 		<result property="comments" column="comments" />
-		<result property="primaryKey" column="primary_key" />
 		<result property="nullAble" column="null_able" />
 		<result property="isPrimaryKey" column="is_primary_key" />
 	</resultMap>
@@ -26,7 +25,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<sql id="columns">
 	    <![CDATA[
 		table_name,table_schema,column_name,data_type,column_type,
-		extra,data_length,default_value,comments,primary_key,null_able,
+		extra,data_length,default_value,comments,null_able,
 		is_primary_key
 	    ]]>
 	</sql>
@@ -48,7 +47,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 				ifnull(ifnull(r.CHARACTER_MAXIMUM_LENGTH,CONCAT(r.NUMERIC_PRECISION,'.',r.NUMERIC_SCALE)),'') as data_length,
 				ifnull(r.column_default,'') as default_value,
 				ifnull(r.COLUMN_COMMENT,'') comments,
-				if(r.column_key='PRI','yes','no') as primary_key,
 				if(r.is_NULLABLE='YES','yes','no') as null_able,
 				if(r.column_key='PRI','true','false') as is_primary_key				
 			FROM

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 <#-- 类文件的class注解模版 -->
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 <#assign extendsClass="">
 <#if (tableBean.primaryKeyNum gt 1)>
 	<#assign extendsClass="${'extends ' + tableBean.javabeanKeyClassName}">
@@ -44,7 +44,7 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 	 * 列的扩展：${columnBean.extra}
 	 * 列名：${columnBean.columnName}
 	 * 列的数据类型：${columnBean.dataType}
-	 * 是否是主键：${columnBean.primaryKey}
+	 * 是否是主键：${columnBean.isPrimaryKey?string('是','否')}
 	 */
 	//@JsonProperty("${columnBean.columnName}")
 	private ${columnBean.javabeanFieldDataTypeSimple} ${columnBean.javabeanFieldName};	
@@ -71,9 +71,17 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 		return "${tableBean.javabeanModelClassName}{"
 <#list columnBeanList as columnBean >
 	<#if columnBean_has_next>
-			+" \"${columnBean.javabeanFieldName}\":" = this.${columnBean.javabeanFieldName} +","
+		<#if columnBean.javabeanFieldDataTypeIsNum>
+        	+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +","
+		<#else>
+        	+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\","
+		</#if>
 	<#else>
-    		+" \"${columnBean.javabeanFieldName}\":" = this.${columnBean.javabeanFieldName} +""
+		<#if columnBean.javabeanFieldDataTypeIsNum>
+        	+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +""
+		<#else>
+        	+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\""
+		</#if>
 	</#if>
 </#list>
 		+"}";

@@ -1,10 +1,7 @@
 package com.txyd.json.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.txyd.jackson.TimeStampJsonSerializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +9,7 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 //@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserEntity implements Serializable  {
+public class UserEntity<T> implements Serializable  {
 	/**
 	 * 序列化
 	 */
@@ -28,15 +25,21 @@ public class UserEntity implements Serializable  {
 	private String chName;
 	
 	@JsonProperty("birthday")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private Date birthday;
 	
 	@JsonProperty("c_t")
-	@JsonSerialize(using = TimeStampJsonSerializer.class)
+//	@JsonSerialize(using = TimeStampJsonSerializer.class)
 	private Integer ct;
 	
 	@JsonProperty("u_t")
 	private Integer ut;
+	
+	@JsonProperty("is_deleted")
+	private Integer isDeleted;
+	
+	@JsonProperty("t_instance")
+	private T tinstance;
 	
 	public Long getId() {
 		return id;
@@ -86,6 +89,21 @@ public class UserEntity implements Serializable  {
 		this.ut = ut;
 	}
 	
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+	
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
+	public T getTinstance() {
+		return tinstance;
+	}
+	
+	public void setTinstance(T tinstance) {
+		this.tinstance = tinstance;
+	}
 	
 	@Override
 	public String toString() {
@@ -96,6 +114,8 @@ public class UserEntity implements Serializable  {
 				", birthday=" + birthday +
 				", ct=" + ct +
 				", ut=" + ut +
+				", isDeleted=" + isDeleted +
+				", tinstance=" + tinstance +
 				'}';
 	}
 }

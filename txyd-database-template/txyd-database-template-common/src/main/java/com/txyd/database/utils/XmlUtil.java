@@ -1,5 +1,18 @@
 package com.txyd.database.utils;
 
+import com.txyd.database.bean.ColumnBean;
+import com.txyd.database.bean.JavaConfigBean;
+import com.txyd.database.bean.TableBean;
+import com.txyd.database.inter.Primarykey;
+import com.txyd.database.sql.KeyWords;
+import fr.opensagres.xdocreport.core.io.internal.ByteArrayOutputStream;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.springframework.beans.BeanUtils;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,21 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.springframework.beans.BeanUtils;
-
-import com.txyd.database.bean.ColumnBean;
-import com.txyd.database.bean.JavaConfigBean;
-import com.txyd.database.bean.TableBean;
-import com.txyd.database.inter.Primarykey;
-import com.txyd.database.sql.KeyWords;
-
-import fr.opensagres.xdocreport.core.io.internal.ByteArrayOutputStream;
 /**
  * 生成mybatis所对应的xml文件
  * @author Administrator
@@ -453,7 +451,7 @@ public class XmlUtil  {
 						Element element = mapper.addElement("sql").addAttribute("id", "update_sql").addElement("set");
 						for(ColumnBean cb:tb.getListColumn())
 						{
-							if(Primarykey.valueOf(cb.getPrimaryKey())!=Primarykey.yes)
+							if(!cb.getIsPrimaryKey())
 							{
 								String test="{columnName} != null";
 								String text="{columnName} = {columnValue} ,";
@@ -473,7 +471,7 @@ public class XmlUtil  {
 						Element element = mapper.addElement("sql").addAttribute("id", "update_with_alias_sql").addElement("set");
 						for(ColumnBean cb:tb.getListColumn())
 						{
-							if(Primarykey.valueOf(cb.getPrimaryKey())!=Primarykey.yes)
+							if(!cb.getIsPrimaryKey())
 							{
 								String test="{columnName} != null";
 								String text="{columnName} = {columnValue} ,";
@@ -510,7 +508,7 @@ public class XmlUtil  {
 							for(ColumnBean cb:tb.getListColumn())
 							{
 								String id="";
-								if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+								if(cb.getIsPrimaryKey())
 								{
 									id="{columnName} = {columnValue},";
 									id=id.replace("{columnName}", cb.getColumnName());	
@@ -541,7 +539,7 @@ public class XmlUtil  {
 					String id="";
 					for(ColumnBean cb:tb.getListColumn())
 					{
-						if(Primarykey.valueOf(cb.getPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
+						if(Primarykey.valueOf(cb.getIsPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
 						{
 							id=cb.getColumnName();
 						}
@@ -575,7 +573,7 @@ public class XmlUtil  {
 					String id="";
 					for(ColumnBean cb:tb.getListColumn())
 					{
-						if(Primarykey.valueOf(cb.getPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
+						if(Primarykey.valueOf(cb.getIsPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
 						{
 							id=cb.getColumnName();
 						}
@@ -619,7 +617,7 @@ public class XmlUtil  {
 					String id="";
 					for(ColumnBean cb:tb.getListColumn())
 					{
-						if(Primarykey.valueOf(cb.getPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
+						if(Primarykey.valueOf(cb.getIsPrimaryKey().toString())==Primarykey.yes&&cb.getExtra()!=null&&!cb.getExtra().trim().equals(""))
 						{
 							id=cb.getColumnName();
 						}
@@ -671,7 +669,7 @@ public class XmlUtil  {
 						for(ColumnBean cb:tb.getListColumn())
 						{
 							String id="";
-							if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+							if(cb.getIsPrimaryKey())
 							{
 								id="{columnName} = {columnValue},";
 								id=id.replace("{columnName}", cb.getColumnName());	
@@ -707,7 +705,7 @@ public class XmlUtil  {
 						{
 							for(ColumnBean cb:tb.getListColumn())
 							{
-								if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+								if(cb.getIsPrimaryKey())
 								{
 									primaryColumnNames=cb.getColumnName();
 									primaryColumnValues="#{item}";
@@ -722,7 +720,7 @@ public class XmlUtil  {
 							String primaryColumnValue="";
 							for(ColumnBean cb:tb.getListColumn())
 							{
-								if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+								if(cb.getIsPrimaryKey())
 								{
 									primaryColumnName += cb.getColumnName()+",";
 									primaryColumnValue += "#{item."+cb.getJavabeanFieldName()+"},";
@@ -826,7 +824,7 @@ public class XmlUtil  {
 						{
 							String idName="";
 							String idValue="";
-							if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+							if(cb.getIsPrimaryKey())
 							{
 								idName="{idName},";
 								idName=idName.replace("{idName}", cb.getColumnName());
@@ -859,7 +857,7 @@ public class XmlUtil  {
 						String idValue="";
 						for(ColumnBean cb:tb.getListColumn())
 						{
-							if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+							if(cb.getIsPrimaryKey())
 							{
 								idName="{idName}";
 								idName=idName.replace("{idName}", cb.getColumnName());
@@ -892,7 +890,7 @@ public class XmlUtil  {
 						{
 							for(ColumnBean cb:tb.getListColumn())
 							{
-								if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+								if(cb.getIsPrimaryKey())
 								{
 									idNames=cb.getColumnName();
 									idValues="#{item}";
@@ -908,7 +906,7 @@ public class XmlUtil  {
 							
 							for(ColumnBean cb:tb.getListColumn())
 							{
-								if(Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+								if(cb.getIsPrimaryKey())
 								{
 									idName += cb.getColumnName()+",";
 									idValue +=  "#{item."+cb.getJavabeanFieldName()+"},";									

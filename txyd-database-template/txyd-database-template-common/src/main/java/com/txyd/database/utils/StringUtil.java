@@ -79,7 +79,7 @@ public class StringUtil {
 	 * 描述：按照java命名规则来生成，不符合规则的字符用"$"来代替，如果是java关键字的加前缀"$"
 	 * @Description 返回str对应的javabean属性名称
 	 * @author     
-	 * @param str
+	 * @param string
 	 * @return
 	 */
 	public static String getJavabeanFieldName(String string)
@@ -140,7 +140,7 @@ public class StringUtil {
 	 * 
 	 * @Description 首字母大写
 	 * @author     
-	 * @param str
+	 * @param string
 	 * @return
 	 */
 	public static String toUpperCaseOfFirstChar(String string)
@@ -160,7 +160,7 @@ public class StringUtil {
 	 * 
 	 * @Description 首字母小写
 	 * @author     
-	 * @param str
+	 * @param string
 	 * @return
 	 */
 	public static String toLowerCaseOfFirstChar(String string)
@@ -256,6 +256,74 @@ public class StringUtil {
 		{
 			return "";
 		}
+	}
+	
+	/**
+	 * 根据java的包名.类型名，判断是否是基础类
+	 * @param javabeanAllName
+	 * @return
+	 */
+	public static Boolean isPrimitive(String javabeanAllName){
+		if(javabeanAllName==null||javabeanAllName.trim().equals("")){
+			return  false;
+		}
+		javabeanAllName=javabeanAllName.trim();
+		if(javabeanAllName.equals("byte")
+				||javabeanAllName.equals("char")
+				||javabeanAllName.equals("short")
+				||javabeanAllName.equals("int")
+				||javabeanAllName.equals("long")
+				||javabeanAllName.equals("float")
+				||javabeanAllName.equals("double")){
+			return true;
+			
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 根据java的包名.类型名，判断是否是数字类
+	 * @param javabeanAllName
+	 * @return
+	 */
+	public static Boolean isNumber(String javabeanAllName){
+		try {
+			if(javabeanAllName==null||javabeanAllName.trim().equals("")){
+				return  false;
+			}
+			javabeanAllName=javabeanAllName.trim();
+			if(isPrimitive(javabeanAllName)&&!javabeanAllName.equals("char")){
+				return  true;
+			}
+			if(Number.class.isAssignableFrom(Class.forName(javabeanAllName))){
+				return  true;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return  false;
+	}
+	
+	/**
+	 * 根据java的包名.类型名，判断是否是lang包下的类
+	 * @param javabeanAllName
+	 * @return
+	 */
+	public static Boolean isOfLang(String javabeanAllName){
+		
+		if(javabeanAllName==null||javabeanAllName.trim().equals("")){
+			return  false;
+		}
+		javabeanAllName=javabeanAllName.trim();
+		try {
+			if(Class.forName(javabeanAllName).getPackage().getName().startsWith("java.lang.")){
+				return  true;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return  false;
 	}
 	public static void main(String[] args)
 	{

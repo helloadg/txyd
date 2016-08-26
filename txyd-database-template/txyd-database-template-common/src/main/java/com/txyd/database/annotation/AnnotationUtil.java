@@ -1,12 +1,5 @@
 package com.txyd.database.annotation;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.txyd.database.bean.BaseBean;
 import com.txyd.database.bean.ColumnBean;
 import com.txyd.database.bean.JavaConfigBean;
@@ -16,6 +9,13 @@ import com.txyd.database.inter.NullAble;
 import com.txyd.database.inter.Primarykey;
 import com.txyd.database.inter.TableType;
 import com.txyd.database.utils.StringUtil;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -71,8 +71,12 @@ public class AnnotationUtil {
 	/**
 	 * 
 	 * @Description 生成javabean注解的注释
-	 * @author     
-	 * @param mapA
+	 * @author
+	 * @param clzz
+	 * @param model
+	 * @param jcb
+	 * @param <T>
+	 * @param <MODEL>
 	 * @return
 	 */
 	private static <T extends Annotation,MODEL extends BaseBean >  String[]  annotationComments(Class<T> clzz, final MODEL model,final JavaConfigBean jcb)
@@ -189,7 +193,7 @@ public class AnnotationUtil {
 				comments=comments.replace("{extra}", columnBean.getExtra());
 				comments=comments.replace("{columnName}", columnBean.getColumnName());
 				comments=comments.replace("{dataType}", columnBean.getDataType());
-				comments=comments.replace("{isPrimaryKey}", Primarykey.valueOf(columnBean.getPrimaryKey())==Primarykey.yes?"是":"否");			
+				comments=comments.replace("{isPrimaryKey}", columnBean.getIsPrimaryKey()?"是":"否");
 			}
 		}
 		
@@ -291,7 +295,7 @@ public class AnnotationUtil {
 //			if(model.getClass().isAssignableFrom(ColumnBean.class))
 //			{
 //				ColumnBean cb=(ColumnBean)model;
-//				if(cb!=null&&Primarykey.valueOf(cb.getPrimaryKey())==Primarykey.yes)
+//				if(cb!=null&&Primarykey.valueOf(cb.getIsPrimaryKey())==Primarykey.yes)
 //				{
 //					comments+="\n\t@"+ID.class.getSimpleName();
 //				}
@@ -342,8 +346,8 @@ public class AnnotationUtil {
 	 * 
 	 * @Description 返回ColumnBean类实例的注解
 	 * @author     
-	 * @param cls
 	 * @param model
+	 * @param jcb
 	 * @return
 	 */
 	public static Column getAnnotation(final ColumnBean model,final JavaConfigBean jcb)
@@ -367,7 +371,7 @@ public class AnnotationUtil {
 			
 			@Override
 			public Primarykey isPrimaryKey() {
-				return Primarykey.valueOf(model.getPrimaryKey());
+				return model.getIsPrimaryKey()? Primarykey.yes:Primarykey.no;
 			}
 			
 			@Override
@@ -421,8 +425,8 @@ public class AnnotationUtil {
 	 * 
 	 * @Description 返回tableBean的注解
 	 * @author     
-	 * @param cls
 	 * @param model
+	 * @param jcb
 	 * @return
 	 */
 	public static Table getAnnotation(final TableBean model,final JavaConfigBean jcb)

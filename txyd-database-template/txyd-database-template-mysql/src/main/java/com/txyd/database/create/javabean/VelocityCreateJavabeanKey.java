@@ -1,5 +1,15 @@
 package com.txyd.database.create.javabean;
 
+import com.txyd.database.bean.ColumnBean;
+import com.txyd.database.bean.DatabaseBean;
+import com.txyd.database.bean.JavaConfigBean;
+import com.txyd.database.bean.TableBean;
+import com.txyd.database.create.VelocityCreateBase;
+import com.txyd.database.utils.StringUtil;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,18 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-
-import com.txyd.database.bean.ColumnBean;
-import com.txyd.database.bean.DatabaseBean;
-import com.txyd.database.bean.JavaConfigBean;
-import com.txyd.database.bean.TableBean;
-import com.txyd.database.create.VelocityCreateBase;
-import com.txyd.database.create.VelocityCreateBase.FileType;
-import com.txyd.database.utils.StringUtil;
 
 public class VelocityCreateJavabeanKey extends VelocityCreateBase {
 	

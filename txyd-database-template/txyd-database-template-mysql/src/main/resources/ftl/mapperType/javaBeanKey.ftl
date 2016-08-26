@@ -44,7 +44,7 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	 * 列的扩展：${columnBean.extra}
 	 * 列名：${columnBean.columnName}
 	 * 列的数据类型：${columnBean.dataType}
-	 * 是否是主键：${columnBean.primaryKey}
+	 * 是否是主键：${columnBean.isPrimaryKey?string('是','否')}
 	 */
 	@JsonProperty(${columnBean.columnName})
 	private ${columnBean.javabeanFieldDataTypeSimple} ${columnBean.javabeanFieldName};	

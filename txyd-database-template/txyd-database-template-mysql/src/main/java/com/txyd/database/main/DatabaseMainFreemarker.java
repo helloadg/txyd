@@ -1,15 +1,6 @@
 package com.txyd.database.main;
 
 
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.txyd.database.bean.ColumnBean;
 import com.txyd.database.bean.DatabaseBean;
 import com.txyd.database.bean.JavaConfigBean;
@@ -24,19 +15,26 @@ import com.txyd.database.create.service.FreemarkerCreateJavaBaseService;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaService;
 import com.txyd.database.create.service.FreemarkerCreateJavaServiceImpl;
+import com.txyd.database.create.xml.FreemarkerCreateBaseMybatisXml;
 import com.txyd.database.create.xml.FreemarkerCreateMybatisConfigXml;
 import com.txyd.database.create.xml.FreemarkerCreateMybatisXml;
-import com.txyd.database.create.xml.FreemarkerCreateBaseMybatisXml;
 import com.txyd.database.inter.DatabaseType;
 import com.txyd.database.service.ColumnService;
 import com.txyd.database.service.DatabaseService;
 import com.txyd.database.service.TableService;
 import com.txyd.database.utils.StringUtil;
-
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import txyd.util.DateTime;
+
+import java.util.List;
+import java.util.Set;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -124,7 +122,7 @@ public class DatabaseMainFreemarker {
 				table.setDatabaseType(DatabaseType.valueOf(jcb.getDatabaseType()));
 				table.setTableOwner(jcb.getDatabaseOwner());
 				//表名所对应的javabean名
-				String tableName=table.getTableName();				
+				String tableName=table.getTableName();
 				{
 					//根据配置，去掉表名的前缀				
 					Set<String> tablePrefixesSet=jcb.getTablePrefixes();
@@ -179,6 +177,10 @@ public class DatabaseMainFreemarker {
 							javabeanFieldDataTypeSimple=javabeanFieldDataType.substring(javabeanFieldDataType.lastIndexOf(".")+1);
 						}
 						column.setJavabeanFieldDataTypeSimple(javabeanFieldDataTypeSimple);
+						column.setJavabeanFieldDataTypeIsNum(StringUtil.isNumber(javabeanFieldDataType));
+						column.setJavabeanFieldDataTypeIsOfLang(StringUtil.isOfLang(javabeanFieldDataType));
+						column.setJavabeanFieldDataTypeIsPrimitive(StringUtil.isPrimitive(javabeanFieldDataType));
+						
 					}
 				}
 			}

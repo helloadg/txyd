@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class AnnotationUtil {
 	 * @Description 将注解和其对应的javabean的属性放入map中
 	 * @author     
 	 * @param cls
-	 * @param k
+	 * @param model
 	 * @return
 	 */
 	private static <T extends Annotation,MODEL extends BaseBean >  Map<Method, Field> parseAnnotation2Map(Class<T> cls,MODEL model)
@@ -125,7 +124,7 @@ public class AnnotationUtil {
 				comments=comments.replace("{extra}", columnBean.getExtra());
 				comments=comments.replace("{columnName}", columnBean.getColumnName());
 				comments=comments.replace("{dataType}", columnBean.getDataType());
-				comments=comments.replace("{isPrimaryKey}", Primarykey.valueOf(columnBean.getPrimaryKey())==Primarykey.yes?"是":"否");			
+				comments=comments.replace("{isPrimaryKey}", columnBean.getIsPrimaryKey()?"是":"否");
 			}
 		}
 		
@@ -166,8 +165,8 @@ public class AnnotationUtil {
 	 * 
 	 * @Description 返回ColumnBean类实例的注解
 	 * @author     
-	 * @param cls
 	 * @param model
+	 * @param jcb
 	 * @return
 	 */
 	public static Column getAnnotation(final ColumnBean model,final JavaConfigBean jcb)
@@ -191,7 +190,7 @@ public class AnnotationUtil {
 			
 			@Override
 			public Primarykey isPrimaryKey() {
-				return Primarykey.valueOf(model.getPrimaryKey());
+				return model.getIsPrimaryKey()?Primarykey.yes:Primarykey.no;
 			}
 			
 			@Override
@@ -245,8 +244,8 @@ public class AnnotationUtil {
 	 * 
 	 * @Description 返回tableBean的注解
 	 * @author     
-	 * @param cls
 	 * @param model
+	 * @param jcb
 	 * @return
 	 */
 	public static Table getAnnotation(final TableBean model,final JavaConfigBean jcb)

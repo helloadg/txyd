@@ -65,10 +65,10 @@ public class ColumnBean extends BaseBean{
 	 * 列注释
 	 */
 	private String comments;
-	/**
-	 * 此列是否是主键
-	 */
-	private String primaryKey;
+//	/**
+//	 * 此列是否是主键
+//	 */
+//	private String primaryKey;
 	/**
 	 * 此列是否是主键
 	 */
@@ -100,6 +100,24 @@ public class ColumnBean extends BaseBean{
 	 */
 	@Column(isVirtual=true)
 	private Column javabeanFieldAnnotation;
+	
+	/**
+	 * 对应的javabean的Field所对应的java数据类型是否是基础类型
+	 */
+	@Column(isVirtual=true)
+	private Boolean javabeanFieldDataTypeIsPrimitive;
+	
+	/**
+	 * 对应的javabean的Field所对应的java数据类型是否是java.lang包下的类
+	 */
+	@Column(isVirtual=true)
+	private Boolean javabeanFieldDataTypeIsOfLang;
+	
+	/**
+	 * 对应的javabean的Field所对应的java数据类型是否是数字
+	 */
+	@Column(isVirtual=true)
+	private Boolean javabeanFieldDataTypeIsNum;
 	
 	public DatabaseType getDatabaseType() {
 		return databaseType;
@@ -167,12 +185,6 @@ public class ColumnBean extends BaseBean{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	public String getPrimaryKey() {
-		return primaryKey;
-	}
-	public void setPrimaryKey(String primaryKey) {
-		this.primaryKey = primaryKey;
-	}
 	public String getNullAble() {
 		return nullAble;
 	}
@@ -203,11 +215,37 @@ public class ColumnBean extends BaseBean{
 	public void setJavabeanFieldAnnotation(Column javabeanFieldAnnotation) {
 		this.javabeanFieldAnnotation = javabeanFieldAnnotation;
 	}
+	
+
+	public Boolean getJavabeanFieldDataTypeIsPrimitive() {
+		return javabeanFieldDataTypeIsPrimitive;
+	}
+	
+	public void setJavabeanFieldDataTypeIsPrimitive(Boolean javabeanFieldDataTypeIsPrimitive) {
+		this.javabeanFieldDataTypeIsPrimitive = javabeanFieldDataTypeIsPrimitive;
+	}
+	
+	public Boolean getJavabeanFieldDataTypeIsOfLang() {
+		return javabeanFieldDataTypeIsOfLang;
+	}
+	
+	public void setJavabeanFieldDataTypeIsOfLang(Boolean javabeanFieldDataTypeIsOfLang) {
+		this.javabeanFieldDataTypeIsOfLang = javabeanFieldDataTypeIsOfLang;
+	}
+	
+	public Boolean getJavabeanFieldDataTypeIsNum() {
+		return javabeanFieldDataTypeIsNum;
+	}
+	
+	public void setJavabeanFieldDataTypeIsNum(Boolean javabeanFieldDataTypeIsNum) {
+		this.javabeanFieldDataTypeIsNum = javabeanFieldDataTypeIsNum;
+	}
+	
 	public Boolean getIsPrimaryKey() {
 		return isPrimaryKey;
 	}
+	
 	public void setIsPrimaryKey(Boolean isPrimaryKey) {
 		this.isPrimaryKey = isPrimaryKey;
-	}	
-	 
+	}
 }

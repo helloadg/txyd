@@ -1,13 +1,5 @@
 package com.txyd.database.create.xml;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.BeanUtils;
-
 import com.txyd.database.bean.ColumnBean;
 import com.txyd.database.bean.DatabaseBean;
 import com.txyd.database.bean.JavaConfigBean;
@@ -15,10 +7,16 @@ import com.txyd.database.bean.TableBean;
 import com.txyd.database.create.FreemarkerCreateBase;
 import com.txyd.database.sql.KeyWords;
 import com.txyd.database.utils.StringUtil;
-
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.springframework.beans.BeanUtils;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FreemarkerCreateBaseMybatisXml extends FreemarkerCreateBase {
 	
