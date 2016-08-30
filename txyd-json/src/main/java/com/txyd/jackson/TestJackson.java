@@ -7,8 +7,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.txyd.json.entity.UserEntity;
 import com.txyd.json.entity.UserSub;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +30,18 @@ import java.util.List;
  *
  */
 public class TestJackson {
+
+	public static void test() throws Exception {
+		Class<?> tClass=UserEntity.class;
+		BeanInfo info= Introspector.getBeanInfo(tClass);
+		PropertyDescriptor[] props=info.getPropertyDescriptors();
+		Arrays.stream(props).forEach(e-> {
+			System.out.println(e.getName());
+			System.out.println("\t"+e.getPropertyType());
+			System.out.println("\t"+e.getReadMethod());
+			System.out.println("\t"+e.getWriteMethod());
+		});
+	}
 
 	/**
 	 *
@@ -82,7 +99,10 @@ public class TestJackson {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
+		{
+			test();
+		}
 		{
 			int length=2;
 			List<UserEntity> users=new ArrayList<>();
@@ -106,14 +126,14 @@ public class TestJackson {
 				
 			}
 			{
-				ObjectMapper mapper = new ObjectMapper();
-				String json=mapper.writeValueAsString(userArray);
-				System.out.println(json);
-				TypeReference<?> typeReference=new TypeReference<UserEntity<Long>[]>() {};
-				UserEntity[] userArray2=mapper.readValue(json,typeReference);
-				System.out.println(typeReference);
-				System.out.println(typeReference.getType());
-				System.out.println(userArray2);
+//				ObjectMapper mapper = new ObjectMapper();
+//				String json=mapper.writeValueAsString(userArray);
+//				System.out.println(json);
+//				TypeReference<?> typeReference=new TypeReference<UserEntity<Long>[]>() {};
+//				UserEntity[] userArray2=mapper.readValue(json,typeReference);
+//				System.out.println(typeReference);
+//				System.out.println(typeReference.getType());
+//				System.out.println(userArray2);
 				
 				
 			}

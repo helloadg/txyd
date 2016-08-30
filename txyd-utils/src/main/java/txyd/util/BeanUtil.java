@@ -18,6 +18,8 @@ import java.util.Set;
 public class BeanUtil {
 //	private static Logger logger = Logger.getLogger(BeanUtil.class);
 
+
+
     /**
      * 判断是否可以转化
      * @param tClass
@@ -39,7 +41,7 @@ public class BeanUtil {
 		if(source==null||desc==null){
 			return;
 		}
-		
+
 		if(source instanceof Collection && desc instanceof Collection){
 			Collection sourceCol=(Collection)source;
 			Collection descCol=(Collection)desc;
