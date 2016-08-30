@@ -304,7 +304,7 @@
 </#if>
 
 <#if (idExtra?? )  >
-  <!-- insert into table withnot null -->
+  <!-- insert into table with not null -->
   <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="${idExtra}">
     INSERT INTO  ${tableBean.getTableName() }
     <trim prefix="(" suffix=")" suffixOverrides=",">
