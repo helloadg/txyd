@@ -1,14 +1,12 @@
 package com.txyd.jackson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.txyd.json.entity.UserEntity;
 import com.txyd.json.entity.UserSub;
 
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -35,12 +33,45 @@ public class TestJackson {
 		Class<?> tClass=UserEntity.class;
 		BeanInfo info= Introspector.getBeanInfo(tClass);
 		PropertyDescriptor[] props=info.getPropertyDescriptors();
-		Arrays.stream(props).forEach(e-> {
+		Arrays.stream(props).limit(2).forEach(e-> {
+			
 			System.out.println(e.getName());
+			System.out.println("\t"+e.getPropertyType().getPackage());
+			System.out.println("\t"+e.getPropertyType().getName());
+			System.out.println("\t"+e.getPropertyType().isAssignableFrom(Date.class));
 			System.out.println("\t"+e.getPropertyType());
 			System.out.println("\t"+e.getReadMethod());
 			System.out.println("\t"+e.getWriteMethod());
+			System.out.println("\t"+e.getWriteMethod().getName());
 		});
+	}
+	public static <T,U> void copy(Class<T> sourceClass,Class<U> descClass) throws Exception {
+		String method ="\tpublic static {descClassName} copy({sourceClassName} source , {descClassName} desc ) {\n {methodItems} \n\t}";
+		String methodItem="\t\tdesc.{writeMethodName}(source.{getMethodName}());\n";
+		
+		String sourceClassName=sourceClass.getCanonicalName().substring(sourceClass.getCanonicalName().lastIndexOf(".")+1);
+		String descClassName=descClass.getCanonicalName().substring(descClass.getCanonicalName().lastIndexOf(".")+1);
+		StringBuilder methodItems=new StringBuilder("");
+		
+		PropertyDescriptor[] sourceProperties= Introspector.getBeanInfo(sourceClass).getPropertyDescriptors();
+		PropertyDescriptor[] descProperties= Introspector.getBeanInfo(descClass).getPropertyDescriptors();
+		Arrays.stream(sourceProperties).forEach(source-> {
+			Arrays.stream(descProperties).forEach(desc->{
+				if(source!=null&&desc!=null
+						&&source.getName().equals(desc.getName())
+						&&source.getPropertyType().isAssignableFrom(desc.getPropertyType())
+						&&source.getReadMethod()!=null
+						&&desc.getWriteMethod()!=null
+						){//属性名一致
+					methodItems.append(methodItem.replace("{writeMethodName}",desc.getWriteMethod().getName())
+							.replace("{getMethodName}",source.getReadMethod().getName()));
+				}
+			});
+		});
+		String result=method.replace("{sourceClassName}",sourceClassName)
+				.replace("{descClassName}",descClassName)
+				.replace("{methodItems}",methodItems.toString());
+		System.out.println(result);
 	}
 
 	/**
@@ -101,7 +132,10 @@ public class TestJackson {
 	
 	public static void main(String[] args) throws Exception {
 		{
-			test();
+//			test();
+//			copy(UserSub.class,UserSub.class);
+//			copy(UserSub.class,UserEntity.class);
+			copy(UserEntity.class,UserSub.class);
 		}
 		{
 			int length=2;

@@ -93,6 +93,9 @@
 		<!-- jsqlparser.version -->
 		<jsqlparser.version>0.9.4</jsqlparser.version>
 
+		<!-- dozer.version -->
+		<dozer.version>5.5.1</dozer.version>
+
 	</properties>
 	<build>
 		<plugins>
