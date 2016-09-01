@@ -2,8 +2,8 @@ package com.txyd.jackson;
 
 import com.txyd.json.entity.UserEntity;
 import com.txyd.json.entity.UserSub;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
+//import org.dozer.DozerBeanMapper;
+//import org.dozer.Mapper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,7 +64,7 @@ public class BeanUtil{
 				source.setId(100L);
 				source.setName("hou后吼吼");
 				UserSub desc=new UserSub();
-				Mapper mapper = new DozerBeanMapper();
+//				Mapper mapper = new DozerBeanMapper();
 				long startTime=System.currentTimeMillis();
 				for(int i=0;i<10000000;i++){
 					

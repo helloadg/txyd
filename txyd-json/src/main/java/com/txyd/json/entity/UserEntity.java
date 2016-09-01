@@ -9,7 +9,7 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 //@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserEntity<T> implements Serializable  {
+public class UserEntity<T>  extends BaseEntity implements Serializable  {
 	/**
 	 * 序列化
 	 */

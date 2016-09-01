@@ -65,5 +65,31 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	
 	</#if>
 </#list>
+
+
+	@Override
+	public String toString() {
+		return "${tableBean.javabeanModelClassName}{"
+<#list columnBeanList as columnBean >
+	<#if columnBean.isPrimaryKey >
+		<#if columnBean_has_next>
+			<#if columnBean.javabeanFieldDataTypeIsNum>
+				+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +","
+			<#else>
+				+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\","
+			</#if>
+		<#else>
+			<#if columnBean.javabeanFieldDataTypeIsNum>
+				+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +""
+			<#else>
+				+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\""
+			</#if>
+		</#if>
+	</#if>
+</#list>
+		+"}";
+	}
+}
+
 }
 </#if>
