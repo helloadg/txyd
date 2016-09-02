@@ -46,7 +46,7 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	 * 列的数据类型：${columnBean.dataType}
 	 * 是否是主键：${columnBean.isPrimaryKey?string('是','否')}
 	 */
-	@JsonProperty(${columnBean.columnName})
+	@JsonProperty("${columnBean.columnName}")
 	private ${columnBean.javabeanFieldDataTypeSimple} ${columnBean.javabeanFieldName};	
 	</#if>
 </#list>
@@ -66,30 +66,37 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	</#if>
 </#list>
 
+<#-- 深度复制 -->
+	/**
+	* 深度复制
+	*/
+	public  ${tableBean.javabeanKeyClassName} deepClone() {
+		${tableBean.javabeanKeyClassName} entity = new ${tableBean.javabeanKeyClassName}();
+<#list columnBeanKeyList as columnBean >
+		entity.set${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}(this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}());
+</#list>
+		return entity;
+	}
 
 	@Override
 	public String toString() {
 		return "${tableBean.javabeanModelClassName}{"
-<#list columnBeanList as columnBean >
-	<#if columnBean.isPrimaryKey >
-		<#if columnBean_has_next>
-			<#if columnBean.javabeanFieldDataTypeIsNum>
+<#list columnBeanKeyList as columnBean >
+	<#if columnBean_has_next>
+		<#if columnBean.javabeanFieldDataTypeIsNum>
 				+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +","
-			<#else>
-				+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\","
-			</#if>
 		<#else>
-			<#if columnBean.javabeanFieldDataTypeIsNum>
+				+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\","
+		</#if>
+	<#else>
+		<#if columnBean.javabeanFieldDataTypeIsNum>
 				+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +""
-			<#else>
+		<#else>
 				+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\""
-			</#if>
 		</#if>
 	</#if>
 </#list>
 		+"}";
 	}
-}
-
 }
 </#if>

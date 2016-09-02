@@ -51,7 +51,7 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 	</#if>
 </#list>
 
-<#--类文件的方法模版 -->
+<#-- 类文件的方法模版 -->
 <#list columnBeanList as columnBean >
 	<#if !(tableBean.primaryKeyNum gt 1 && columnBean.isPrimaryKey ) >
 	
@@ -66,10 +66,22 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 
 </#list>
 
+<#-- 深度复制 -->
+	/**
+	* 深度复制
+	*/
+	public  ${tableBean.javabeanModelClassName} deepClone() {
+		${tableBean.javabeanModelClassName} entity = new ${tableBean.javabeanModelClassName}();
+<#list columnBeanList as columnBean >
+		entity.set${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}(this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}());
+</#list>
+		return entity;
+	}
+
 	@Override
 	public String toString() {
 		return "${tableBean.javabeanModelClassName}{"
-<#list columnBeanList as columnBean >
+<#list columnBeanNormalList as columnBean >
 	<#if columnBean_has_next>
 		<#if columnBean.javabeanFieldDataTypeIsNum>
         	+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +","

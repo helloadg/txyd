@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FreemarkerCreateJavabean extends FreemarkerCreateBase {
 
@@ -32,6 +33,13 @@ public class FreemarkerCreateJavabean extends FreemarkerCreateBase {
 	        context.put("StringUtil", new StringUtil());
 	        context.put("jcb", jcb);
 	        context.put("tableBean", tb);
+			
+			List<ColumnBean> columnBeanKeyList=tb.getListColumn().stream().filter(e->e.getIsPrimaryKey()).collect(Collectors.toList());
+			context.put("columnBeanKeyList", columnBeanKeyList);
+			
+			List<ColumnBean> columnBeanNormalList=tb.getListColumn().stream().filter(e->!e.getIsPrimaryKey()).collect(Collectors.toList());
+			context.put("columnBeanNormalList", columnBeanNormalList);
+			
 	        Set<String> importSet=new HashSet<>();
 	        for(ColumnBean cb: tb.getListColumn()){
 	        	if(!cb.getJavabeanFieldDataType().contains("java.lang.")
