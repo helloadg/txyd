@@ -1,9 +1,9 @@
 package com.txyd.database.bean;
 
+import com.txyd.database.annotation.Column;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.txyd.database.annotation.Column;
 
 /**
  * 数据库
@@ -27,6 +27,13 @@ public class DatabaseBean extends BaseBean  {
 	 * mysql：schema
 	 */
 	private String schemaName;
+	/**
+	 * 数据库名称
+	 * oracle：就是数据库所属的用户
+	 * mysql：schema
+	 */
+	private String databaseName;
+	
 	/**
 	 * 数据库注释
 	 */
@@ -65,7 +72,11 @@ public class DatabaseBean extends BaseBean  {
 	}
 	
 	
-	
-	
-	
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
 }

@@ -2,15 +2,9 @@ package txyd.util;
 
 //import org.apache.log4j.Logger;
 
-import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
-
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2016/8/18.
@@ -24,7 +18,6 @@ public class BeanUtil {
      * 判断是否可以转化
      * @param tClass
      * @param <T>
-     * @param <U>
      * @return
      */
     public static <T> boolean is(Class<T> tClass  ){

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
-"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 
 <!-- 使用namespace的话sql搜索定位会比较方便 -->
@@ -9,13 +7,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<resultMap id="databaseBean" type="com.txyd.database.bean.DatabaseBean">
 		<result property="schemaName" column="schema_name" />
+		<result property="databaseName" column="database_name" />
 		<result property="comments" column="comments" />
 	</resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="columns">
 	    <![CDATA[
-		schema_name,comments
+		schema_name,database_name,comments
 	    ]]>
 	</sql>
 	
@@ -28,6 +27,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    (
 	     SELECT
 				r.schema_name,
+				r.schema_name database_name,
 				concat( 
 					'DEFAULT_CHARACTER_SET_NAME:',	
 					ifnull(r.DEFAULT_CHARACTER_SET_NAME,'') ,
