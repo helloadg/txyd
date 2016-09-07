@@ -164,7 +164,13 @@ public class Test {
     }
 	public static void main(String[] args) throws Exception{
 		{
-			System.out.println(Class.forName("java.lang.Integer"));
+			double dd=3.0*0.1;
+			double tt=0.3;
+			System.out.println(3*0.1==0.3);
+			System.out.println(dd==tt);
+		}
+		{
+//			System.out.println(Class.forName("java.lang.Integer"));
 		}
 		{
 //			int [] arr=new int[]{8,2,1,0,3};

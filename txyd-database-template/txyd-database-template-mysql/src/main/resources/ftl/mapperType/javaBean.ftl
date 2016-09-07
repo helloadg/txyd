@@ -81,18 +81,18 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 	@Override
 	public String toString() {
 		return "${tableBean.javabeanModelClassName}{"
-<#list columnBeanNormalList as columnBean >
+<#list columnBeanList as columnBean >
 	<#if columnBean_has_next>
 		<#if columnBean.javabeanFieldDataTypeIsNum>
-        	+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +","
+        	+ " \"${columnBean.javabeanFieldName}\":" + this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}() +","
 		<#else>
-        	+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\","
+        	+ " \"${columnBean.javabeanFieldName}\":\"" + this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}() +"\","
 		</#if>
 	<#else>
 		<#if columnBean.javabeanFieldDataTypeIsNum>
-        	+ " \"${columnBean.javabeanFieldName}\":" + ${columnBean.javabeanFieldName} +""
+        	+ " \"${columnBean.javabeanFieldName}\":" + this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}() +""
 		<#else>
-        	+ " \"${columnBean.javabeanFieldName}\":\"" + ${columnBean.javabeanFieldName} +"\""
+        	+ " \"${columnBean.javabeanFieldName}\":\"" + this.get${StringUtil.getJavabeanFieldNameOfSetGetMethod(columnBean.javabeanFieldName)}() +"\""
 		</#if>
 	</#if>
 </#list>

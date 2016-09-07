@@ -1,4 +1,4 @@
-package test.jsva8.test.testabc;
+package test.java8.test.testabc;
 
 public class TestABCThread3 {
 	private Object lock = new Object();

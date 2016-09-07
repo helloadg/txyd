@@ -1,4 +1,4 @@
-package test.jsva8.test.testabc;
+package test.java8.test.testabc;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
