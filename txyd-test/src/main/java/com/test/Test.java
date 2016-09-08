@@ -167,6 +167,8 @@ public class Test {
 			double dd=3.0*0.1;
 			double tt=0.3;
 			System.out.println(3*0.1==0.3);
+			System.out.println(3.0*0.1==0.3);
+			System.out.println(3.0*0.2==0.6);
 			System.out.println(dd==tt);
 		}
 		{
