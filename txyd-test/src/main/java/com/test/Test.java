@@ -3,7 +3,7 @@ package com.test;
 
 import net.sf.jsqlparser.statement.select.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -162,14 +162,149 @@ public class Test {
     		}
     	}
     }
+	static final int hashTxgl(Object key) {
+		int h;
+		return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+//		return key.hashCode();
+	}
 	public static void main(String[] args) throws Exception{
 		{
-			double dd=3.0*0.1;
-			double tt=0.3;
-			System.out.println(3*0.1==0.3);
-			System.out.println(3.0*0.1==0.3);
-			System.out.println(3.0*0.2==0.6);
-			System.out.println(dd==tt);
+			Set<Integer> set=new HashSet<>();
+			set.add(1011);
+			set.add(1109);
+			set.add(1089);
+			set.add(1025);
+			set.add(1010);
+			set.add(1014);
+			set.add(1026);
+			set.add(1055);
+			set.add(1096);
+			set.add(1080);
+
+			for(Integer item :set){
+				System.out.print(item+"\t");
+
+			}
+
+			System.out.println("\n*********************************************");
+		}
+		{
+			Random random=new Random();
+			int length=10;
+			int start=1000;
+			Set<Integer> setRandom=new HashSet<>();
+			for(int i=start;i<start+length;i++){
+				setRandom.add(start+random.nextInt(length+100));
+			}
+			for(Integer item:setRandom){
+						System.out.print(item+("/{hashcode}/{hashTxgl}\t"
+								.replace("{hashcode}",item.hashCode()+"")
+								.replace("{hashTxgl}", hashTxgl(item)+"")));
+			}
+			System.out.println();
+
+		}
+		{
+			int length=30;
+			Set<Integer> set2=new HashSet<>();
+			set2.add(2);
+			set2.add(1);
+			set2.add(4);
+			set2.add(3);
+
+			Set<Integer> set3=new HashSet<>();
+			Set<Integer> set=new HashSet<>();
+			Set<Integer> setRandom=new HashSet<>();
+			{
+
+				for(int i=0;i<length;i++){
+					Integer temp=(int)(Math.random()*length);
+					setRandom.add(temp);
+					set.add(length-1-i);
+					set3.add(i);
+
+					System.out.print(temp+("/{hashcode}\t"
+							.replace("{hashcode}",temp.hashCode()+"")));
+				}
+				System.out.println();
+				Scanner scanner=new Scanner(System.in);
+				String in=scanner.nextLine();
+				while (!in.equals("end")){
+					for(Integer item:set){
+						System.out.print(item+("/{hashcode}\t"
+								.replace("{hashcode}",item.hashCode()+"")));
+					}
+					System.out.println();
+					for(Integer item:set2){
+						System.out.print(item+("/{hashcode}\t"
+								.replace("{hashcode}",item.hashCode()+"")));
+					}
+					System.out.println();
+					for(Integer item:set3){
+						System.out.print(item+("/{hashcode}\t"
+								.replace("{hashcode}",item.hashCode()+"")));
+					}
+					System.out.println();
+					for(Integer item:setRandom){
+						System.out.print(item+("/{hashcode}\t"
+								.replace("{hashcode}",item.hashCode()+"")));
+					}
+					in=scanner.nextLine();
+
+				}
+			}
+			{
+
+//				for(int i=0;i<length;i++){
+//					Integer temp=(int)(Math.random()*length);
+//					setRandom.add(temp);
+//					set.add(length-1-i);
+//					set3.add(i);
+//
+//					System.out.print(temp+("/{hashcode}/{hashTxgl}\t"
+//							.replace("{hashcode}",temp.hashCode()+"")
+//							.replace("{hashTxgl}", hashTxgl(temp)+"")));
+//				}
+//				System.out.println();
+//				Scanner scanner=new Scanner(System.in);
+//				String in=scanner.nextLine();
+//				while (!in.equals("end")){
+//					for(Integer item:set){
+//						System.out.print(item+("/{hashcode}/{hashTxgl}\t"
+//								.replace("{hashcode}",item.hashCode()+"")
+//								.replace("{hashTxgl}", hashTxgl(item)+"")));
+//					}
+//					System.out.println();
+//					for(Integer item:set2){
+//						System.out.print(item+("/{hashcode}/{hashTxgl}\t"
+//								.replace("{hashcode}",item.hashCode()+"")
+//								.replace("{hashTxgl}", hashTxgl(item)+"")));
+//					}
+//					System.out.println();
+//					for(Integer item:set3){
+//						System.out.print(item+("/{hashcode}/{hashTxgl}\t"
+//								.replace("{hashcode}",item.hashCode()+"")
+//								.replace("{hashTxgl}", hashTxgl(item)+"")));
+//					}
+//					System.out.println();
+//					for(Integer item:setRandom){
+//						System.out.print(item+("/{hashcode}/{hashTxgl}\t"
+//								.replace("{hashcode}",item.hashCode()+"")
+//								.replace("{hashTxgl}", hashTxgl(item)+"")));
+//					}
+//					in=scanner.nextLine();
+//
+//				}
+			}
+
+		}
+		{
+//			double dd=3.0*0.1;
+//			double tt=0.3;
+//			System.out.println(3*0.1==0.3);
+//			System.out.println(3.0*0.1==0.3);
+//			System.out.println(3.0*0.2==0.6);
+//			System.out.println(dd==tt);
 		}
 		{
 //			System.out.println(Class.forName("java.lang.Integer"));
