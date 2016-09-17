@@ -9,6 +9,18 @@ import java.util.stream.Stream;
  * Created by Administrator on 2016/8/9.
  */
 public class Son extends Father {
+
+	private Integer id;
+
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public static void printStatic() {
 		System.out.println("Static子类");
 	}
