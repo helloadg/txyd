@@ -1,9 +1,12 @@
 package txyd.tools;
 
+
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by Administrator on 2016/9/7.
@@ -27,7 +30,7 @@ public class JavabeanTool {
 //	}
 	public static <T,U> void copy(Class<T> sourceClass, Class<U> descClass, Class<? extends Collection> sCollection, Class<? extends Collection> dCollection) throws Exception {
 		String method = "\tpublic static {dCollectionFatherClassName}<{descClassName}> copy({sCollectionFatherClassName}<{sourceClassName}> source){\n"
-				+"\t\t{dCollectionFatherClassName}<{descClassName}> desc = new {dCollectionClassName}<>();\n"
+				+"\t\tif(source==null) return null;\n"
 				+"\t\tfor({sourceClassName} item : source ){\n"
 				+"\t\t\t{descClassName} temp = copy(item);\n "
 				+"\t\t\tdesc.add(temp);\n "
@@ -72,6 +75,7 @@ public class JavabeanTool {
 	
 	public static <T,U> void copy(Class<T> sourceClass, Class<U> descClass, Class<? extends Collection> sCollection) throws Exception {
 		String method = "\tpublic static {collectionFatherClassName}<{descClassName}> copy({collectionFatherClassName}<{sourceClassName}> source){\n"
+				+"\t\tif(source==null) return null;\n"
 				+"\t\t{collectionFatherClassName}<{descClassName}> desc = new {collectionClassName}<>();\n"
 				+"\t\tfor({sourceClassName} item : source ){\n"
 				+"\t\t\t{descClassName} temp = copy(item);\n "
@@ -99,6 +103,7 @@ public class JavabeanTool {
 	
 	public static <T,U> String copy(Class<T> sourceClass,Class<U> descClass) throws Exception {
 		String method ="\tpublic static {descClassName} copy({sourceClassName} source ) {\n"
+				+"\t\tif(source==null) return null;\n"
 				+"\t\t{descClassName} desc = new {descClassName}();\n"
 				+"{methodItems} "
 				+"\t\treturn desc; \n "
@@ -132,14 +137,13 @@ public class JavabeanTool {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		Class<?> tClass=WidgetEntity.class;
-//		Class<?> dClass=WidgetParam.class;
-//		Class<ArrayList> cClass=ArrayList.class;
-//		Class<HashSet> sClass=HashSet.class;
+//		Class<?> tClass= PlanRangeEntity.class;
+//		Class<?> dClass=PlanRangeParam.class;
+		Class<ArrayList> cClass=ArrayList.class;
+		Class<HashSet> sClass=HashSet.class;
 //		copy(tClass,dClass);
 //		copy(tClass,dClass,cClass);
 //		copy(tClass,dClass,cClass,sClass);
 		
 	}
 }
-
