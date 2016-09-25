@@ -1,0 +1,11 @@
+打开终端，输入命令：
+
+sudo gedit /etc/apt/sources.list
+
+在终端必须小心点，在这之前最后备份一下，如图输入密码之后会填出窗口：
+
+你需要在网上搜索一下关于适合你的Ubuntu版本的源，直接添加都后也可以。
+
+然后更新：
+
+sudo apt-get update

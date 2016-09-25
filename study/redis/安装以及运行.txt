@@ -27,7 +27,7 @@
 	
 	可以通过127.0.0.1等等来访问
 6:启动redis
-	./redis-server redis.conf
+	./redis-server redis.conf &
 	
 7:使用客户端访问
 	./redis-cli
