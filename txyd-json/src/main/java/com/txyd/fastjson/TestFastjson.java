@@ -6,7 +6,9 @@ import com.txyd.json.entity.UserSub;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/8/9.
@@ -37,7 +39,14 @@ public class TestFastjson {
 	}
 	
 	public static void main(String[] args) {
-		TestFastjson.beanToJson();
-		TestFastjson.jsonToBean();
+//		TestFastjson.beanToJson();
+//		TestFastjson.jsonToBean();
+		
+		String json="http://online.yunshanmeicai.com/goods/detail?id={id}";
+//		System.out.println(JSON.toJSON(json));
+		Map<String,Object> map=new HashMap<>();
+		map.put("json",json);
+		System.out.println();
+		
 	}
 }

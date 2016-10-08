@@ -1,11 +1,13 @@
 package com.test;
 
 
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.OrderByElement;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.SelectBody;
+import net.sf.jsqlparser.statement.select.SetOperationList;
+import net.sf.jsqlparser.statement.select.WithItem;
 
-import javax.naming.event.ObjectChangeListener;
-import java.io.InputStream;
-import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -173,9 +175,18 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         {
-            Comparator<Son> comparator=(e1,e2)->e1.getId()-e2.getId();
-            Map<Son,String> map=new TreeMap<>(comparator);
-            Set<Son> set = new TreeSet<>(comparator);
+        }
+        {
+//            Set<Object> setTemp= new HashSet<Object>(){{add("sss");add("sss2");}};
+//            Set<Number> setTemp2= new HashSet<Number>(){{add(1);add(2);}};
+//            Set<Number> set = Collections.checkedSet(new HashSet<>(), Number.class);
+//            set = setTemp2;
+
+        }
+        {
+//            Comparator<Son> comparator=(e1,e2)->e1.getId()-e2.getId();
+//            Map<Son,String> map=new TreeMap<>(comparator);
+//            Set<Son> set = new TreeSet<>(comparator);
         }
         {
 //			InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream("");
