@@ -1,0 +1,9 @@
+下载地址：
+	http://www.apache.org/dyn/closer.cgi/zookeeper/
+
+使用说明：
+	http://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/
+	http://www.cnblogs.com/sevck/p/5225634.html
+
+myid文件缺失错误解决方案：
+	http://www.myexception.cn/open-source/2054639.html
