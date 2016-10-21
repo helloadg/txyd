@@ -1,0 +1,31 @@
+以下类型当使用=赋值或者valueOf赋值时，有可能走缓存；其他形式的赋值，都不走缓存
+
+为了节省内存，对于下列包装对象的两个实例，当它们的基本值相同时，他们总是==：  
+	Boolean  
+	Byte  
+	Character, \u0000 - \u007f(7f是十进制的127)  
+	Integer, -128 — 127  
+	Long, -128 — 127  
+ 
+有一个静态的Integer数组，在类加载时就将-128 到 127 的Integer对象创建了，并保存在cache数组中，一旦程序调用valueOf 方法，如果i的值是在-128 到 127 之间就直接在cache缓存数组中去取Integer对象。
+再看其它的包装器：
+	Boolean：(全部缓存)
+	Byte：(全部缓存)  ByteCache
+	
+	Character([0 , 127]缓存) CharacterCache
+	Short([-128 , 127]缓存)  ShortCache
+	Integer([-128 , 127]缓存,或java.lang.Integer.IntegerCache.high指定,至少要覆盖[-128, 127]的范围)	IntegerCache
+	Long([-128 , 127]缓存)	LongCache
+	
+	Float(没有缓存)
+	Doulbe(没有缓存)
+
+同样对于垃圾回收器来说：
+[java]
+	Integer i = 100;     
+	i = null;//will not make any object available for GC at all.  
+	这里的代码不会有对象符合垃圾回收器的条件，这儿的i虽然被赋予null，但它之前指向的是cache中的Integer对象，而cache没有被赋null，所以Integer(100)这个对象还是存在。
+	而如果i大于127或小于-128则它所指向的对象将符合垃圾回收的条件：
+[java]
+	Integer i = 10000;     
+	i = null;//will make the newly created Integer object available for GC.

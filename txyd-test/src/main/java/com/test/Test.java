@@ -7,6 +7,7 @@ import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.WithItem;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -175,6 +176,13 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         {
+            HashSet<Long> set = new HashSet<>();
+            for(int i=0;i<100;i++){
+                set.add(i+10000L);
+            }
+            System.out.println(set.contains(10000+12));
+            System.out.println(set.contains(10000+12L));
+            System.out.println(set.contains(10000L+12L));
         }
         {
 //            Set<Object> setTemp= new HashSet<Object>(){{add("sss");add("sss2");}};

@@ -1,0 +1,184 @@
+getRequestURI,getRequestURL的区别(转)
+
+test1.jsp=======================
+
+<a href ="test.jsp?p=fuck">跳转到test2</a>
+
+test2.jsp=======================
+
+<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+out.println("basePath:"+basePath);
+out.println("<br/>");
+out.println("getContextPath:"+request.getContextPath());
+out.println("<br/>");
+out.println("getServletPath:"+request.getServletPath());
+out.println("<br/>");
+out.println("getRequestURI:"+request.getRequestURI());
+out.println("<br/>");
+out.println("getRequestURL:"+request.getRequestURL());
+out.println("<br/>");
+out.println("getRealPath:"+request.getRealPath("/"));
+out.println("<br/>");
+out.println("getServletContext().getRealPath:"+getServletContext().getRealPath("/"));
+out.println("<br/>");
+out.println("getQueryString:"+request.getQueryString());
+
+%>
+
+ 
+
+显示结果：
+
+basePath:http://localhost:8080/test/
+
+getContextPath:/test 
+getServletPath:/test.jsp 
+getRequestURI:/test/test.jsp 
+getRequestURL:http://localhost:8080/test/test.jsp 
+getRealPath:D:\Tomcat 6.0\webapps\test\ 
+getServletContext().getRealPath:D:\Tomcat 6.0\webapps\test\ 
+getQueryString:p=fuck
+
+在一些应用中，未登录用户请求了必须登录的资源时，提示用户登录，此时要记住用户访问的当前页面的URL，当他登录成功后根据记住的URL跳回用户最后访问的页面：
+
+String lastAccessUrl = request.getRequestURL() + "?" + request.getQueryString();
+
+ 
+
+ 
+
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+ 
+
+ 
+
+ 
+
+输出：
+
+ 
+
+path:/E_WuLiu
+basePath:http://localhost:8080/E_WuLiu/
+
+ 
+
+getContextPath（）：得到当前应用的根目录
+
+ 
+
+getScheme（）：它返回当前请求所使用的协议。 一般的应用返回 "http"，对于ssl则返回"https"
+
+ 
+
+getServerName（）：获取服务器名字，如果是在本地的话就是localhost
+
+ 
+
+getServerPort（）：获得服务器的端口号
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+另外：jsp中获取客户端的浏览器和操作系统信息
+
+ 
+
+string agent = request.getheader("user-agent"); 
+stringtokenizer st = new stringtokenizer(agent,";"); 
+st.nexttoken(); 
+//得到用户的浏览器名 
+string userbrowser = st.nexttoken(); 
+//得到用户的操作系统名 
+string useros = st.nexttoken();
+
+ 
+
+ 
+
+ 
+
+取得本机的信息也可以这样：
+
+ 
+
+ 
+
+ 
+
+操作系统信息 
+system.getproperty("os.name"); //win2003竟然是win xp？ 
+system.getproperty("os.version"); 
+system.getproperty("os.arch");
+
+ 
+
+
+浏览器： 
+request.getheader("user-agent")
+
+ 
+
+ 
+
+ 
+
+其他 
+request.getheader(“user-agent”)返回客户端浏览器的版本号、类型
+
+ 
+
+getheader(string name)：获得http协议定义的传送文件头信息，
+
+ 
+
+request. getmethod()：获得客户端向服务器端传送数据的方法有get、post、put等类型
+
+ 
+
+request. getrequesturi()：获得发出请求字符串的客户端地址
+
+ 
+
+request. getservletpath()：获得客户端所请求的脚本文件的文件路径
+
+ 
+
+request. getservername()：获得服务器的名字
+
+ 
+
+request.getserverport()：获得服务器的端口号
+
+ 
+
+request.getremoteaddr()：获得客户端的ip地址
+
+ 
+
+request.getremotehost()：获得客户端电脑的名字，若失败，则返回客户端电脑的ip地址
+
+ 
+
+request.getprotocol()：
+
+ 
+
+request.getheadernames()：返回所有request header的名字，结果集是一个enumeration（枚举）类的实例
+
+ 
+
+request.getheaders(string name)：返回指定名字的request header的所有值，结果集是一个enumeration（枚举）类的实例
