@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<bean id="javaConfig" class="com.txyd.database.bean.JavaConfigBean">
+		<property name="comment" value="编译配置文件" />		
+		<property name="generateMybatisType" value="mapper" /><!-- 编译类型：dao：有dao层（默认为此值）；mapper：无dao层； -->		
+		<property name="author" value="" /><!-- 作者 -->		
+		<property name="outRoot" value="" /><!-- 生成的文件所在的路径 -->		
+		<property name="unicode" value="utf-8" /><!-- 文件 -->		
+		<property name="projectName" value="javaProject" /><!-- 项目名称 -->		
+		<property name="javaPathRoot" value="src" /><!-- java文件所在的根目录 -->		
+		<property name="databaseType" value="mysql" /><!-- 数据库类型 -->		
+		<property name="databaseOwner" value="root" /><!-- 数据库所属用户 -->		
+		<property name="databaseSchema" value="mall_cms" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
+		<property name="basePackage" value="com.sprucetec.cms.plan" /><!-- 基础包名 -->
+		<property name="basePackageMapper" value="com.sprucetec.cms.plan.dao" /><!-- 基础包名 ：mapper -->
+		<property name="basePackageDao" value="com.txyd.dao" /><!-- 基础包名 ：dao -->		
+		<property name="basePackageDaoImpl" value="com.txyd.dao.impl" /><!-- 基础包名 ：dao实现包 -->		
+		<property name="basePackageModel" value="com.sprucetec.cms.entity" /><!-- 基础包名 ：model -->
+		<property name="basePackageParam" value="com.sprucetec.cms.param" /><!-- 基础包名 ：param -->
+		<property name="modelKey" value="Key" /><!-- 如果model所对应的表含联合主键，生成的model所对应的主键类名的后缀 -->		
+		<property name="basePackageService" value="com.sprucetec.cms.plan.manager" /><!-- 基础包名：service -->
+		<property name="basePackageServiceImpl" value="com.sprucetec.cms.plan.manager.impl" /><!-- 基础包名：service实现包 -->
+		<property name="xmlMapper" value="Mapper" /><!-- xml文件名称后缀 -->		
+		<property name="xmlPath" value="mapper" /><!-- 基础包名：xml所在路径 -->		
+		<property name="xmlBaseMapper" value="BaseMapper" /><!-- xml基础文件名称后缀 -->	
+		<property name="xmlBasePath" value="mapper.base" /><!-- 基础包名：xml基础文件所在路径 -->
+		<!-- <property name="xmlConfigPath" value="com.txyd.model.resources" /> --><!-- 基础包名：xml的配置所在路径 -->
+		<property name="xmlConfigPath" value="" /><!-- 基础包名：xml的配置所在路径 -->		
+		<property name="annotationPath" value="com.txyd.annotation" /><!-- 基础包名：注解所在的路径 -->		
+		<property name="enumPath" value="com.txyd.inter" /><!-- 基础包名：enum所在的路径 -->
+		<!-- 需要移除的表名前缀,如果有多个使用“|”进行分隔多个前缀,如果有多个，以第一个的权限最高， 示例值: t_|t_whorksheet|picc_ 
+			,如果表名为t_worksheet_client，则去除后为worksheet_client -->
+		<property name="tablePrefixes">
+			<set>
+				<value>t_lottery_</value>
+				<value>t_market_</value>
+				<value>t_promote_</value>
+				<value>t_worksheet_</value>
+				<value>t_cms_</value>
+				<value>picc_</value>
+				<value>t_</value>
+			</set>
+		</property>		
+		<property name="tableAlias" value="tb" /><!-- mapper文件中，javaBean的别名 -->
+		<property name="whereAlias" value="wb" /><!-- mapper文件中，where条件的map别名 -->
+		<!--<property name="sqlDataType" ref="sqlDataType" />&lt;!&ndash; 数据库列类型和java数据类型的对比关系 &ndash;&gt;-->
+	</bean>
+</beans>

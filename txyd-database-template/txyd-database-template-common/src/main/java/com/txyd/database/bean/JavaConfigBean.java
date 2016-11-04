@@ -118,13 +118,19 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	 */
 	private LinkedHashSet<String> tablePrefixes;
 	/**
-	 * 表别名
+	 * mapper文件中，javaBean的别名
 	 */
 	private String tableAlias;
+	
 	/**
-	 *  表别名
+	 * mapper文件中，where条件的map别名
 	 */
-	private SqlDataType sqlDataType;
+	private String whereAlias;
+	
+//	/**
+//	 *  数据库列类型和java数据类型的对比关系
+//	 */
+//	private SqlDataType sqlDataType;
 	
 	
 	
@@ -296,12 +302,21 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	public void setTableAlias(String tableAlias) {
 		this.tableAlias = tableAlias;
 	}
-	public SqlDataType getSqlDataType() {
-		return sqlDataType;
+	
+	public String getWhereAlias() {
+		return whereAlias;
 	}
-	public void setSqlDataType(SqlDataType sqlDataType) {
-		this.sqlDataType = sqlDataType;
+	
+	public void setWhereAlias(String whereAlias) {
+		this.whereAlias = whereAlias;
 	}
+	
+//	public SqlDataType getSqlDataType() {
+//		return sqlDataType;
+//	}
+//	public void setSqlDataType(SqlDataType sqlDataType) {
+//		this.sqlDataType = sqlDataType;
+//	}
 	
 	
 

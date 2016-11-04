@@ -93,12 +93,12 @@
     </where>
   </sql>
   
-  <!--the 'where' sql with table alias of search  -->
+  <!--the 'where' sql with where alias of search  -->
   <sql id="where_with_alias_sql">
     <where>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
-	<#assign javabeanFieldName = jcb.getTableAlias()?string?trim + "." +  columnBean.getJavabeanFieldName()   >
+	<#assign javabeanFieldName = jcb.getWhereAlias()?string?trim + "." +  columnBean.getJavabeanFieldName()   >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
@@ -193,6 +193,35 @@
 	</#list>	
 	</where>
   </update>
+</#if>
+  <!-- update the records by ids sql -->
+  <update id="update" parameterType="java.util.Map">
+	UPDATE ${tableBean.getTableName()}
+      <include refid="update_with_alias_sql"/>
+      <include refid="where_with_alias_sql"/>
+  </update>
+<#if (tableBean.getPrimaryKeyNum() gt 0 )  >
+	<#if (tableBean.getPrimaryKeyNum() == 1 )  >
+  <!-- update the records by ids sql -->
+  <update id="updateByIds" parameterType="java.util.Map">
+    UPDATE ${tableBean.getTableName()}
+	  <include refid="update_with_alias_sql"/>
+	  WHERE ${ids} in
+	  <foreach collection="ids" item="item" open="(" separator="," close=")">
+	    ${r"#{item}"}
+	  </foreach>
+  </update>
+	<#else>
+  <!-- update the records by ids sql -->
+  <update id="updateByIds" parameterType="java.util.Map">
+    UPDATE ${tableBean.getTableName()}
+      <include refid="update_with_alias_sql"/>
+      WHERE (${ids}) in
+	  <foreach collection="ids" item="item" open="(" separator="," close=")">
+         (${idJavaBeanNamesWithItem})
+      </foreach>
+  </update>
+	</#if>
 </#if>
 
 <#if (idExtra?? )  >

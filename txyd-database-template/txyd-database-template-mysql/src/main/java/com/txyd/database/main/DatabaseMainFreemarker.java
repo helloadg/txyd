@@ -206,6 +206,7 @@ public class DatabaseMainFreemarker {
 		
 		return listDb;
 	}
+	
 	@Test
 	public void test() throws Exception{
 		List<DatabaseBean> listDb=this.getFromDatabase(this.javaConfigBean);

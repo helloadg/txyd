@@ -31,14 +31,31 @@ public interface ${baseServiceClassName}<T,ID> {
 	 */
 	public int insertBatch(List<T> list);
 
+    /**
+    * 通过条件筛选修改
+    * @param update
+    * @param where
+    * @author ${jcb.author}
+    * @return
+    */
+    public int update(T update,T where);
 	/**
-	 * 修改
+	 * 通过id单条修改
 	 * @param t
 	 * @param id
 	 * @author ${jcb.author}
 	 * @return
 	 */
 	public int updateById(T t, ID id);
+
+    /**
+    * 通过ids批量修改
+    * @param t
+    * @param ids
+    * @author ${jcb.author}
+    * @return
+    */
+    public int updateByIds(T t, List<ID> ids);
 
 	/**
 	 * 删除

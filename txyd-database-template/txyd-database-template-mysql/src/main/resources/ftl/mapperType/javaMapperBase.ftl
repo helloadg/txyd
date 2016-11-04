@@ -23,17 +23,19 @@ import org.apache.ibatis.annotations.Param;
 public interface ${BaseMapper}<T,ID> {
 	public T getById(ID id);
 	public List<T> getByIds(List<ID> ids);
-<#--	public List<T> select(T t);-->
-	public Integer selectCount(@Param("${jcb.tableAlias}") T t);
-	public List<T> select(@Param("${jcb.tableAlias}") T t,@Param("sort") LinkedHashMap<String,String> sort, @Param("offset") Integer offset,  @Param("limit") Integer limit);
+<#--	public List<T> select(T whereAlias);-->
+	public Integer selectCount(@Param("${jcb.whereAlias}") T whereAlias);
+	public List<T> select(@Param("${jcb.whereAlias}") T whereAlias,@Param("sort") LinkedHashMap<String,String> sort, @Param("offset") Integer offset,  @Param("limit") Integer limit);
 
 	public Integer insert(T t);
 	public Integer insertNotNull(T t);
 	public Integer insertBatch(List<T> list);
 
-	public Integer updateById(@Param("${jcb.tableAlias}") T t, @Param("id") ID id);
+    public Integer update(@Param("${jcb.tableAlias}") T updateAlias,@Param("${jcb.whereAlias}") T whereAlias);
+	public Integer updateById(@Param("${jcb.tableAlias}") T updateAlias, @Param("id") ID id);
+    public Integer updateByIds(@Param("${jcb.tableAlias}") T updateAlias, @Param("ids")List<ID> ids);
 
-	public Integer delete(T t);
+	public Integer delete(T whereAlias);
 	public Integer deleteById(ID id);
 	public Integer deleteByIds(List<ID> list);
 }

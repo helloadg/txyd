@@ -54,10 +54,21 @@ public class ${baseServiceImplClassName}<T,ID> implements ${baseServiceClassName
 		return this.${baseMapper}.insertBatch(list);
 	}
 
+    @Override
+    public int update(T update, T where) {
+    	return this.${baseMapper}.update(update,where);
+    }
+
 	@Override
 	public int updateById(T t, ID id) {
 		return this.${baseMapper}.updateById(t,id);
 	}
+
+    @Override
+    public int updateByIds(T t, List<ID> ids) {
+    	return this.${baseMapper}.updateByIds(t,ids);
+    }
+
 	@Override
 	public int delete(T object) {
 		return this.${baseMapper}.delete(object);
