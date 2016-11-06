@@ -11,8 +11,12 @@ import com.txyd.database.create.javabean.FreemarkerCreateJavabeanBase;
 import com.txyd.database.create.javabean.FreemarkerCreateJavabeanKey;
 import com.txyd.database.create.mapper.FreemarkerCreateMapper;
 import com.txyd.database.create.mapper.FreemarkerCreateMapperBase;
-import com.txyd.database.create.service.FreemarkerCreateJavaBaseService;
+import com.txyd.database.create.mapper.FreemarkerCreateMapperBaseKey;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseKeyService;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseKeyServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseServiceImpl;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseService;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseWithKeyServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaService;
 import com.txyd.database.create.service.FreemarkerCreateJavaServiceImpl;
 import com.txyd.database.create.xml.FreemarkerCreateBaseMybatisXml;
@@ -222,10 +226,14 @@ public class DatabaseMainFreemarker {
 			FreemarkerCreateJavabeanBase.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateJavabeanKey.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateMapperBase.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateMapperBaseKey.create(listDb, this.javaConfigBean, properties);
 			FreemarkerCreateMapper.create(listDb, this.javaConfigBean, properties);
 			
 			FreemarkerCreateJavaBaseService.create(listDb,  this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseKeyService.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateJavaService.create(listDb,  this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseWithKeyServiceImpl.create(listDb,  this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseKeyServiceImpl.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateJavaBaseServiceImpl.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateJavaServiceImpl.create(listDb,  this.javaConfigBean, properties);
 			FreemarkerCreateMybatisConfigXml.create(listDb,  this.javaConfigBean, properties);

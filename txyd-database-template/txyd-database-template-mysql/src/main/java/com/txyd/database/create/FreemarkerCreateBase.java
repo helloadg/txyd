@@ -1,23 +1,23 @@
 package com.txyd.database.create;
 
+import com.txyd.database.bean.JavaConfigBean;
+import com.txyd.database.utils.StringUtil;
+
+import javax.swing.filechooser.FileSystemView;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
-
-import javax.swing.filechooser.FileSystemView;
-
-import com.txyd.database.bean.JavaConfigBean;
-import com.txyd.database.utils.StringUtil;
 
 public abstract class FreemarkerCreateBase {
 	public  static enum FileType{
 		model,
 		modelKey,
 		baseModel,
+		mapper,
 		baseMapper,
-		baseService,
 		service,
+		baseService,
 		baseServiceImpl,
 		serviceImpl,
 		mybatisConfigXml,
@@ -42,14 +42,16 @@ public abstract class FreemarkerCreateBase {
 				outModel=jcb.getBasePackageModel().toLowerCase().replace(".", "/");				
 			}else if(type==FileType.baseModel){
 				outModel=jcb.getBasePackageModel().toLowerCase().replace(".", "/");				
+			}else if(type==FileType.mapper){
+				outModel=jcb.getBasePackageMapper().toLowerCase().replace(".", "/");
 			}else if(type==FileType.baseMapper){
-				outModel=jcb.getBasePackageMapper().toLowerCase().replace(".", "/");				
+				outModel=jcb.getBasePackageBaseMapper().toLowerCase().replace(".", "/");
 			}else if(type==FileType.baseService){
-				outModel=jcb.getBasePackageService().toLowerCase().replace(".", "/");				
+				outModel=jcb.getBasePackageBaseService().toLowerCase().replace(".", "/");
 			}else if(type==FileType.service){
 				outModel=jcb.getBasePackageService().toLowerCase().replace(".", "/");				
 			}else if(type==FileType.baseServiceImpl){
-				outModel=jcb.getBasePackageServiceImpl().toLowerCase().replace(".", "/");				
+				outModel=jcb.getBasePackageBaseServiceImpl().toLowerCase().replace(".", "/");
 			}else if(type==FileType.serviceImpl){
 				outModel=jcb.getBasePackageServiceImpl().toLowerCase().replace(".", "/");				
 			}else if(type==FileType.mybatisConfigXml){

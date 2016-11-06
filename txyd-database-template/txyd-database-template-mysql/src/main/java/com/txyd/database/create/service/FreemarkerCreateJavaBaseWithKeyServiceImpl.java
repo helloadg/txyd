@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
+public class FreemarkerCreateJavaBaseWithKeyServiceImpl extends FreemarkerCreateBase {
 	
 	public static boolean create(List<DatabaseBean> listDb, JavaConfigBean jcb, Configuration configuration) throws Exception {
 		long startTime = System.currentTimeMillis();
@@ -21,6 +21,7 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 		}
 		String BaseService = "BaseService";
 		String BaseKeyService = "BaseKeyService";
+		String BaseWithKeyServiceImpl = "BaseWithKeyServiceImpl";
 		String BaseServiceImpl = "BaseServiceImpl";
 		{
 			String Base = "Base";
@@ -49,6 +50,7 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 			}
 			BaseService = Base + Service;
 			BaseKeyService = Base + "Key" + Service;
+			BaseWithKeyServiceImpl = Base + "WithKey" + Service + Impl;
 			BaseServiceImpl = Base + Service + Impl;
 		}
 		String BaseMapper = "BaseMapper";
@@ -87,27 +89,28 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 		context.put("StringUtil", new StringUtil());
 		context.put("jcb", jcb);
 		context.put("BaseService", BaseService);
-		context.put("BaseKeyService",BaseKeyService);
+		context.put("BaseKeyService", BaseKeyService);
+		context.put("BaseWithKeyServiceImpl", BaseWithKeyServiceImpl);
 		context.put("BaseServiceImpl", BaseServiceImpl);
 		context.put("BaseMapper", BaseMapper);
 		context.put("BaseKeyMapper", BaseKeyMapper);
 		context.put("baseMapper", baseMapper);
 		context.put("baseKeyMapper", baseKeyMapper);
-		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseImpl.ftl");
+		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseWithKeyImpl.ftl");
 		StringWriter writer = new StringWriter();
 		template.process(context, writer);
 		
 		
 		Map<String, String> fileMap = new HashMap<String, String>();
 		
-		String fileName = BaseServiceImpl;
+		String fileName = BaseWithKeyServiceImpl;
 		String fileContent = writer.toString();
 		System.out.println("创建：" + fileName + ".java");
 		fileMap.put(fileName, fileContent);
 		
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseServiceImpl文件
-		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseServiceImpl);
+		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FreemarkerCreateBase.FileType.baseServiceImpl);
 		System.out.println("创建baseServiceImpl耗时：" + (endTime - startTime) + "ms");
 		return createFile;
 		

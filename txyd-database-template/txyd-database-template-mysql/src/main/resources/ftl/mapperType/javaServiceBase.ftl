@@ -1,12 +1,12 @@
 <#-- 类文件的package模版 -->
-package ${jcb.basePackageService?lower_case};
+package ${jcb.basePackageBaseService?lower_case};
 
 <#-- 类文件的import模版 -->
 import java.util.List;
 import java.util.LinkedHashMap;
 
 
-public interface ${baseServiceClassName}<T,ID> {
+public interface ${BaseService}<T> {
 	/**
 	 * 保存
 	 * @param object
@@ -32,30 +32,13 @@ public interface ${baseServiceClassName}<T,ID> {
 	public int insertBatch(List<T> list);
 
     /**
-    * 通过条件筛选修改
-    * @param update
-    * @param where
-    * @author ${jcb.author}
-    * @return
-    */
+     * 通过条件筛选修改
+     * @param update
+     * @param where
+     * @author ${jcb.author}
+     * @return
+     */
     public int update(T update,T where);
-	/**
-	 * 通过id单条修改
-	 * @param t
-	 * @param id
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public int updateById(T t, ID id);
-
-    /**
-    * 通过ids批量修改
-    * @param t
-    * @param ids
-    * @author ${jcb.author}
-    * @return
-    */
-    public int updateByIds(T t, List<ID> ids);
 
 	/**
 	 * 删除
@@ -64,36 +47,6 @@ public interface ${baseServiceClassName}<T,ID> {
 	 * @return
 	 */
 	public int delete(T object);
-
-	/**
-	 * 删除
-	 * @param id
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public int deleteById(ID id);
-
-	/**
-	 * 删除
-	 * @param ids
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public int deleteByIds(List<ID> ids);
-	/**
-	 * 
-	 * @param id
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public T getById(ID id);
-	/**
-	 * 
-	 * @param ids
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public List<T> getByIds(List<ID> ids);
 
 	/**
 	 * 根据条件查询

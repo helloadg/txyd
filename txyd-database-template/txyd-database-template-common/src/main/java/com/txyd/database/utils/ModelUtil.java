@@ -107,7 +107,7 @@ public class ModelUtil {
 		if(jcb.getDatabaseType().trim().equals(DatabaseType.mysql.toString()))
 		{
 			//属性的java数据类型
-			methodDataType=SqlDataType.getJavaType(column.getDataType());;
+			methodDataType=SqlDataType.getJavaType(column.getDataType());
 		}		
 		
 		return methodDataType ;

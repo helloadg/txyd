@@ -18,25 +18,29 @@
 </#list>
 <#---  主键组合  -->
 <#assign ids = "" >
-<#list tableBean.getListColumn() as columnBean  >
-	<#if (columnBean.isPrimaryKey?? && columnBean.isPrimaryKey  ) >
-		<#assign columnName = columnBean.columnName >
-		<#if KeyWords.contains( columnName?string?upper_case?trim) >
-			<#assign columnName = "`"+columnName+"`" >
+<#if (tableBean.getPrimaryKeyNum() gt 0)>
+	<#list tableBean.getListColumn() as columnBean  >
+		<#if (columnBean.isPrimaryKey?? && columnBean.isPrimaryKey  ) >
+			<#assign columnName = columnBean.columnName >
+			<#if KeyWords.contains( columnName?string?upper_case?trim) >
+				<#assign columnName = "`"+columnName+"`" >
+			</#if>
+			<#assign ids = ids + columnName +","  >
 		</#if>
-		<#assign ids = ids + columnName +","  >
-	</#if>
-</#list>
-<#assign ids = ids?string?substring(0, ids?string?last_index_of(",")) >
+	</#list>
+	<#assign ids = ids?string?substring(0, ids?string?last_index_of(",")) >
+</#if>
 <#---  主键组合  -->
 <#assign idJavaBeanNamesWithItem = "" >
-<#list tableBean.getListColumn() as columnBean  >
-	<#if (columnBean.isPrimaryKey?? && columnBean.isPrimaryKey  ) >
-		<#assign columnJavaBeanName = columnBean.javabeanFieldName >
-		<#assign idJavaBeanNamesWithItem = idJavaBeanNamesWithItem + r"#{item." +  columnJavaBeanName + "},"  >
-	</#if>
-</#list>
-<#assign idJavaBeanNamesWithItem = idJavaBeanNamesWithItem?string?substring(0, idJavaBeanNamesWithItem?string?last_index_of(",")) >
+<#if (tableBean.getPrimaryKeyNum() gt 0)>
+	<#list tableBean.getListColumn() as columnBean  >
+		<#if (columnBean.isPrimaryKey?? && columnBean.isPrimaryKey  ) >
+			<#assign columnJavaBeanName = columnBean.javabeanFieldName >
+			<#assign idJavaBeanNamesWithItem = idJavaBeanNamesWithItem + r"#{item." +  columnJavaBeanName + "},"  >
+		</#if>
+	</#list>
+	<#assign idJavaBeanNamesWithItem = idJavaBeanNamesWithItem?string?substring(0, idJavaBeanNamesWithItem?string?last_index_of(",")) >
+</#if>
 <#--- xml 文件   -->
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
@@ -174,7 +178,14 @@
 </#list>
     </set>
   </sql>
-  
+
+  <!-- update the records by ids sql -->
+  <update id="update" parameterType="java.util.Map">
+    UPDATE ${tableBean.getTableName()}
+     <include refid="update_with_alias_sql"/>
+	 <include refid="where_with_alias_sql"/>
+  </update>
+
 <#if (tableBean.getPrimaryKeyNum() gt  0) >
   <!-- update the table by 'id' sql -->
   <update id="updateById" parameterType="java.util.Map">
@@ -194,12 +205,7 @@
 	</where>
   </update>
 </#if>
-  <!-- update the records by ids sql -->
-  <update id="update" parameterType="java.util.Map">
-	UPDATE ${tableBean.getTableName()}
-      <include refid="update_with_alias_sql"/>
-      <include refid="where_with_alias_sql"/>
-  </update>
+
 <#if (tableBean.getPrimaryKeyNum() gt 0 )  >
 	<#if (tableBean.getPrimaryKeyNum() == 1 )  >
   <!-- update the records by ids sql -->
@@ -366,7 +372,7 @@
 
 <#if (idExtra?? )  >
   <!--insert batch into table -->
-  <insert id="insertBatch" parameterType="java.util.List">
+  <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
     INSERT INTO ${tableBean.getTableName()}
       (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >

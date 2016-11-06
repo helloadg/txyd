@@ -59,8 +59,10 @@
 		<hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
 
 		<!-- mybatis version -->
-		<mybatis-spring.version>1.2.2</mybatis-spring.version>
-		<mybatis.version>3.2.8</mybatis.version>
+		<!--<mybatis-spring.version>1.2.2</mybatis-spring.version>-->
+		<!--<mybatis.version>3.2.8</mybatis.version>-->
+		<mybatis-spring.version>1.3.0</mybatis-spring.version>
+		<mybatis.version>3.4.1</mybatis.version> <!-- Mybatis3.4.0 不支持mybatis-spring1.2.5及其一下版本，且此版本修复了批量插入后返回id为null的bug  -->
 		<!-- javax.servlet-api -->
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<!-- commons-net -->

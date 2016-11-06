@@ -51,9 +51,15 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	 */
 	private String basePackage;
 	/**
-	 * 基础包名 ：dao 
+	 * 基础包名 ：mapper
 	 */
 	private String basePackageMapper;
+	
+	/**
+	 * 基础包名 ：mapper 的基础根类
+	 */
+	private String basePackageBaseMapper;
+	
 	/**
 	 *  基础包名 ：dao
 	 */
@@ -79,9 +85,17 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	 */
 	private String basePackageService;
 	/**
+	 * 基础包名：baseService
+	 */
+	private String basePackageBaseService;
+	/**
 	 * 基础包名：service实现包
 	 */
 	private String basePackageServiceImpl;
+	/**
+	 * 基础包名：service基础实现包
+	 */
+	private String basePackageBaseServiceImpl;
 	/**
 	 * xml文件名称后缀 
 	 */
@@ -206,6 +220,15 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	public void setBasePackageMapper(String basePackageMapper) {
 		this.basePackageMapper = basePackageMapper;
 	}
+	
+	public String getBasePackageBaseMapper() {
+		return basePackageBaseMapper;
+	}
+	
+	public void setBasePackageBaseMapper(String basePackageBaseMapper) {
+		this.basePackageBaseMapper = basePackageBaseMapper;
+	}
+	
 	public String getBasePackageDao() {
 		return basePackageDao;
 	}
@@ -242,6 +265,23 @@ public class JavaConfigBean extends BaseBean implements Serializable {
 	public void setBasePackageService(String basePackageService) {
 		this.basePackageService = basePackageService;
 	}
+	
+	public String getBasePackageBaseService() {
+		return basePackageBaseService;
+	}
+	
+	public void setBasePackageBaseService(String basePackageBaseService) {
+		this.basePackageBaseService = basePackageBaseService;
+	}
+	
+	public String getBasePackageBaseServiceImpl() {
+		return basePackageBaseServiceImpl;
+	}
+	
+	public void setBasePackageBaseServiceImpl(String basePackageBaseServiceImpl) {
+		this.basePackageBaseServiceImpl = basePackageBaseServiceImpl;
+	}
+	
 	public String getBasePackageServiceImpl() {
 		return basePackageServiceImpl;
 	}

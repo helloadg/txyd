@@ -12,16 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
+public class FreemarkerCreateJavaBaseKeyServiceImpl extends FreemarkerCreateBase {
 	
 	public static boolean create(List<DatabaseBean> listDb, JavaConfigBean jcb, Configuration configuration) throws Exception {
 		long startTime = System.currentTimeMillis();
 		if (listDb == null || listDb.size() == 0 || jcb == null || configuration == null) {
 			return false;
 		}
-		String BaseService = "BaseService";
 		String BaseKeyService = "BaseKeyService";
-		String BaseServiceImpl = "BaseServiceImpl";
+		String BaseKeyServiceImpl = "BaseKeyServiceImpl";
 		{
 			String Base = "Base";
 			{
@@ -47,9 +46,8 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 					Impl = StringUtil.getClassPrefixFromPackage(basePackageServiceImpl);
 				}
 			}
-			BaseService = Base + Service;
 			BaseKeyService = Base + "Key" + Service;
-			BaseServiceImpl = Base + Service + Impl;
+			BaseKeyServiceImpl = Base + "Key" + Service + Impl;
 		}
 		String BaseMapper = "BaseMapper";
 		String BaseKeyMapper = "BaseKeyMapper";
@@ -86,21 +84,20 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 		Map<String, Object> context = new HashMap<>();
 		context.put("StringUtil", new StringUtil());
 		context.put("jcb", jcb);
-		context.put("BaseService", BaseService);
-		context.put("BaseKeyService",BaseKeyService);
-		context.put("BaseServiceImpl", BaseServiceImpl);
+		context.put("BaseKeyService", BaseKeyService);
+		context.put("BaseKeyServiceImpl", BaseKeyServiceImpl);
 		context.put("BaseMapper", BaseMapper);
 		context.put("BaseKeyMapper", BaseKeyMapper);
 		context.put("baseMapper", baseMapper);
 		context.put("baseKeyMapper", baseKeyMapper);
-		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseImpl.ftl");
+		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseKeyImpl.ftl");
 		StringWriter writer = new StringWriter();
 		template.process(context, writer);
 		
 		
 		Map<String, String> fileMap = new HashMap<String, String>();
 		
-		String fileName = BaseServiceImpl;
+		String fileName = BaseKeyServiceImpl;
 		String fileContent = writer.toString();
 		System.out.println("创建：" + fileName + ".java");
 		fileMap.put(fileName, fileContent);
