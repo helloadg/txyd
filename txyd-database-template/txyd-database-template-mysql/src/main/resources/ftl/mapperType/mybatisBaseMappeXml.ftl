@@ -83,115 +83,134 @@
   
   <!--the 'where' sql of search  -->
   <sql id="where_sql">
-    <where>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
 	<#assign javabeanFieldName = columnBean.javabeanFieldName  >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
-      <if test="${columnBean.getJavabeanFieldName()} != null">
-        and ${columnName} =  ${r"#{"+javabeanFieldName+"}"}
-      </if>
+    <if test="${columnBean.getJavabeanFieldName()} != null">
+      and ${columnName} =  ${r"#{"+javabeanFieldName+"}"}
+    </if>
 </#list>
-    </where>
   </sql>
   
   <!--the 'where' sql with where alias of search  -->
   <sql id="where_with_alias_sql">
-    <where>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
 	<#assign javabeanFieldName = jcb.getWhereAlias()?string?trim + "." +  columnBean.getJavabeanFieldName()   >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
-      <if test="${javabeanFieldName} != null">
-        and ${columnName} =  ${r"#{"+javabeanFieldName+"}"}
-      </if>
+    <if test="${javabeanFieldName} != null">
+      and ${columnName} =  ${r"#{"+javabeanFieldName+"}"}
+    </if>
 </#list>
-    </where>
+  </sql>
+  
+  <!-- the 'like' sql for search -->
+  <sql id="like_sql">
+    <if test="like != null and like.size() >0 ">
+      <foreach collection="like" index="key" item="value" open="" separator="" close="">
+        <choose>
+<#list tableBean.getListColumn() as columnBean  >
+	<#assign columnName = columnBean.columnName >
+	<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+		<#assign columnName = "`" + columnName + "`"  >
+	</#if>
+          <when test="key!=null and '${javabeanFieldName}'.equalsIgnoreCase(key)">
+              and ${columnName} like ${r"#{value}"}
+          </when>
+</#list>
+        </choose>
+      </foreach>
+    </if>
   </sql>
   
   <!-- the 'sort' sql for search -->
   <sql id="sort_sql">
-    <trim>
-      <if test="sort != null and sort.size() >0 ">
-        ORDER BY
-        <foreach collection="sort" index="key" item="value" open="" separator="," close="">
-          <choose>
+    <if test="sort != null and sort.size() >0 ">
+      ORDER BY
+      <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+        <choose>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
 	<#assign javabeanFieldName = columnBean.javabeanFieldName  >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
-            <when test="key!=null and '${javabeanFieldName}'.equalsIgnoreCase(key)">
-              ${columnName}
-            </when>
+          <when test="key!=null and '${javabeanFieldName}'.equalsIgnoreCase(key)">
+            ${columnName}
+          </when>
 </#list>
-          </choose>
-          <choose>
-            <when test="'asc'.equalsIgnoreCase(value)">
-              asc
-            </when>
-            <when test="'desc'.equalsIgnoreCase(value)">
-              desc
-            </when>
-            <otherwise>
-              asc
-            </otherwise>
-          </choose>
-        </foreach>
-      </if>
-    </trim>
+        </choose>
+        <choose>
+          <when test="'asc'.equalsIgnoreCase(value)">
+            asc
+          </when>
+          <when test="'desc'.equalsIgnoreCase(value)">
+            desc
+          </when>
+          <otherwise>
+            asc
+          </otherwise>
+        </choose>
+      </foreach>
+    </if>
   </sql>
   
   <!-- the 'set' sql for search -->
   <sql id="update_sql">
-    <set>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
 	<#assign javabeanFieldName = columnBean.javabeanFieldName  >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
-      <if test="${javabeanFieldName} != null">
-        ${columnName} =  ${r"#{"+javabeanFieldName+"}"} ,
-      </if>
+    <if test="${javabeanFieldName} != null">
+      ${columnName} =  ${r"#{"+javabeanFieldName+"}"} ,
+    </if>
 </#list>
-    </set>
   </sql>
   
   <!-- the 'set' sql with table alias for search -->
   <sql id="update_with_alias_sql">
-    <set>
 <#list tableBean.getListColumn() as columnBean  >
 	<#assign columnName = columnBean.columnName >
 	<#assign javabeanFieldName = jcb.getTableAlias()?string?trim + "." + columnBean.javabeanFieldName  >
 	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 		<#assign columnName = "`" + columnName + "`"  >
 	</#if>
-      <if test="${javabeanFieldName} != null">
-        ${columnName} = ${r"#{"+javabeanFieldName+"}"} ,
-      </if>
+    <if test="${javabeanFieldName} != null">
+      ${columnName} = ${r"#{"+javabeanFieldName+"}"} ,
+    </if>
 </#list>
-    </set>
   </sql>
 
   <!-- update the records by ids sql -->
   <update id="update" parameterType="java.util.Map">
-    UPDATE ${tableBean.getTableName()}
-     <include refid="update_with_alias_sql"/>
-	 <include refid="where_with_alias_sql"/>
+	<trim>
+      UPDATE ${tableBean.getTableName()}
+  	  <set>
+  	    <include refid="update_with_alias_sql"/>
+  	  </set>
+  	  <where>
+  	    <include refid="where_with_alias_sql"/>
+      </where>
+	</trim>
   </update>
 
 <#if (tableBean.getPrimaryKeyNum() gt  0) >
   <!-- update the table by 'id' sql -->
   <update id="updateById" parameterType="java.util.Map">
-    UPDATE ${tableBean.getTableName()}
-    <include refid="update_with_alias_sql"/>
-	<where>
+	<trim>
+      UPDATE ${tableBean.getTableName()}
+      <set>
+        <include refid="update_with_alias_sql"/>
+      </set>
+	  <where>
 	<#list tableBean.getListColumn() as columnBean  >
 		<#assign columnName = columnBean.columnName >
 		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
@@ -199,10 +218,11 @@
 			<#assign columnName = "`" + columnName + "`"  >
 		</#if>
 		<#if (columnBean.isPrimaryKey) >
-		and ${columnName} = ${r"#{"+javabeanFieldName+"}"}
+		  and ${columnName} = ${r"#{"+javabeanFieldName+"}"}
 		</#if>
-	</#list>	
-	</where>
+	</#list>
+	  </where>
+	</trim>
   </update>
 </#if>
 
@@ -210,22 +230,30 @@
 	<#if (tableBean.getPrimaryKeyNum() == 1 )  >
   <!-- update the records by ids sql -->
   <update id="updateByIds" parameterType="java.util.Map">
-    UPDATE ${tableBean.getTableName()}
-	  <include refid="update_with_alias_sql"/>
-	  WHERE ${ids} in
+    <trim>
+      UPDATE ${tableBean.getTableName()}
+      <set>
+	    <include refid="update_with_alias_sql"/>
+      </set>
+	    WHERE ${ids} in
 	  <foreach collection="ids" item="item" open="(" separator="," close=")">
 	    ${r"#{item}"}
 	  </foreach>
+    </trim>
   </update>
 	<#else>
   <!-- update the records by ids sql -->
   <update id="updateByIds" parameterType="java.util.Map">
-    UPDATE ${tableBean.getTableName()}
-      <include refid="update_with_alias_sql"/>
-      WHERE (${ids}) in
+	<trim>
+      UPDATE ${tableBean.getTableName()}
+      <set>
+        <include refid="update_with_alias_sql"/>
+	  </set>
+        WHERE (${ids}) in
 	  <foreach collection="ids" item="item" open="(" separator="," close=")">
          (${idJavaBeanNamesWithItem})
       </foreach>
+    </trim>
   </update>
 	</#if>
 </#if>
@@ -233,108 +261,112 @@
 <#if (idExtra?? )  >
   <!-- insert value sql -->
   <insert id="insert" useGeneratedKeys="true" keyProperty="${idExtra}">
-    <![CDATA[
-      INSERT INTO ${tableBean.getTableName()}
-        (
-	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
-		<#list columnlist as  columnBean >
-			<#assign columnName = columnBean.getColumnName() >
-			<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
-				<#assign columnName ="`"+columnName+"`" >
-			</#if>
-			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
-				<#if (columnBean_index == 0)>
-			${columnName}<#rt>
-				<#else>
-					${columnName}<#t>
-				</#if>	
-			<#else>
-				<#if (columnBean_index == 0)>
-			${columnName},<#rt>
-				<#else>
-					${columnName},<#t>
-				</#if>			
-			</#if>
-		</#list>
-	
-	</#list>
+	<trim>
+     <![CDATA[
+       INSERT INTO ${tableBean.getTableName()}
+		(
+	 <#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
+	 	<#list columnlist as  columnBean >
+	 		<#assign columnName = columnBean.getColumnName() >
+	 		<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
+	 			<#assign columnName ="`"+columnName+"`" >
+	 		</#if>
+	 		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+	 			<#if (columnBean_index == 0)>
+	 	  ${columnName}<#rt>
+	 			<#else>
+	 	  ${columnName}<#t>
+	 			</#if>
+	 		<#else>
+	 			<#if (columnBean_index == 0)>
+	 	  ${columnName},<#rt>
+	 			<#else>
+	 	  ${columnName},<#t>
+	 			</#if>
+	 		</#if>
+	 	</#list>
+
+	 </#list>
 		)
-      VALUES
-      	(
-	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
-		<#list columnlist as  columnBean >
-			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
-			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
-				<#if (columnBean_index == 0)>
-			${r"#{"+columnJavaBeanName+"}"}<#rt>
-				<#else>
-					${r"#{"+columnJavaBeanName+"}"}<#t>
-				</#if>	
-			<#else>
-				<#if (columnBean_index == 0)>
-			${r"#{"+columnJavaBeanName+"}"},<#rt>
-				<#else>
-					${r"#{"+columnJavaBeanName+"}"},<#t>
-				</#if>			
-			</#if>
-		</#list>
-	
-	</#list>
-      	)
-    ]]>
+       VALUES
+       	(
+	 <#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
+	  	<#list columnlist as  columnBean >
+	  		<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
+	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+	  			<#if (columnBean_index == 0)>
+	  	  ${r"#{"+columnJavaBeanName+"}"}<#rt>
+	  			<#else>
+	  	  ${r"#{"+columnJavaBeanName+"}"}<#t>
+	  			</#if>
+	  		<#else>
+	  			<#if (columnBean_index == 0)>
+	  	  ${r"#{"+columnJavaBeanName+"}"},<#rt>
+	  			<#else>
+	      ${r"#{"+columnJavaBeanName+"}"},<#t>
+	  			</#if>
+	  		</#if>
+	  	</#list>
+
+	  </#list>
+        )
+      ]]>
+    </trim>
   </insert>
 <#else>
   <!-- insert value sql -->
   <insert id="insert" >
-    <![CDATA[
-      INSERT INTO ${tableBean.getTableName()}
-        (
-	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
-		<#list columnlist as  columnBean >
-			<#assign columnName = columnBean.getColumnName() >
-			<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
-				<#assign columnName ="`"+columnName+"`" >
-			</#if>
-			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
-				<#if (columnBean_index == 0)>
-			${columnName}<#rt>
-				<#else>
-					${columnName}<#t>
-				</#if>	
-			<#else>
-				<#if (columnBean_index == 0)>
-			${columnName},<#rt>
-				<#else>
-					${columnName},<#t>
-				</#if>			
-			</#if>
-		</#list>
-	
-	</#list>
-		)
-      VALUES
-      	(
-	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
-		<#list columnlist as  columnBean >
-			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
-			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
-				<#if (columnBean_index == 0)>
-			${r"#{"+columnJavaBeanName+"}"}<#rt>
-				<#else>
-					${r"#{"+columnJavaBeanName+"}"}<#t>
-				</#if>	
-			<#else>
-				<#if (columnBean_index == 0)>
-			${r"#{"+columnJavaBeanName+"}"},<#rt>
-				<#else>
-					${r"#{"+columnJavaBeanName+"}"},<#t>
-				</#if>			
-			</#if>
-		</#list>
-	
-	</#list>
-      	)
-    ]]>
+	<trim>
+      <![CDATA[
+        INSERT INTO ${tableBean.getTableName()}
+          (
+	  <#list tableBean.getListColumn() ? chunk(5) as columnlist  >
+	  	<#list columnlist as  columnBean >
+	  		<#assign columnName = columnBean.getColumnName() >
+	  		<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
+	  			<#assign columnName ="`"+columnName+"`" >
+	  		</#if>
+	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+	  			<#if (columnBean_index == 0)>
+	  		${columnName}<#rt>
+	  			<#else>
+	  		${columnName}<#t>
+	  			</#if>
+	  		<#else>
+	  			<#if (columnBean_index == 0)>
+	  		${columnName},<#rt>
+	  			<#else>
+	  		${columnName},<#t>
+	  			</#if>
+	  		</#if>
+	  	</#list>
+
+	  </#list>
+	      )
+        VALUES
+      	  (
+	  <#list tableBean.getListColumn() ? chunk(5) as columnlist  >
+	  	<#list columnlist as  columnBean >
+	  		<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
+	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+	  			<#if (columnBean_index == 0)>
+	  		${r"#{"+columnJavaBeanName+"}"}<#rt>
+	  			<#else>
+	  		${r"#{"+columnJavaBeanName+"}"}<#t>
+	  			</#if>
+	  		<#else>
+	  			<#if (columnBean_index == 0)>
+	  		${r"#{"+columnJavaBeanName+"}"},<#rt>
+	  			<#else>
+	  		${r"#{"+columnJavaBeanName+"}"},<#t>
+	  			</#if>
+	  		</#if>
+	  	</#list>
+
+	  </#list>
+        )
+      ]]>
+    </trim>
   </insert>
 </#if>
 
@@ -369,7 +401,6 @@
   </insert>
 </#if>
 
-
 <#if (idExtra?? )  >
   <!--insert batch into table -->
   <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
@@ -383,44 +414,44 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-			${columnName}<#rt>
+		${columnName}<#rt>
 				<#else>
-					${columnName}<#t>
+		${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-			${columnName},<#rt>
+		${columnName},<#rt>
 				<#else>
-					${columnName},<#t>
+		${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-		)
+	  )
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
-    	(
+	  (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-			${r"#{item."+columnJavaBeanName+"}"}<#rt>
+		${r"#{item."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-					${r"#{item."+columnJavaBeanName+"}"}<#t>
+		${r"#{item."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-			${r"#{item."+columnJavaBeanName+"}"},<#rt>
+		${r"#{item."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-					${r"#{item."+columnJavaBeanName+"}"},<#t>
+		${r"#{item."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>    	
-    	)
+      )
     </foreach>
   </insert>
 <#else>
@@ -436,44 +467,44 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-			${columnName}<#rt>
+		${columnName}<#rt>
 				<#else>
-					${columnName}<#t>
+		${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-			${columnName},<#rt>
+		${columnName},<#rt>
 				<#else>
-					${columnName},<#t>
+		${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-		)
+	  )
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
-    	(
+      (
 	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-			${r"#{item."+columnJavaBeanName+"}"}<#rt>
+		${r"#{item."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-					${r"#{item."+columnJavaBeanName+"}"}<#t>
+		${r"#{item."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-			${r"#{item."+columnJavaBeanName+"}"},<#rt>
+		${r"#{item."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-					${r"#{item."+columnJavaBeanName+"}"},<#t>
+		${r"#{item."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>    	
-    	)
+      )
     </foreach>
   </insert>
 </#if>
@@ -483,9 +514,9 @@
   <select id="getById" resultMap="${resultMapId}">
     SELECT
     <include refid="columns"/>
-    <![CDATA[
-      FROM ${tableBean.getTableName() } 
-    ]]>
+      <![CDATA[
+        FROM ${tableBean.getTableName() }
+      ]]>
 	<where>
 	<#list tableBean.getListColumn() as columnBean  >
 		<#assign columnName = columnBean.columnName >
@@ -505,73 +536,91 @@
 	<#if (tableBean.getPrimaryKeyNum() == 1 )  >	
   <!-- get the records by ids -->
   <select id="getByIds" resultMap="${resultMapId}" parameterType="java.util.List">
-    SELECT
-    <include refid="columns"/>
-    FROM ${tableBean.getTableName()}
-	  WHERE ${ids} in
-    <foreach collection="list" item="item" open="(" separator="," close=")">
-     ${r"#{item}"}      
-    </foreach>
+	<trim>
+      SELECT
+      <include refid="columns"/>
+      FROM ${tableBean.getTableName()}
+	    WHERE ${ids} in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+       ${r"#{item}"}
+      </foreach>
+    </trim>
   </select>  
 	<#else>
   <!-- get the records by ids -->
   <select id="getByIds" resultMap="${resultMapId}" parameterType="java.util.List">
-    SELECT
-    <include refid="columns"/>
-    FROM ${tableBean.getTableName()}  
-	  WHERE (${ids}) in
-    <foreach collection="list" item="item" open="(" separator="," close=")">
-      (${idJavaBeanNamesWithItem})
-    </foreach>
+    <trim>
+      SELECT
+      <include refid="columns"/>
+      FROM ${tableBean.getTableName()}
+	    WHERE (${ids}) in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+        (${idJavaBeanNamesWithItem})
+      </foreach>
+    </trim>
   </select>	
 	</#if>
 </#if>
 
   <!-- get the records by condition -->
   <select id="select" resultMap="${resultMapId}">
-    SELECT 
-    	<include refid="columns"/>
-		FROM ${tableBean.getTableName()}
-    <include refid="where_with_alias_sql"/>
-    <include refid="sort_sql"/>
-    <choose>
-      <when test="limit != null  and offset != null">
-        limit ${r"#{limit}"} offset  ${r"#{offset}"}  
-      </when>
-      <when test="limit != null  and offset == null">
-        limit ${r"#{limit}"} 
-      </when>
-    </choose>
+	<trim>
+      SELECT
+      	<include refid="columns"/>
+	  	FROM ${tableBean.getTableName()}
+	  <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+      <include refid="sort_sql"/>
+      <choose>
+        <when test="limit != null  and offset != null">
+          limit ${r"#{limit}"} offset  ${r"#{offset}"}
+        </when>
+        <when test="limit != null  and offset == null">
+          limit ${r"#{limit}"}
+        </when>
+      </choose>
+    </trim>
   </select>
 
   <!-- get the count by condition -->
   <select id="selectCount" resultType="int">
-    SELECT count(1) FROM ${tableBean.getTableName()}
-    <include refid="where_with_alias_sql"/>
+	<trim>
+      SELECT count(1) FROM ${tableBean.getTableName()}
+	  <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+    </trim>
   </select>
  
   <!-- delete the records by conditions -->
   <delete id="delete">
-    DELETE FROM ${tableBean.getTableName()}
-    <include refid="where_sql"/>
+	<trim>
+      DELETE FROM ${tableBean.getTableName()}
+      <where>
+        <include refid="where_sql"/>
+      </where>
+    </trim>
   </delete>
 
 <#if (tableBean.getPrimaryKeyNum() gt 0 )  >
   <!-- deleted the records by id -->
   <delete id="deleteById">
-    DELETE FROM ${tableBean.getTableName() }
-    <where>
-	<#list tableBean.getListColumn() as columnBean  >
-		<#assign columnName = columnBean.columnName >
-		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
-		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
-			<#assign columnName = "`" + columnName + "`"  >
-		</#if>
-		<#if (columnBean.isPrimaryKey) >
-		and ${columnName} = ${r"#{" + javabeanFieldName + "}"}
-		</#if>
-	</#list>	
-    </where>
+	<trim>
+      DELETE FROM ${tableBean.getTableName() }
+      <where>
+	  <#list tableBean.getListColumn() as columnBean  >
+	  	<#assign columnName = columnBean.columnName >
+	  	<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+	  	<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+	  		<#assign columnName = "`" + columnName + "`"  >
+	  	</#if>
+	  	<#if (columnBean.isPrimaryKey) >
+	  	and ${columnName} = ${r"#{" + javabeanFieldName + "}"}
+	  	</#if>
+	  </#list>
+      </where>
+    </trim>
   </delete>
 </#if>
 
@@ -579,20 +628,24 @@
 	<#if (tableBean.getPrimaryKeyNum() == 1 )  >	
   <!-- deleted the records by ids -->
   <delete id="deleteByIds" parameterType="java.util.List">
-    delete from ${tableBean.getTableName()} 
-      WHERE ${ids} in
-    <foreach collection="list" item="item" open="(" separator="," close=")">      
-	  ${r"#{item}"}
-    </foreach>
+	<trim>
+      delete from ${tableBean.getTableName()}
+        WHERE ${ids} in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+	    ${r"#{item}"}
+      </foreach>
+    </trim>
   </delete> 
 	<#else>
   <!-- deleted the records by ids -->
   <delete id="deleteByIds" parameterType="java.util.List">
-    delete from ${tableBean.getTableName() }
-	  WHERE (${ids}) in
-    <foreach collection="list" item="item" open="(" separator="," close=")">
-      (${idJavaBeanNamesWithItem})
-    </foreach>
+	<trim>
+      delete from ${tableBean.getTableName() }
+	    WHERE (${ids}) in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+        (${idJavaBeanNamesWithItem})
+      </foreach>
+    </trim>
   </delete>
 	</#if>
 </#if>

@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com-txyd</groupId>
-			<artifactId>txyd-utils</artifactId>
+			<artifactId>txyd-commons</artifactId>
 			<version>${self.version}</version>
 		</dependency>
 		<dependency>

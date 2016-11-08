@@ -6,7 +6,7 @@
 		<artifactId>txyd</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>txyd-utils</artifactId>
+	<artifactId>txyd-commons</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>commons-net</groupId>
