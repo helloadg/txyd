@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FreemarkerCreateMapperBase extends FreemarkerCreateBase {
+public class FreemarkerCreateBaseMapper extends FreemarkerCreateBase {
 	
 	public static boolean  create(List<DatabaseBean> listDb,JavaConfigBean jcb,Configuration configuration) throws Exception {
 		long startTime=System.currentTimeMillis();
@@ -48,7 +48,7 @@ public class FreemarkerCreateMapperBase extends FreemarkerCreateBase {
 		context.put("BaseMapper",BaseMapper);
 	    
 	    
-	    Template template = configuration.getTemplate("ftl/mapperType/javaMapperBase.ftl");	        
+	    Template template = configuration.getTemplate("ftl/mapperType/javaMapperBase.ftl");
         StringWriter writer = new StringWriter();
         template.process(context, writer);
         

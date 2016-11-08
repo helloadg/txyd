@@ -14,6 +14,7 @@ public abstract class ${BaseWithKeyServiceImpl}<T,ID> extends ${BaseServiceImpl}
 	@Autowired
 	private ${BaseKeyMapper}<T, ID> ${baseKeyMapper};
 
+
 	@Override
 	public int updateById(T t, ID id) {
 		return this.${baseKeyMapper}.updateById(t,id);
@@ -21,7 +22,16 @@ public abstract class ${BaseWithKeyServiceImpl}<T,ID> extends ${BaseServiceImpl}
 
     @Override
     public int updateByIds(T t, List<ID> ids) {
-    	return this.${baseKeyMapper}.updateByIds(t,ids);
+		List<List<ID>> list = splite(ids);
+		int count = 0;
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					count += this.${baseKeyMapper}.updateByIds(t,list.get(i));
+				}
+			}
+		}
+		return count;
     }
 
 	@Override
@@ -30,8 +40,17 @@ public abstract class ${BaseWithKeyServiceImpl}<T,ID> extends ${BaseServiceImpl}
 	}
 	
 	@Override
-	public int deleteByIds(List<ID> list) {;
-		return this.${baseKeyMapper}.deleteByIds(list);
+	public int deleteByIds(List<ID> ids) {
+		List<List<ID>> list = splite(ids);
+		int count = 0;
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					count += this.${baseKeyMapper}.deleteByIds(list.get(i));
+				}
+			}
+		}
+		return count;
 	}
 
 	@Override
@@ -41,7 +60,18 @@ public abstract class ${BaseWithKeyServiceImpl}<T,ID> extends ${BaseServiceImpl}
 	
 	@Override
 	public List<T> getByIds(List<ID>  ids) {
-		return this.${baseKeyMapper}.getByIds(ids);
+		List<T> result = new ArrayList<>();
+		
+		List<List<ID>> list = splite(ids);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					result.addAll(this.${baseKeyMapper}.getByIds(list.get(i))) ;
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 }

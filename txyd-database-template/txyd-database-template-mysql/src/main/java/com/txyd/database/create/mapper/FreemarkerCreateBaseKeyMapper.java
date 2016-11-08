@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FreemarkerCreateMapperBaseKey extends FreemarkerCreateBase {
+public class FreemarkerCreateBaseKeyMapper extends FreemarkerCreateBase {
 	
 	public static boolean create(List<DatabaseBean> listDb, JavaConfigBean jcb, Configuration configuration) throws Exception {
 		long startTime = System.currentTimeMillis();

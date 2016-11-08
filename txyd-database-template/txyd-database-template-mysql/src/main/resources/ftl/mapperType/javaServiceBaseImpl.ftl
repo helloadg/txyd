@@ -8,7 +8,7 @@ import ${jcb.basePackageBaseMapper}.${BaseMapper};
 import ${jcb.basePackageBaseService}.${BaseService};
 import ${jcb.basePackageBaseService}.${BaseKeyService};
 
-public abstract class ${BaseServiceImpl}<T> implements ${BaseService}<T> {
+public abstract class ${BaseServiceImpl}<T> extends ${BaseImpl} implements ${BaseService}<T> {
 	
 	@Autowired
 	private ${BaseMapper}<T> ${baseMapper};
@@ -24,8 +24,17 @@ public abstract class ${BaseServiceImpl}<T> implements ${BaseService}<T> {
 	}
 	
 	@Override	
-	public int insertBatch(List<T> list) {
-		return this.${baseMapper}.insertBatch(list);
+	public int insertBatch(List<T> tList) {
+		List<List<T>> list = splite(tList);
+		int count = 0;
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					count += this.${baseMapper}.insertBatch(list.get(i));
+				}
+			}
+		}
+		return count;
 	}
 
     @Override

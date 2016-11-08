@@ -7,74 +7,74 @@ import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.WithItem;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class Test {
-
-    public static List<OrderByElement> extraOrderBy(SelectBody selectBody) {
-        if ((selectBody instanceof PlainSelect)) {
-            List<OrderByElement> orderByElements = ((PlainSelect) selectBody).getOrderByElements();
-            ((PlainSelect) selectBody).setOrderByElements(null);
-            return orderByElements;
-        }
-        if ((selectBody instanceof WithItem)) {
-            WithItem withItem = (WithItem) selectBody;
-            if (withItem.getSelectBody() != null) {
-                return extraOrderBy(withItem.getSelectBody());
-            }
-        } else {
-            SetOperationList operationList = (SetOperationList) selectBody;
-            if ((operationList.getSelects() != null) && (operationList.getSelects().size() > 0)) {
-                List<SelectBody> plainSelects = operationList.getSelects();
-                List<OrderByElement> orderByElements = ((PlainSelect) plainSelects.get(plainSelects.size() - 1)).getOrderByElements();
-                ((PlainSelect) plainSelects.get(plainSelects.size() - 1)).setOrderByElements(null);
-                return orderByElements;
-            }
-        }
-        return null;
-    }
-
-    public static void checkSql() {
-        String sqlOld = "";
-        //sql+="SELECT schema_name,comments from (select * from tableName t where t.id=? and t.name=? order by t.id) r where r.id=? and r.name=? order by r.id   ";
-        sqlOld += "SELECT\t\n";
-        sqlOld += "		\n ";
-        sqlOld += "	     \n";
-        sqlOld += "		schema_name,comments\n";
-        sqlOld += "	     \n";
-        sqlOld += "	 \n";
-        sqlOld += "		 from\n";
-        sqlOld += "	     \n";
-        sqlOld += "	    (\n";
-        sqlOld += "	     SELECT\n";
-        sqlOld += "				r.schema_name,\n";
-        sqlOld += "				concat( \n";
-        sqlOld += "					'DEFAULT_CHARACTER_SET_NAME:',	\n";
-        sqlOld += "					ifnull(r.DEFAULT_CHARACTER_SET_NAME,'') ,\n";
-        sqlOld += "					';DEFAULT_COLLATION_NAME',\n";
-        sqlOld += "					ifnull(r.DEFAULT_COLLATION_NAME,'')\n";
-        sqlOld += "				) as comments\n";
-        sqlOld += "				\n";
-        sqlOld += "			FROM\n";
-        sqlOld += "				information_schema.SCHEMATA r\n";
-        sqlOld += "			WHERE\n";
-        sqlOld += "				r.SCHEMA_NAME = ?\n";
-        sqlOld += "\n";
-        sqlOld += "	    )t\n";
-        sqlOld = sqlOld.trim();
-
-        String[] sqlOldArray = sqlOld.split("'");
-
-
-        String sqlNew = sqlOld.replace("\t", " ").replace("\n", " ").replace("\r", " ").replace("*", "* ").replace(")", ") ");
-        while (sqlNew.contains("  ")) {
-            sqlNew = sqlNew.replace("  ", " ");
-        }
-        System.out.println(sqlNew);
+	
+	public static List<OrderByElement> extraOrderBy(SelectBody selectBody) {
+		if ((selectBody instanceof PlainSelect)) {
+			List<OrderByElement> orderByElements = ((PlainSelect) selectBody).getOrderByElements();
+			((PlainSelect) selectBody).setOrderByElements(null);
+			return orderByElements;
+		}
+		if ((selectBody instanceof WithItem)) {
+			WithItem withItem = (WithItem) selectBody;
+			if (withItem.getSelectBody() != null) {
+				return extraOrderBy(withItem.getSelectBody());
+			}
+		} else {
+			SetOperationList operationList = (SetOperationList) selectBody;
+			if ((operationList.getSelects() != null) && (operationList.getSelects().size() > 0)) {
+				List<SelectBody> plainSelects = operationList.getSelects();
+				List<OrderByElement> orderByElements = ((PlainSelect) plainSelects.get(plainSelects.size() - 1)).getOrderByElements();
+				((PlainSelect) plainSelects.get(plainSelects.size() - 1)).setOrderByElements(null);
+				return orderByElements;
+			}
+		}
+		return null;
+	}
+	
+	public static void checkSql() {
+		String sqlOld = "";
+		//sql+="SELECT schema_name,comments from (select * from tableName t where t.id=? and t.name=? order by t.id) r where r.id=? and r.name=? order by r.id   ";
+		sqlOld += "SELECT\t\n";
+		sqlOld += "		\n ";
+		sqlOld += "	     \n";
+		sqlOld += "		schema_name,comments\n";
+		sqlOld += "	     \n";
+		sqlOld += "	 \n";
+		sqlOld += "		 from\n";
+		sqlOld += "	     \n";
+		sqlOld += "	    (\n";
+		sqlOld += "	     SELECT\n";
+		sqlOld += "				r.schema_name,\n";
+		sqlOld += "				concat( \n";
+		sqlOld += "					'DEFAULT_CHARACTER_SET_NAME:',	\n";
+		sqlOld += "					ifnull(r.DEFAULT_CHARACTER_SET_NAME,'') ,\n";
+		sqlOld += "					';DEFAULT_COLLATION_NAME',\n";
+		sqlOld += "					ifnull(r.DEFAULT_COLLATION_NAME,'')\n";
+		sqlOld += "				) as comments\n";
+		sqlOld += "				\n";
+		sqlOld += "			FROM\n";
+		sqlOld += "				information_schema.SCHEMATA r\n";
+		sqlOld += "			WHERE\n";
+		sqlOld += "				r.SCHEMA_NAME = ?\n";
+		sqlOld += "\n";
+		sqlOld += "	    )t\n";
+		sqlOld = sqlOld.trim();
+		
+		String[] sqlOldArray = sqlOld.split("'");
+		
+		
+		String sqlNew = sqlOld.replace("\t", " ").replace("\n", " ").replace("\r", " ").replace("*", "* ").replace(")", ") ");
+		while (sqlNew.contains("  ")) {
+			sqlNew = sqlNew.replace("  ", " ");
+		}
+		System.out.println(sqlNew);
 
 //		String sqlWithOutOrderBy=sqlOld;
 //		int lastIndexOfOrderBy=sqlOld.toLowerCase().lastIndexOf("order by");
@@ -91,17 +91,17 @@ public class Test {
 //		}else{
 //			sqlCount="select count(1) from ("+sqlOld+")";
 //		}
-
-
-    }
-
-
-    public static void checkPattern() {
-        Pattern SELECT_PATTERN = Pattern.compile("^select\\s+(\\b[\\s\\S]+?)\\s*\\bfrom\\b([\\S\\s]+?)(\\border\\s+by[\\s\\S]+)$",
-                Pattern.CASE_INSENSITIVE);
-        String distinct = "DISTINCT";
-        String str = "";
-        str += "SELECT schema_name,comments from (select * from tableName t where t.id=? and t.name=? order by t.id) r where r.id=? and r.name=? order by r.id   ";
+		
+		
+	}
+	
+	
+	public static void checkPattern() {
+		Pattern SELECT_PATTERN = Pattern.compile("^select\\s+(\\b[\\s\\S]+?)\\s*\\bfrom\\b([\\S\\s]+?)(\\border\\s+by[\\s\\S]+)$",
+				Pattern.CASE_INSENSITIVE);
+		String distinct = "DISTINCT";
+		String str = "";
+		str += "SELECT schema_name,comments from (select * from tableName t where t.id=? and t.name=? order by t.id) r where r.id=? and r.name=? order by r.id   ";
 //		str+="SELECT";
 //		str+="		 ";
 //		str+="	     ";
@@ -126,91 +126,124 @@ public class Test {
 //		str+="				r.SCHEMA_NAME = ?";
 //		str+="";
 //		str+="	    )t";
-        Matcher matcher = SELECT_PATTERN.matcher(str);
-        if (matcher.find()) {
-            String fields = matcher.group(1);
-            String fromExpression = matcher.group(2);
-
-            StringBuilder sbSql = new StringBuilder(str.length() + 20);
-            sbSql.append("select ");
-            fields = fields.trim();
-            if (fields.length() > distinct.length()
-                    && distinct.equalsIgnoreCase(fields.substring(0, distinct.length()))) {
-                sbSql.append("COUNT ({columns} as cn ) ".replace("{columns}", fields));
-            } else {
-                sbSql.append("COUNT(1) as cn");
-            }
-            sbSql.append(" from ");
-            sbSql.append(fromExpression);
-            System.out.println(sbSql);
-        } else {
-            System.out.println("匹配不上");
-        }
-
-    }
-
-    public static void checkPlanTimes(List<Integer> planTimes) {
-        for (int i = 0; i < planTimes.size(); i += 2) {
-            if (i + 2 < planTimes.size()) {
-                int startTime = planTimes.get(i);
-                int endTime = planTimes.get(i + 1);
-                for (int j = i + 2; j < planTimes.size(); j += 2) {
-                    if (j + 2 < planTimes.size()) {
-                        if (startTime >= planTimes.get(j) && startTime <= planTimes.get(j + 1)) {
-                            System.out.println("计划时间不能交叉! ");
-                        }
-                        if (endTime >= planTimes.get(j) && endTime <= planTimes.get(j + 1)) {
-                            System.out.println("计划时间不能交叉! ");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    static final int hash(Object key) {
-        int h;
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+		Matcher matcher = SELECT_PATTERN.matcher(str);
+		if (matcher.find()) {
+			String fields = matcher.group(1);
+			String fromExpression = matcher.group(2);
+			
+			StringBuilder sbSql = new StringBuilder(str.length() + 20);
+			sbSql.append("select ");
+			fields = fields.trim();
+			if (fields.length() > distinct.length()
+					&& distinct.equalsIgnoreCase(fields.substring(0, distinct.length()))) {
+				sbSql.append("COUNT ({columns} as cn ) ".replace("{columns}", fields));
+			} else {
+				sbSql.append("COUNT(1) as cn");
+			}
+			sbSql.append(" from ");
+			sbSql.append(fromExpression);
+			System.out.println(sbSql);
+		} else {
+			System.out.println("匹配不上");
+		}
+		
+	}
+	
+	public static void checkPlanTimes(List<Integer> planTimes) {
+		for (int i = 0; i < planTimes.size(); i += 2) {
+			if (i + 2 < planTimes.size()) {
+				int startTime = planTimes.get(i);
+				int endTime = planTimes.get(i + 1);
+				for (int j = i + 2; j < planTimes.size(); j += 2) {
+					if (j + 2 < planTimes.size()) {
+						if (startTime >= planTimes.get(j) && startTime <= planTimes.get(j + 1)) {
+							System.out.println("计划时间不能交叉! ");
+						}
+						if (endTime >= planTimes.get(j) && endTime <= planTimes.get(j + 1)) {
+							System.out.println("计划时间不能交叉! ");
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	static final int hash(Object key) {
+		int h;
+		return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
 //		return key.hashCode();
-    }
-
-    public static void main(String[] args) throws Exception {
-        {
-            HashSet<Long> set = new HashSet<>();
-            for(int i=0;i<100;i++){
-                set.add(i+10000L);
-            }
-            System.out.println(set.contains(10000+12));
-            System.out.println(set.contains(10000+12L));
-            System.out.println(set.contains(10000L+12L));
-        }
-        {
+	}
+	
+	public static <T> List<List<T>> splite(List<T> all, int stepSize) {
+		List<List<T>> list = new ArrayList<>();
+		if (all == null || all.size() == 0 || stepSize < 1) {
+			return list;
+		}
+		int size = all.size();
+		int step = size / stepSize + 1;
+		for (int i = 0; i < step; i++) {
+			int start = i * stepSize;
+			int end = start + stepSize;
+			if (start < size) {
+				if (end > size) {
+					end = size;
+				}
+				List<T> item = all.subList(start, end);
+				if (item != null && item.size() > 0) {
+					list.add(item);
+				}
+			}
+		}
+		return list;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		{
+			List<Integer> all = new ArrayList<>();
+			for (int i = 0; i < 21; i++) {
+				all.add(i + 1);
+			}
+			{
+				List<List<Integer>> list = splite(all, 9);
+				System.out.println(list);
+			}
+		}
+		{
+//            HashSet<Long> set = new HashSet<>();
+//            for(int i=0;i<100;i++){
+//                set.add(i+10000L);
+//            }
+//            System.out.println(set.contains(10000+12));
+//            System.out.println(set.contains(10000+12L));
+//            System.out.println(set.contains(10000L+12L));
+		}
+		{
 //            Set<Object> setTemp= new HashSet<Object>(){{add("sss");add("sss2");}};
 //            Set<Number> setTemp2= new HashSet<Number>(){{add(1);add(2);}};
 //            Set<Number> set = Collections.checkedSet(new HashSet<>(), Number.class);
 //            set = setTemp2;
-
-        }
-        {
+			
+		}
+		{
 //            Comparator<Son> comparator=(e1,e2)->e1.getId()-e2.getId();
 //            Map<Son,String> map=new TreeMap<>(comparator);
 //            Set<Son> set = new TreeSet<>(comparator);
-        }
-        {
+		}
+		{
 //			InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream("");
 //			Properties properties= new Properties();
 //			properties.load(in);
 //			System.out.println(properties.getProperty("key"));
-        }
-        {
+		}
+		{
 //			Deque<Integer> deque=new ArrayDeque<>();
 //			for(int i=0;i<10;i++){
 //				deque.push(i);
 //			}
 //			System.out.println(deque);
 //			System.out.println(deque.peek());
-        }
-        {
+		}
+		{
 //			Stack<Integer> stack=new Stack<>();
 //			for(int  i=0; i<10;i++){
 //				stack.push(i);
@@ -219,8 +252,8 @@ public class Test {
 //			System.out.println(stack.search(0));
 //			System.out.println(stack.get(0));
 //			System.out.println(stack.peek());
-        }
-        {
+		}
+		{
 //			Vector<String> vector=new Vector<>();
 //			vector.add("a");
 //			vector.add("b");
@@ -231,9 +264,9 @@ public class Test {
 //			for(Enumeration<String> e =vector.elements();e.hasMoreElements();){
 //				System.out.println(e.nextElement());
 //			}
-
-        }
-        {
+			
+		}
+		{
 //			LinkedList<String> lkList=new LinkedList<>();
 //			for (int  i=0;  i<26;i++) {
 //				lkList.add(new Character((char) (i+'a')).toString());
@@ -246,8 +279,8 @@ public class Test {
 //			lkList.remove("C");
 //			System.out.println(lkList);
 //			System.out.println(lkList.get(0));
-        }
-        {
+		}
+		{
 //			Set<Integer> set=new HashSet<>();
 //			set.add(1011);
 //			set.add(1109);
@@ -266,8 +299,8 @@ public class Test {
 //			}
 //
 //			System.out.println("\n*********************************************");
-        }
-        {
+		}
+		{
 //			Random random=new Random();
 //			int length=10;
 //			int start=1000;
@@ -281,9 +314,9 @@ public class Test {
 //								.replace("{hash}", hash(item)+"")));
 //			}
 //			System.out.println();
-
-        }
-        {
+			
+		}
+		{
 //			int length=30;
 //			Set<Integer> set2=new HashSet<>();
 //			set2.add(2);
@@ -332,7 +365,7 @@ public class Test {
 //
 //				}
 //			}
-            {
+			{
 
 //				for(int i=0;i<length;i++){
 //					Integer temp=(int)(Math.random()*length);
@@ -374,21 +407,21 @@ public class Test {
 //					in=scanner.nextLine();
 //
 //				}
-            }
-
-        }
-        {
+			}
+			
+		}
+		{
 //			double dd=3.0*0.1;
 //			double tt=0.3;
 //			System.out.println(3*0.1==0.3);
 //			System.out.println(3.0*0.1==0.3);
 //			System.out.println(3.0*0.2==0.6);
 //			System.out.println(dd==tt);
-        }
-        {
+		}
+		{
 //			System.out.println(Class.forName("java.lang.Integer"));
-        }
-        {
+		}
+		{
 //			int [] arr=new int[]{8,2,1,0,3};
 //			int[] index=new int[]{2,0,3,2,4,0,1,3,2,3,3};
 //			String tel="";
@@ -396,9 +429,9 @@ public class Test {
 //				tel+=arr[i];
 //			}
 //			System.out.println(tel);
-
-        }
-        {
+			
+		}
+		{
 //			String sql="SELECT * FROM `t_lottery_activity` r where  r.`name` like '%活动%' order by (id+100*random()) asc";
 //			sql="SELECT schema_name,comments   from\\n (select * from tableName t where t.id=? and t.name like '%活\\'动%' order by t.name desc) r where r.id=? and r.name=? order by r.id asc  ";
 //			{
@@ -419,8 +452,8 @@ public class Test {
 //			for(String string:sqlArr){
 //				System.out.println(string);
 //			}
-        }
-        {
+		}
+		{
 //			String sql="SELECT * FROM `t_lottery_activity` r where  r.`name` like '%活动%' order by (id+100*random()) asc";
 //			sql="SELECT schema_name,comments from (select * from tableName t where t.id=? and t.name like '%活\'动%' order by t.id) r where r.id=? and r.name=? order by r.id   ";
 //			Statement stmt = CCJSqlParserUtil.parse(sql);
@@ -430,8 +463,8 @@ public class Test {
 ////		    list.stream().toArray(String[]::new);
 //		    list.forEach(e->{System.out.println(e.toString());});
 //		    System.out.println(selectBody.toString());
-        }
-        {
+		}
+		{
 /*			System.out.println("\n\t".length());
             String[] strings = "select * from tt r where r.name like  'xxxx\''".split("'");
 			int i=0;
@@ -441,12 +474,12 @@ public class Test {
 				System.out.println(i+++":"+str);
 			}
 			System.out.println("++++++++++++++++");*/
-        }
-        {
+		}
+		{
 //			Test.checkSql();
-
-        }
-        {
+			
+		}
+		{
 //			List<Integer> times=new ArrayList<>();
 //			long startTime=System.currentTimeMillis();
 //			for(int i=0;i<396;i++){
@@ -457,9 +490,9 @@ public class Test {
 //			long endTime=System.currentTimeMillis();
 //			System.out.println(endTime-startTime);
 //			System.out.println(times.toString());
-
-        }
-        {
+			
+		}
+		{
 //			String url="121212ddd/ddddsdfsfd/tt?id=1";
 //			int index=url.indexOf("?");
 //			if(index>0){
@@ -482,10 +515,10 @@ public class Test {
 //			levels.add(Integer.valueOf(3));
 //			levels.add(Integer.valueOf(4));
 //			System.out.println(levels.toString());
-
-
-        }
-        {
+			
+			
+		}
+		{
 //			Set<Integer> set =new HashSet<>();
 //			for(int i=0;i<100;i++){
 //	    		int tmp = (int)(1+Math.random()*(3-1+1));
@@ -493,13 +526,13 @@ public class Test {
 //	    		System.out.println(tmp);
 //			}
 //    		System.out.println(set);
-        }
-        {
+		}
+		{
 //			String str="1122";
 //			Integer i=Integer.valueOf(str);
 //			System.out.println();
-        }
-        {
+		}
+		{
 //			String[] arrayLocal=new String[]{
 //					"id",
 //					"city_id"
@@ -524,9 +557,9 @@ public class Test {
 //
 ////			System.out.println(setLocal.containsAll(setRemote));
 ////			System.out.println(setRemote.containsAll(setLocal));
-
-        }
-        {
+			
+		}
+		{
 //			System.out.println(Integer.MAX_VALUE);
 //			System.out.println(Long.MAX_VALUE);
 //			System.out.println(System.getProperty("java.io.tmpdir"));
@@ -535,8 +568,8 @@ public class Test {
 //
 //			}
 //
-        }
-        {
+		}
+		{
 //			File dir=new File("G:/image1/image1");
 //
 //			for(File file:dir.listFiles()){
@@ -555,8 +588,8 @@ public class Test {
 ////				System.out.println("<img width='100px' height='50px' src='http://img.xxxxxxxxx.com/mall-lottery-choujiang-"+file.getName()+"' />");
 //				
 //			}
-        }
-        {
+		}
+		{
 //			try{
 //				double e=1/0;
 //				
@@ -571,13 +604,13 @@ public class Test {
 //				System.out.println("#####################");
 //				
 //			}
-
-        }
-        {
+			
+		}
+		{
 //			System.out.println(Integer.MAX_VALUE);
-        }
-
-        {
+		}
+		
+		{
 //			String[] strArray=new String[1];
 //			List<String> strList=new ArrayList<>();
 //			strList.add("1");
@@ -587,8 +620,8 @@ public class Test {
 //
 //				System.out.println(str);
 //			}
-        }
-        {
+		}
+		{
 //			String comments="";
 //
 //			comments+="/**\n";
@@ -605,13 +638,13 @@ public class Test {
 //				System.out.println(str);
 //				
 //			}
-        }
-        {
+		}
+		{
 //			String str="12.3";
 //			System.out.println(str.substring(str.lastIndexOf(".")));
-        }
-
-
-    }
-
+		}
+		
+		
+	}
+	
 }

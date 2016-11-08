@@ -21,6 +21,7 @@ public class FreemarkerCreateJavaBaseKeyServiceImpl extends FreemarkerCreateBase
 		}
 		String BaseKeyService = "BaseKeyService";
 		String BaseKeyServiceImpl = "BaseKeyServiceImpl";
+		String BaseImpl = "BaseImpl";
 		{
 			String Base = "Base";
 			{
@@ -48,6 +49,7 @@ public class FreemarkerCreateJavaBaseKeyServiceImpl extends FreemarkerCreateBase
 			}
 			BaseKeyService = Base + "Key" + Service;
 			BaseKeyServiceImpl = Base + "Key" + Service + Impl;
+			BaseImpl = Base + Impl;
 		}
 		String BaseMapper = "BaseMapper";
 		String BaseKeyMapper = "BaseKeyMapper";
@@ -86,6 +88,7 @@ public class FreemarkerCreateJavaBaseKeyServiceImpl extends FreemarkerCreateBase
 		context.put("jcb", jcb);
 		context.put("BaseKeyService", BaseKeyService);
 		context.put("BaseKeyServiceImpl", BaseKeyServiceImpl);
+		context.put("BaseImpl", BaseImpl);
 		context.put("BaseMapper", BaseMapper);
 		context.put("BaseKeyMapper", BaseKeyMapper);
 		context.put("baseMapper", baseMapper);
@@ -105,7 +108,7 @@ public class FreemarkerCreateJavaBaseKeyServiceImpl extends FreemarkerCreateBase
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseServiceImpl文件
 		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseServiceImpl);
-		System.out.println("创建baseServiceImpl耗时：" + (endTime - startTime) + "ms");
+		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		
 		

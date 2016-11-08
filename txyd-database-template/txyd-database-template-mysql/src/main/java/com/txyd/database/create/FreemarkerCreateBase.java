@@ -19,6 +19,7 @@ public abstract class FreemarkerCreateBase {
 		service,
 		baseService,
 		baseServiceImpl,
+		baseServiceBaseImpl,
 		serviceImpl,
 		mybatisConfigXml,
 		baseMybatisXml,
@@ -51,6 +52,8 @@ public abstract class FreemarkerCreateBase {
 			}else if(type==FileType.service){
 				outModel=jcb.getBasePackageService().toLowerCase().replace(".", "/");				
 			}else if(type==FileType.baseServiceImpl){
+				outModel=jcb.getBasePackageBaseServiceImpl().toLowerCase().replace(".", "/");
+			}else if(type==FileType.baseServiceBaseImpl){
 				outModel=jcb.getBasePackageBaseServiceImpl().toLowerCase().replace(".", "/");
 			}else if(type==FileType.serviceImpl){
 				outModel=jcb.getBasePackageServiceImpl().toLowerCase().replace(".", "/");				

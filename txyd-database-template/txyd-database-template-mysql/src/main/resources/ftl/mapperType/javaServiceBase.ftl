@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 
 
 public interface ${BaseService}<T> {
+
 	/**
 	 * 保存
 	 * @param object

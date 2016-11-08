@@ -111,7 +111,7 @@ public class FreemarkerCreateJavaBaseWithKeyServiceImpl extends FreemarkerCreate
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseServiceImpl文件
 		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FreemarkerCreateBase.FileType.baseServiceImpl);
-		System.out.println("创建baseServiceImpl耗时：" + (endTime - startTime) + "ms");
+		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		
 		

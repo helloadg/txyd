@@ -9,13 +9,14 @@ import com.txyd.database.bean.TableBean;
 import com.txyd.database.create.javabean.FreemarkerCreateJavabean;
 import com.txyd.database.create.javabean.FreemarkerCreateJavabeanBase;
 import com.txyd.database.create.javabean.FreemarkerCreateJavabeanKey;
+import com.txyd.database.create.mapper.FreemarkerCreateBaseKeyMapper;
+import com.txyd.database.create.mapper.FreemarkerCreateBaseMapper;
 import com.txyd.database.create.mapper.FreemarkerCreateMapper;
-import com.txyd.database.create.mapper.FreemarkerCreateMapperBase;
-import com.txyd.database.create.mapper.FreemarkerCreateMapperBaseKey;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseKeyService;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseKeyServiceImpl;
-import com.txyd.database.create.service.FreemarkerCreateJavaBaseServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseService;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseServiceBaseImpl;
+import com.txyd.database.create.service.FreemarkerCreateJavaBaseServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaBaseWithKeyServiceImpl;
 import com.txyd.database.create.service.FreemarkerCreateJavaService;
 import com.txyd.database.create.service.FreemarkerCreateJavaServiceImpl;
@@ -46,51 +47,49 @@ import java.util.stream.Collectors;
 @ContextConfiguration(locations = {"classpath*:spring/spring-web.xml"})
 public class DatabaseMainFreemarker {
 	@Autowired
-	private DatabaseService  databaseService;
+	private DatabaseService databaseService;
 	@Autowired
 	private TableService tableService;
 	@Autowired
 	private ColumnService columnService;
 	
 	@Autowired
-	private JavaConfigBean javaConfigBean ;
+	private JavaConfigBean javaConfigBean;
 	
 	
 	/**
-	 *
-	 * @Description 获得数据库的信息->表的信息->列的信息
-	 * @author
 	 * @param jcb
 	 * @return
+	 * @Description 获得数据库的信息->表的信息->列的信息
+	 * @author
 	 */
-	private List<DatabaseBean> getFromDatabase(JavaConfigBean jcb)
-	{
-		long startTime=System.currentTimeMillis();
-		System.out.println("读取数据开始:"+DateTime.toString(null, null));
+	private List<DatabaseBean> getFromDatabase(JavaConfigBean jcb) {
+		long startTime = System.currentTimeMillis();
+		System.out.println("读取数据开始:" + DateTime.toString(null, null));
 		
-		DatabaseBean database=new DatabaseBean();
+		DatabaseBean database = new DatabaseBean();
 		database.setSchemaName(jcb.getDatabaseSchema());//schema
-		List<DatabaseBean> listDb=databaseService.select(new DatabaseBean(){{
+		List<DatabaseBean> listDb = databaseService.select(new DatabaseBean() {{
 			setSchemaName(jcb.getDatabaseSchema());
 		}});
-		if(listDb==null||listDb.size()==0){
-			System.out.println("未查找到数据库{databaseName}".replace("{databaseName}",jcb.getDatabaseSchema()));
+		if (listDb == null || listDb.size() == 0) {
+			System.out.println("未查找到数据库{databaseName}".replace("{databaseName}", jcb.getDatabaseSchema()));
 			return null;
 		}
-		listDb=listDb.stream().map(db -> {
-			List<TableBean> listTb=this.tableService.select(new TableBean(){{
+		listDb = listDb.stream().map(db -> {
+			List<TableBean> listTb = this.tableService.select(new TableBean() {{
 				setTableSchema(db.getSchemaName());
 			}});
-			if(listTb!=null){
+			if (listTb != null) {
 				db.setListTable(listTb);
 				{
-					listTb=listTb.stream().map(tb->{
+					listTb = listTb.stream().map(tb -> {
 						List<ColumnBean> listCb = this.columnService.select(new ColumnBean() {{
 							setTableSchema(tb.getTableSchema());
 							setTableName(tb.getTableName());
 						}});
 						tb.setListColumn(listCb);
-						return  tb;
+						return tb;
 					}).collect(Collectors.toList());
 				}
 				{
@@ -106,48 +105,44 @@ public class DatabaseMainFreemarker {
 			return db;
 		}).collect(Collectors.toList());
 		
-		long endTime=System.currentTimeMillis();
-		System.out.println("读取数据结束:"+DateTime.toString(null, null));
-		System.out.println("读取数据用时:"+(endTime-startTime));
+		long endTime = System.currentTimeMillis();
+		System.out.println("读取数据结束:" + DateTime.toString(null, null));
+		System.out.println("读取数据用时:" + (endTime - startTime));
 		return listDb;
 	}
 	
 	/**
-	 *
-	 * @Description 设置数据库的信息->表的信息->列的信息的javabean以及annotatiion
-	 * @author
 	 * @param listDb
 	 * @param jcb
 	 * @return
+	 * @Description 设置数据库的信息->表的信息->列的信息的javabean以及annotatiion
+	 * @author
 	 */
-	private static List<DatabaseBean> setDatabase(List<DatabaseBean> listDb ,JavaConfigBean jcb)
-	{
-		long startTime=System.currentTimeMillis();
-		System.out.println("格式化数据开始:"+DateTime.toString(null, null));
+	private static List<DatabaseBean> setDatabase(List<DatabaseBean> listDb, JavaConfigBean jcb) {
+		long startTime = System.currentTimeMillis();
+		System.out.println("格式化数据开始:" + DateTime.toString(null, null));
 		
-		if(listDb==null||listDb.size()==0){
-			System.out.println("数据库相关的信息为空:schema:"+jcb.getDatabaseSchema());
+		if (listDb == null || listDb.size() == 0) {
+			System.out.println("数据库相关的信息为空:schema:" + jcb.getDatabaseSchema());
 			return null;
 		}
-		listDb.stream().filter(db->db.getListTable()==null||db.getListTable().isEmpty()).forEach(db->{
-			System.out.println("数据库{databaseName}没有表".replace("{databaseName}",jcb.getDatabaseSchema()));
+		listDb.stream().filter(db -> db.getListTable() == null || db.getListTable().isEmpty()).forEach(db -> {
+			System.out.println("数据库{databaseName}没有表".replace("{databaseName}", jcb.getDatabaseSchema()));
 		});
-		listDb.stream().filter(db->db.getListTable()!=null&&!db.getListTable().isEmpty()).forEach(db->{
+		listDb.stream().filter(db -> db.getListTable() != null && !db.getListTable().isEmpty()).forEach(db -> {
 			
-			db.getListTable().forEach(table->{
+			db.getListTable().forEach(table -> {
 				table.setDatabaseType(DatabaseType.valueOf(jcb.getDatabaseType()));
 				table.setTableOwner(jcb.getDatabaseOwner());
 				//表名所对应的javabean名
-				String tableName=table.getTableName();
+				String tableName = table.getTableName();
 				{
 					//根据配置，去掉表名的前缀
-					Set<String> tablePrefixesSet=jcb.getTablePrefixes();
-					if(tablePrefixesSet!=null&&tablePrefixesSet.size()>0){
-						for(String prefixe:tablePrefixesSet)
-						{
-							if(tableName.toLowerCase().startsWith(prefixe.toLowerCase()))
-							{
-								tableName=tableName.substring(prefixe.length());
+					Set<String> tablePrefixesSet = jcb.getTablePrefixes();
+					if (tablePrefixesSet != null && tablePrefixesSet.size() > 0) {
+						for (String prefixe : tablePrefixesSet) {
+							if (tableName.toLowerCase().startsWith(prefixe.toLowerCase())) {
+								tableName = tableName.substring(prefixe.length());
 								break;//前缀只去除一次
 							}
 						}
@@ -155,44 +150,44 @@ public class DatabaseMainFreemarker {
 				}
 				
 				
-				String javabeanName=StringUtil.getJavabeanClassName(tableName);
+				String javabeanName = StringUtil.getJavabeanClassName(tableName);
 				table.setJavabeanName(javabeanName);
 				//表名所对应的javabean的param类名；
-				table.setJavabeanParamClassName(javabeanName+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageParam().toLowerCase()));
+				table.setJavabeanParamClassName(javabeanName + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageParam().toLowerCase()));
 				//表名所对应的javabean的model类名；
-				table.setJavabeanModelClassName(javabeanName+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageModel().toLowerCase()));
-				table.setJavabeanKeyClassName(javabeanName+"Key");
-				table.setJavabeanBaseModelClassName("Base"+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageModel().toLowerCase()));
+				table.setJavabeanModelClassName(javabeanName + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageModel().toLowerCase()));
+				table.setJavabeanKeyClassName(javabeanName + "Key");
+				table.setJavabeanBaseModelClassName("Base" + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageModel().toLowerCase()));
 				//表名所对应的javabean的service类名；
-				table.setJavabeanServiceClassName(javabeanName+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageService().toLowerCase()));
+				table.setJavabeanServiceClassName(javabeanName + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageService().toLowerCase()));
 				//表名所对应的javabean的service的实现类名；
-				table.setJavabeanServiceImplClassName(table.getJavabeanServiceClassName()+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageServiceImpl().toLowerCase()));
+				table.setJavabeanServiceImplClassName(table.getJavabeanServiceClassName() + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageServiceImpl().toLowerCase()));
 				//表名所对应的javabean的mapper类名；
-				table.setJavabeanMapperClassName(javabeanName+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageMapper().toLowerCase()));
+				table.setJavabeanMapperClassName(javabeanName + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageMapper().toLowerCase()));
 				
 				//表名所对应的javabean的dao类名；
-				table.setJavabeanDaoClassName(javabeanName+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageDao().toLowerCase()));
+				table.setJavabeanDaoClassName(javabeanName + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageDao().toLowerCase()));
 				//表名所对应的javabean的dao的实现类名；
-				table.setJavabeanDaoImplClassName(table.getJavabeanDaoClassName()+StringUtil.getClassPrefixFromPackage(jcb.getBasePackageDaoImpl().toLowerCase()));
+				table.setJavabeanDaoImplClassName(table.getJavabeanDaoClassName() + StringUtil.getClassPrefixFromPackage(jcb.getBasePackageDaoImpl().toLowerCase()));
 //				//表所对应的annotation
 //				table.setJavabeanAnnotation(AnnotationUtil.getAnnotation(table,jcb));
-				if(table.getListColumn()==null||table.getListColumn().size()==0){
+				if (table.getListColumn() == null || table.getListColumn().size() == 0) {
 					System.out.println("数据库{databaseName}的表{tableName}没有列属性"
-							.replace("{databaseName}",db.getDatabaseName())
-							.replace("{tableName}",table.getTableName()));
-				}else{
-					table.getListColumn().forEach(column->{
+							.replace("{databaseName}", db.getDatabaseName())
+							.replace("{tableName}", table.getTableName()));
+				} else {
+					table.getListColumn().forEach(column -> {
 						column.setDatabaseType(DatabaseType.valueOf(jcb.getDatabaseType()));
 						column.setTableOwner(jcb.getDatabaseOwner());
 						
 						//列名所对应的javabean的field名//(先小写)
 						column.setJavabeanFieldName(StringUtil.getJavabeanFieldName(column.getColumnName()));
 						//列名所对应的javabean的field数据类型比如"java.lang.String"
-						String javabeanFieldDataType=SqlDataType.getJavaType(column.getDataType());
+						String javabeanFieldDataType = SqlDataType.getJavaType(column.getDataType());
 						column.setJavabeanFieldDataType(javabeanFieldDataType);
-						String javabeanFieldDataTypeSimple=javabeanFieldDataType;
-						if(javabeanFieldDataType.contains(".")){
-							javabeanFieldDataTypeSimple=javabeanFieldDataType.substring(javabeanFieldDataType.lastIndexOf(".")+1);
+						String javabeanFieldDataTypeSimple = javabeanFieldDataType;
+						if (javabeanFieldDataType.contains(".")) {
+							javabeanFieldDataTypeSimple = javabeanFieldDataType.substring(javabeanFieldDataType.lastIndexOf(".") + 1);
 						}
 						column.setJavabeanFieldDataTypeSimple(javabeanFieldDataTypeSimple);
 						column.setJavabeanFieldDataTypeIsNum(StringUtil.isNumber(javabeanFieldDataType));
@@ -204,47 +199,46 @@ public class DatabaseMainFreemarker {
 			
 		});
 		
-		long endTime=System.currentTimeMillis();
-		System.out.println("格式化数据结束:"+DateTime.toString(null, null));
-		System.out.println("格式化数据用时:"+(endTime-startTime));
+		long endTime = System.currentTimeMillis();
+		System.out.println("格式化数据结束:" + DateTime.toString(null, null));
+		System.out.println("格式化数据用时:" + (endTime - startTime));
 		
 		return listDb;
 	}
 	
 	@Test
-	public void test() throws Exception{
-		List<DatabaseBean> listDb=this.getFromDatabase(this.javaConfigBean);
-		listDb=DatabaseMainFreemarker.setDatabase(listDb,this.javaConfigBean);
+	public void test() throws Exception {
+		List<DatabaseBean> listDb = this.getFromDatabase(this.javaConfigBean);
+		listDb = DatabaseMainFreemarker.setDatabase(listDb, this.javaConfigBean);
 		
 		Configuration properties = new Configuration();
 		properties.setObjectWrapper(new DefaultObjectWrapper());
 		properties.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/"));
 		{
 			
-			long startTime=System.currentTimeMillis();
+			long startTime = System.currentTimeMillis();
 			FreemarkerCreateJavabean.create(listDb, this.javaConfigBean, properties);
-			FreemarkerCreateJavabeanBase.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavabeanKey.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateMapperBase.create(listDb, this.javaConfigBean, properties);
-			FreemarkerCreateMapperBaseKey.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavabeanBase.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavabeanKey.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateBaseMapper.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateBaseKeyMapper.create(listDb, this.javaConfigBean, properties);
 			FreemarkerCreateMapper.create(listDb, this.javaConfigBean, properties);
 			
-			FreemarkerCreateJavaBaseService.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaBaseKeyService.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaService.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaBaseWithKeyServiceImpl.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaBaseKeyServiceImpl.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaBaseServiceImpl.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateJavaServiceImpl.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateMybatisConfigXml.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateBaseMybatisXml.create(listDb,  this.javaConfigBean, properties);
-			FreemarkerCreateMybatisXml.create(listDb,  this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseService.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseKeyService.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaService.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseWithKeyServiceImpl.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseKeyServiceImpl.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseServiceImpl.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaServiceImpl.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateJavaBaseServiceBaseImpl.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateMybatisConfigXml.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateBaseMybatisXml.create(listDb, this.javaConfigBean, properties);
+			FreemarkerCreateMybatisXml.create(listDb, this.javaConfigBean, properties);
 			
-			long endTime=System.currentTimeMillis();
-			System.out.println("总耗时："+(endTime-startTime)+"ms");
+			long endTime = System.currentTimeMillis();
+			System.out.println("总耗时：" + (endTime - startTime) + "ms");
 		}
-		
-		
 		
 		
 	}

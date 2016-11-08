@@ -8,7 +8,7 @@ import ${jcb.basePackageBaseMapper}.${BaseKeyMapper};
 import ${jcb.basePackageBaseMapper}.${BaseMapper};
 import ${jcb.basePackageBaseService}.${BaseKeyService};
 
-public abstract class ${BaseKeyServiceImpl}<T,ID> implements ${BaseKeyService}<T,ID>{
+public abstract class ${BaseKeyServiceImpl}<T,ID> extends ${BaseImpl} implements ${BaseKeyService}<T,ID>{
 
 	@Autowired
 	private ${BaseKeyMapper}<T, ID> ${baseKeyMapper};
@@ -20,7 +20,16 @@ public abstract class ${BaseKeyServiceImpl}<T,ID> implements ${BaseKeyService}<T
 
     @Override
     public int updateByIds(T t, List<ID> ids) {
-    	return this.${baseKeyMapper}.updateByIds(t,ids);
+		List<List<ID>> list = splite(ids);
+		int count = 0;
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					count += this.${baseKeyMapper}.updateByIds(t,list.get(i));
+				}
+			}
+		}
+		return count;
     }
 
 	@Override
@@ -29,8 +38,17 @@ public abstract class ${BaseKeyServiceImpl}<T,ID> implements ${BaseKeyService}<T
 	}
 	
 	@Override
-	public int deleteByIds(List<ID> list) {;
-		return this.${baseKeyMapper}.deleteByIds(list);
+	public int deleteByIds(List<ID> ids) {
+		List<List<ID>> list = splite(ids);
+		int count = 0;
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					count += this.${baseKeyMapper}.deleteByIds(list.get(i));
+				}
+			}
+		}
+		return count;
 	}
 
 	@Override
@@ -40,7 +58,18 @@ public abstract class ${BaseKeyServiceImpl}<T,ID> implements ${BaseKeyService}<T
 	
 	@Override
 	public List<T> getByIds(List<ID>  ids) {
-		return this.${baseKeyMapper}.getByIds(ids);
+		List<T> result = new ArrayList<>();
+		
+		List<List<ID>> list = splite(ids);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					result.addAll(this.${baseKeyMapper}.getByIds(list.get(i))) ;
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 }

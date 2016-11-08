@@ -64,7 +64,7 @@ public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseService文件
 		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseService);
-		System.out.println("创建baseService耗时：" + (endTime - startTime) + "ms");
+		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		
 	}
