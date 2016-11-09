@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/spring-web.xml"})
+@ContextConfiguration(locations = {"classpath*:spring/spring-main.xml"})
 public class DatabaseMainFreemarker {
 	@Autowired
 	private DatabaseService databaseService;

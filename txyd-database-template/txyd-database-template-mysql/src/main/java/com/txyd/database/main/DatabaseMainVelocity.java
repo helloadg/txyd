@@ -35,7 +35,7 @@ import txyd.util.DateTime;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/spring-web.xml"})
+@ContextConfiguration(locations = {"classpath*:spring/spring-main.xml"})
 public class DatabaseMainVelocity {
 	@Autowired(required=true)
 	private DatabaseService  databaseService;
