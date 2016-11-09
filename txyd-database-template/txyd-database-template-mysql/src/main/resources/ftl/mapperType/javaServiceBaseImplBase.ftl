@@ -47,27 +47,7 @@ public abstract class ${BaseImpl} {
      * @author ${jcb.author}
      */
 	public static <T> List<List<T>> splite(List<T> all) {
-		int stepSize = batchNum;
-		List<List<T>> list = new ArrayList<>();
-		if (all == null || all.size() == 0 || stepSize < 1) {
-			return list;
-		}
-		int size = all.size();
-		int step = size / stepSize + 1;
-		for (int i = 0; i < step; i++) {
-			int start = i * stepSize;
-			int end = start + stepSize;
-			if (start < size) {
-				if (end > size) {
-					end = size;
-				}
-				List<T> item = all.subList(start, end);
-				if (item != null && item.size() > 0) {
-					list.add(item);
-				}
-			}
-		}
-		return list;
+		return splite(all,batchNum);
 	}
 
 }
