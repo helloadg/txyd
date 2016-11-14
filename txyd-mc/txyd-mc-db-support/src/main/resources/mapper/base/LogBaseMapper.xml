@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.mc.db.dao.LogDao">
+  <!--database table: (t_cms_log) with javabean : (com.mc.db.entity.LogEntity)-->
+  <resultMap id="rm_LogEntity" type="com.mc.db.entity.LogEntity">
+  	<result property="id" column="id"/>
+  	<result property="fplanId" column="f_plan_id"/>
+  	<result property="type" column="type"/>
+  	<result property="content" column="content"/>
+  	<result property="ct" column="c_t"/>
+  	<result property="ut" column="u_t"/>
+  	<result property="isDeleted" column="is_deleted"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,f_plan_id,type,content,c_t,
+		u_t,is_deleted
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <if test="id != null">
+      and id =  #{id}
+    </if>
+    <if test="fplanId != null">
+      and f_plan_id =  #{fplanId}
+    </if>
+    <if test="type != null">
+      and type =  #{type}
+    </if>
+    <if test="content != null">
+      and content =  #{content}
+    </if>
+    <if test="ct != null">
+      and c_t =  #{ct}
+    </if>
+    <if test="ut != null">
+      and u_t =  #{ut}
+    </if>
+    <if test="isDeleted != null">
+      and is_deleted =  #{isDeleted}
+    </if>
+  </sql>
+  
+  <!--the 'where' sql with where alias of search  -->
+  <sql id="where_with_alias_sql">
+    <if test="wb.id != null">
+      and id =  #{wb.id}
+    </if>
+    <if test="wb.fplanId != null">
+      and f_plan_id =  #{wb.fplanId}
+    </if>
+    <if test="wb.type != null">
+      and type =  #{wb.type}
+    </if>
+    <if test="wb.content != null">
+      and content =  #{wb.content}
+    </if>
+    <if test="wb.ct != null">
+      and c_t =  #{wb.ct}
+    </if>
+    <if test="wb.ut != null">
+      and u_t =  #{wb.ut}
+    </if>
+    <if test="wb.isDeleted != null">
+      and is_deleted =  #{wb.isDeleted}
+    </if>
+  </sql>
+  
+  <!-- the 'like' sql for search -->
+  <sql id="like_sql">
+    <if test="like != null and like.size() >0 ">
+      <foreach collection="like" index="key" item="value" open="" separator="" close="">
+        <choose>
+          <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              and id like #{value}
+          </when>
+          <when test="key!=null and 'fplanId'.equalsIgnoreCase(key)">
+              and f_plan_id like #{value}
+          </when>
+          <when test="key!=null and 'type'.equalsIgnoreCase(key)">
+              and type like #{value}
+          </when>
+          <when test="key!=null and 'content'.equalsIgnoreCase(key)">
+              and content like #{value}
+          </when>
+          <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              and c_t like #{value}
+          </when>
+          <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+              and u_t like #{value}
+          </when>
+          <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+              and is_deleted like #{value}
+          </when>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <if test="sort != null and sort.size() >0 ">
+      ORDER BY
+      <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+        <choose>
+          <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+            id
+          </when>
+          <when test="key!=null and 'fplanId'.equalsIgnoreCase(key)">
+            f_plan_id
+          </when>
+          <when test="key!=null and 'type'.equalsIgnoreCase(key)">
+            type
+          </when>
+          <when test="key!=null and 'content'.equalsIgnoreCase(key)">
+            content
+          </when>
+          <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+            c_t
+          </when>
+          <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+            u_t
+          </when>
+          <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+            is_deleted
+          </when>
+        </choose>
+        <choose>
+          <when test="'asc'.equalsIgnoreCase(value)">
+            asc
+          </when>
+          <when test="'desc'.equalsIgnoreCase(value)">
+            desc
+          </when>
+          <otherwise>
+            asc
+          </otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <if test="id != null">
+      id =  #{id} ,
+    </if>
+    <if test="fplanId != null">
+      f_plan_id =  #{fplanId} ,
+    </if>
+    <if test="type != null">
+      type =  #{type} ,
+    </if>
+    <if test="content != null">
+      content =  #{content} ,
+    </if>
+    <if test="ct != null">
+      c_t =  #{ct} ,
+    </if>
+    <if test="ut != null">
+      u_t =  #{ut} ,
+    </if>
+    <if test="isDeleted != null">
+      is_deleted =  #{isDeleted} ,
+    </if>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <if test="tb.id != null">
+      id = #{tb.id} ,
+    </if>
+    <if test="tb.fplanId != null">
+      f_plan_id = #{tb.fplanId} ,
+    </if>
+    <if test="tb.type != null">
+      type = #{tb.type} ,
+    </if>
+    <if test="tb.content != null">
+      content = #{tb.content} ,
+    </if>
+    <if test="tb.ct != null">
+      c_t = #{tb.ct} ,
+    </if>
+    <if test="tb.ut != null">
+      u_t = #{tb.ut} ,
+    </if>
+    <if test="tb.isDeleted != null">
+      is_deleted = #{tb.isDeleted} ,
+    </if>
+  </sql>
+
+  <!-- update the records by ids sql -->
+  <update id="update" parameterType="java.util.Map">
+	<trim>
+      UPDATE t_cms_log
+  	  <set>
+  	    <include refid="update_with_alias_sql"/>
+  	  </set>
+  	  <where>
+  	    <include refid="where_with_alias_sql"/>
+      </where>
+	</trim>
+  </update>
+
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+	<trim>
+      UPDATE t_cms_log
+      <set>
+        <include refid="update_with_alias_sql"/>
+      </set>
+	  <where>
+		  and id = #{id}
+	  </where>
+	</trim>
+  </update>
+
+  <!-- update the records by ids sql -->
+  <update id="updateByIds" parameterType="java.util.Map">
+    <trim>
+      UPDATE t_cms_log
+      <set>
+	    <include refid="update_with_alias_sql"/>
+      </set>
+	    WHERE id in
+	  <foreach collection="ids" item="item" open="(" separator="," close=")">
+	    #{item}
+	  </foreach>
+    </trim>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	<trim>
+     <![CDATA[
+       INSERT INTO t_cms_log
+		(
+	 	  f_plan_id,type,content,c_t,u_t,
+	 	  is_deleted
+		)
+       VALUES
+       	(
+	  	  #{fplanId},#{type},#{content},#{ct},#{ut},
+	  	  #{isDeleted}
+        )
+      ]]>
+    </trim>
+  </insert>
+
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  t_cms_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fplanId != null">
+        f_plan_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+      <if test="ut != null">
+        u_t,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="fplanId != null">
+         #{fplanId} ,
+      </if>
+      <if test="type != null">
+         #{type} ,
+      </if>
+      <if test="content != null">
+         #{content} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+      <if test="ut != null">
+         #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+         #{isDeleted} ,
+      </if>
+    </trim>
+  </insert>
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO t_cms_log
+      (
+		f_plan_id,type,content,c_t,u_t,	
+		is_deleted	
+	  )
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+	  (
+		#{item.fplanId},#{item.type},#{item.content},#{item.ct},#{item.ut},	
+		#{item.isDeleted}	
+      )
+    </foreach>
+  </insert>
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_LogEntity">
+    SELECT
+    <include refid="columns"/>
+      <![CDATA[
+        FROM t_cms_log
+      ]]>
+	<where>
+		and id =#{id}
+	</where>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_LogEntity" parameterType="java.util.List">
+	<trim>
+      SELECT
+      <include refid="columns"/>
+      FROM t_cms_log
+	    WHERE id in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+       #{item}
+      </foreach>
+    </trim>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_LogEntity">
+	<trim>
+      SELECT
+      	<include refid="columns"/>
+	  	FROM t_cms_log
+	  <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+      <include refid="sort_sql"/>
+      <choose>
+        <when test="limit != null  and offset != null">
+          limit #{limit} offset  #{offset}
+        </when>
+        <when test="limit != null  and offset == null">
+          limit #{limit}
+        </when>
+      </choose>
+    </trim>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+	<trim>
+      SELECT count(1) FROM t_cms_log
+	  <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+    </trim>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+	<trim>
+      DELETE FROM t_cms_log
+      <where>
+        <include refid="where_sql"/>
+      </where>
+    </trim>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+	<trim>
+      DELETE FROM t_cms_log
+      <where>
+	  	and id = #{id}
+      </where>
+    </trim>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+	<trim>
+      delete from t_cms_log
+        WHERE id in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+	    #{item}
+      </foreach>
+    </trim>
+  </delete> 
+</mapper>

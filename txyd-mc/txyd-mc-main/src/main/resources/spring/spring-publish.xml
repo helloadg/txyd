@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--在虚拟机环境或多网卡场景下可能需要添加host="${dubbo.host}"属性-->
+    <dubbo:protocol name="dubbo" host="${dubbo.host}" port="${dubbo.port}"/>
+    <dubbo:service interface="com.mc.redis.service.RedisService" ref="redisServiceImpl" group="redisService"
+                   protocol="dubbo"/>
+    <dubbo:service interface="com.mc.db.service.LogService" ref="logServiceImpl" group="logService"
+                   protocol="dubbo"/>
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<!--mybatis配置文件-->
+<configuration>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="20"/>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+    </settings>
+    <typeAliases>
+        <typeAlias alias="logEntity" type="com.mc.db.entity.LogEntity"/>
+    </typeAliases>
+    <mappers>
+
+        <!--the base xml of sql with  add and delete and update and select    -->
+        <mapper resource="mapper/base/LogBaseMapper.xml"/>
+
+        <!--the extends xml of sql with something  defined by youself  -->
+        <mapper resource="mapper/LogMapper.xml"/>
+    </mappers>
+</configuration>

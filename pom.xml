@@ -24,7 +24,8 @@
 		<module>txyd-mybatis</module>
         <module>txyd-qcode</module>
         <module>txyd-json</module>
-    </modules>
+		<module>txyd-mc</module>
+	</modules>
 	<properties>
 		<!-- 自身版本号 -->
 		<self.version>0.0.1</self.version>

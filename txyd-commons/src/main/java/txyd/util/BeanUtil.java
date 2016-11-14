@@ -86,11 +86,11 @@ public class BeanUtil {
 
 //		Map<String,Object> map =new HashMap<>();
 //		map.put("id",111);
-//		WidgetEntity entity=new WidgetEntity();
+//		WidgetEntity param=new WidgetEntity();
 //
 //		try {
-//			BeanUtils.copyProperties(map,entity);
-//			System.out.println(entity);
+//			BeanUtils.copyProperties(map,param);
+//			System.out.println(param);
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
