@@ -329,7 +329,7 @@
                     useUnicode=true;autoReconnect=true;failOverReadOnly=false;characterEncoding=utf8;zeroDateTimeBehavior=convertToNull;allowMultiQueries=true
                 </mvn.jdbc.connectionProperties>
                 <mvn.jdbc.username>root</mvn.jdbc.username>
-                <mvn.jdbc.password>meicai@!#</mvn.jdbc.password>
+                <mvn.jdbc.password></mvn.jdbc.password>
 
                 <!-- dbcp configuration -->
                 <mvn.dbcp.initialSize>5</mvn.dbcp.initialSize>

@@ -42,7 +42,7 @@ public class TestFastjson {
 //		TestFastjson.beanToJson();
 //		TestFastjson.jsonToBean();
 		
-		String json="http://online.yunshanmeicai.com/goods/detail?id={id}";
+		String json="http://online.mc.com/goods/detail?id={id}";
 //		System.out.println(JSON.toJSON(json));
 		Map<String,Object> map=new HashMap<>();
 		map.put("json",json);
