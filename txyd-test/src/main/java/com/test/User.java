@@ -28,4 +28,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public int hashCode(){
+		return 0;
+	}
+	public boolean equals(Object obj){
+		return true;
+	}
+	public int hash(){
+		return 0;
+	}
 }
