@@ -6,11 +6,16 @@ import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.WithItem;
+import txyd.util.StringUtils;
+import txyd.util.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class Test {
@@ -199,14 +204,107 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		{
-			List<Integer> all = new ArrayList<>();
-			for (int i = 0; i < 21; i++) {
-				all.add(i + 1);
+//			System.out.println(Application.GWS.ordinal());
+//			System.out.println(Application.GWS1.name());
+			
+		}
+		{
+			Scanner scanner=new Scanner(System.in);
+			String in = scanner.nextLine();
+			while (!in.equals("end")) {
+				if(StringUtils.isInteger(in.trim())){
+					int length = StringUtils.getInteger(in.trim());
+					if(length>0){
+						List<User> userList = new ArrayList<>();
+						{
+							long statTime = TimeUtil.getMillis();
+							for (int i = 0; i < length; i++) {
+								User user = new User();
+								user.setId(i);
+								user.setUserName("un" + i);
+								user.setPassword("password" + i);
+								userList.add(user);
+							}
+							long endTime = TimeUtil.getMillis();
+							System.out.println("赋值耗时{time}ms".replace("{time}",(endTime-statTime)+""));
+							
+						}
+						// 通过Lambda取出User里面id的值
+						{
+							long statTime = TimeUtil.getMillis();
+							List<Integer> idList = userList.stream().map(User::getId).collect(Collectors.toList());
+							long endTime = TimeUtil.getMillis();
+							System.out.println("lambda耗时{time}ms".replace("{time}",(endTime-statTime)+""));
+							if(idList.size()<10){
+								System.out.println(idList);
+							}else{
+								System.out.println(idList.size());
+							}
+						}
+						// 通过Lambda foreach取出User里面id的值
+						{
+							List<Integer> idList = new ArrayList();
+							long statTime = TimeUtil.getMillis();
+							userList.stream().forEach(
+									e-> idList.add(e.getId())
+							);
+							long endTime = TimeUtil.getMillis();
+							System.out.println("lambda foreach耗时{time}ms".replace("{time}",(endTime-statTime)+""));
+							if(idList.size()<10){
+								System.out.println(idList);
+							}else{
+								System.out.println(idList.size());
+							}
+						}
+						// 普通方法
+						{
+							List idList = new ArrayList<>();
+							long statTime = TimeUtil.getMillis();
+							for (User user : userList) {
+								idList.add(user.getId());
+							}
+							long endTime = TimeUtil.getMillis();
+							System.out.println("for耗时{time}ms".replace("{time}",(endTime-statTime)+""));
+							if(idList.size()<10){
+								System.out.println(idList);
+							}else{
+								System.out.println(idList.size());
+							}
+						}
+						// 普通方法
+						{
+							List idList = new ArrayList<>();
+							Iterator<User> iterator = userList.iterator();
+							long statTime = TimeUtil.getMillis();
+							while(iterator.hasNext()){
+								idList.add(iterator.next().getId());
+							}
+							long endTime = TimeUtil.getMillis();
+							System.out.println("iterator耗时{time}ms".replace("{time}",(endTime-statTime)+""));
+							if(idList.size()<10){
+								System.out.println(idList);
+							}else{
+								System.out.println(idList.size());
+							}
+						}
+						
+						
+					}
+					
+				}
+				in = scanner.nextLine();
+				
 			}
-			{
-				List<List<Integer>> list = splite(all, 9);
-				System.out.println(list);
-			}
+		}
+		{
+//			List<Integer> all = new ArrayList<>();
+//			for (int i = 0; i < 21; i++) {
+//				all.add(i + 1);
+//			}
+//			{
+//				List<List<Integer>> list = splite(all, 9);
+//				System.out.println(list);
+//			}
 		}
 		{
 //            HashSet<Long> set = new HashSet<>();

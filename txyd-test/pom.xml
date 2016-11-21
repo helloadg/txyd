@@ -12,5 +12,10 @@
       <artifactId>jsqlparser</artifactId>
       <version>${jsqlparser.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com-txyd</groupId>
+      <artifactId>txyd-commons</artifactId>
+      <version>0.0.1</version>
+    </dependency>
   </dependencies>
 </project>
