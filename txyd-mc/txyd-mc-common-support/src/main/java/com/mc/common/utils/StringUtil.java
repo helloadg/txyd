@@ -31,7 +31,7 @@ import java.util.Collection;
  * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
  * @since 1.4
  */
-public class StringUtils {
+public class StringUtil {
 	
 	/**
 	 * Encodes the given string into a sequence of bytes using the ISO-8859-1 charset, storing the result into a new
@@ -44,7 +44,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesIso8859_1(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.ISO_8859_1);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.ISO_8859_1);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesUsAscii(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.US_ASCII);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.US_ASCII);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesUtf16(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.UTF_16);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.UTF_16);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesUtf16Be(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.UTF_16BE);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.UTF_16BE);
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesUtf16Le(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.UTF_16LE);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.UTF_16LE);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class StringUtils {
 	 * @see #getBytesUnchecked(String, String)
 	 */
 	public static byte[] getBytesUtf8(String string) {
-		return StringUtils.getBytesUnchecked(string, CharEncoding.UTF_8);
+		return StringUtil.getBytesUnchecked(string, CharEncoding.UTF_8);
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public class StringUtils {
 		try {
 			return string.getBytes(charsetName);
 		} catch (UnsupportedEncodingException e) {
-			throw StringUtils.newIllegalStateException(charsetName, e);
+			throw StringUtil.newIllegalStateException(charsetName, e);
 		}
 	}
 	
@@ -170,7 +170,7 @@ public class StringUtils {
 		try {
 			return new String(bytes, charsetName);
 		} catch (UnsupportedEncodingException e) {
-			throw StringUtils.newIllegalStateException(charsetName, e);
+			throw StringUtil.newIllegalStateException(charsetName, e);
 		}
 	}
 	
@@ -183,7 +183,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringIso8859_1(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.ISO_8859_1);
+		return StringUtil.newString(bytes, CharEncoding.ISO_8859_1);
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringUsAscii(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.US_ASCII);
+		return StringUtil.newString(bytes, CharEncoding.US_ASCII);
 	}
 	
 	/**
@@ -207,7 +207,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringUtf16(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.UTF_16);
+		return StringUtil.newString(bytes, CharEncoding.UTF_16);
 	}
 	
 	/**
@@ -219,7 +219,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringUtf16Be(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.UTF_16BE);
+		return StringUtil.newString(bytes, CharEncoding.UTF_16BE);
 	}
 	
 	/**
@@ -231,7 +231,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringUtf16Le(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.UTF_16LE);
+		return StringUtil.newString(bytes, CharEncoding.UTF_16LE);
 	}
 	
 	/**
@@ -243,7 +243,7 @@ public class StringUtils {
 	 *                               charset is required.
 	 */
 	public static String newStringUtf8(byte[] bytes) {
-		return StringUtils.newString(bytes, CharEncoding.UTF_8);
+		return StringUtil.newString(bytes, CharEncoding.UTF_8);
 	}
 	
 	
@@ -254,7 +254,7 @@ public class StringUtils {
 	 * @return
 	 */
 	public static boolean isBlankOrEmpty(String parms) {
-		return StringUtils.isBlank(parms) || StringUtils.isEmpty(parms);
+		return StringUtil.isBlank(parms) || StringUtil.isEmpty(parms);
 	}
 	
 	/**

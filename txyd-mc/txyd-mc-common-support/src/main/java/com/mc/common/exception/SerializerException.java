@@ -19,7 +19,7 @@ public class SerializerException extends RuntimeException implements BaseExcepti
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.SERIALIZER_CODE;
+		return ExceptionCode.serializer.code;
 	}
 	
 }

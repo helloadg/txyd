@@ -6,20 +6,20 @@ package com.mc.common.exception;
  *
  * @author Administrator
  */
-public class WithoutLoginException extends RuntimeException implements BaseException {
+public class DbException extends RuntimeException implements BaseException {
 	private static final long serialVersionUID = 1L;
 	
-	public WithoutLoginException(String msg) {
+	public DbException(String msg) {
 		super(msg);
 	}
 	
-	public WithoutLoginException(String msg, Throwable t) {
+	public DbException(String msg, Throwable t) {
 		super(msg, t);
 	}
 	
 	
 	public int getErrorCode() {
-		return ExceptionCode.withoutLogin.code;
+		return ExceptionCode.db.code;
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.mc.common.rpc;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mc.common.exception.BusinessException;
+import com.mc.common.exception.BusynessException;
 import com.mc.common.param.CityDto;
 import com.mc.common.param.SaleAreaDto;
 import com.mc.common.utils.JsonUtil;
@@ -49,7 +49,7 @@ public class  GisRpc extends BaseRpc {
 					.replace("{inJson}", inJson)
 					.replace("{outJson}", outJson));
 			//异常中，不添加url，只有method，防止抛给前端
-			throw new BusinessException("调用接口[{method}失败，入参[{inJson}],出参[{outJson}]"
+			throw new BusynessException("调用接口[{method}失败，入参[{inJson}],出参[{outJson}]"
 					.replace("{method}", method)
 					.replace("{inJson}", inJson)
 					.replace("{outJson}", outJson));
@@ -88,7 +88,7 @@ public class  GisRpc extends BaseRpc {
 					.replace("{inJson}", inJson)
 					.replace("{outJson}", outJson));
 			//异常中，不添加url，只有method，防止抛给前端
-			throw new BusinessException("调用接口[{method}失败，入参[{inJson}],出参[{outJson}]"
+			throw new BusynessException("调用接口[{method}失败，入参[{inJson}],出参[{outJson}]"
 					.replace("{method}", method)
 					.replace("{inJson}", inJson)
 					.replace("{outJson}", outJson));

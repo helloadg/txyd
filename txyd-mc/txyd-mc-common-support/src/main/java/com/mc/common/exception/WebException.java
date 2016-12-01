@@ -19,7 +19,7 @@ public class WebException extends RuntimeException implements BaseException {
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.WEB_CODE;
+		return ExceptionCode.web.code;
 	}
 	
 }

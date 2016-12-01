@@ -327,7 +327,7 @@ public class Base64 implements BinaryEncoder, BinaryDecoder {
         }
         this.decodeSize = this.encodeSize - 1;
         if (containsBase64Byte(lineSeparator)) {
-            String sep = StringUtils.newStringUtf8(lineSeparator);
+            String sep = StringUtil.newStringUtf8(lineSeparator);
             throw new IllegalArgumentException("lineSeperator must not contain base64 characters: [" + sep + "]");
         }
         this.encodeTable = urlSafe ? URL_SAFE_ENCODE_TABLE : STANDARD_ENCODE_TABLE;
@@ -646,7 +646,7 @@ public class Base64 implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */    
     public static String encodeBase64String(byte[] binaryData) {
-        return StringUtils.newStringUtf8(encodeBase64(binaryData, true));
+        return StringUtil.newStringUtf8(encodeBase64(binaryData, true));
     }
     
     /**
@@ -672,7 +672,7 @@ public class Base64 implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */    
     public static String encodeBase64URLSafeString(byte[] binaryData) {
-        return StringUtils.newStringUtf8(encodeBase64(binaryData, false, true));
+        return StringUtil.newStringUtf8(encodeBase64(binaryData, false, true));
     }    
 
     /**
@@ -715,7 +715,7 @@ public class Base64 implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */
     public byte[] decode(String pArray) {
-        return decode(StringUtils.getBytesUtf8(pArray));
+        return decode(StringUtil.getBytesUtf8(pArray));
     }
 
     /**
@@ -910,7 +910,7 @@ public class Base64 implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */    
     public String encodeToString(byte[] pArray) {
-        return StringUtils.newStringUtf8(encode(pArray));
+        return StringUtil.newStringUtf8(encode(pArray));
     }
 
     /**

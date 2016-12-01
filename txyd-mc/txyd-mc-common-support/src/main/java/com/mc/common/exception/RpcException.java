@@ -20,6 +20,6 @@ public class RpcException extends RuntimeException implements BaseException {
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.RPC_CODE;
+		return ExceptionCode.rpc.code;
 	}
 }
