@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ${jcb.getBasePackageModel()}.${tableBean.javabeanModelClassName};
 import ${jcb.getBasePackageService()}.${tableBean.getJavabeanServiceClassName()};
 <#if (hasPrimaryKey) >
-${importModelClassNameKey};
+${importModelClassNameKey}
 </#if>
 
 <#if (hasPrimaryKey) >
