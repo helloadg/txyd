@@ -4,12 +4,12 @@ package ${jcb.basePackageMapper?string?lower_case};
 <#-- 类文件的import模版 -->
 <#if (hasPrimaryKey) >
 import ${jcb.basePackageBaseMapper}.${BaseMapper};
-import ${jcb.basePackageBaseMapper}.${BaseKeyMapper};
 import ${jcb.basePackageModel}.${tableBean.javabeanModelClassName};
 	<#if (javabeanModelClassNameKey?string?length >0 )>
 ${importModelClassNameKey}
 	</#if>
 <#else >
+import ${jcb.basePackageBaseMapper}.${BaseNoKeyMapper};
 import ${jcb.basePackageBaseMapper}.${BaseMapper};
 import ${jcb.basePackageModel}.${tableBean.javabeanModelClassName};
 </#if>
@@ -25,11 +25,11 @@ import ${jcb.basePackageModel}.${tableBean.javabeanModelClassName};
  * @author：${jcb.author}
  */
 <#if (hasPrimaryKey) >
-public interface ${tableBean.javabeanMapperClassName}  extends ${BaseMapper} <${tableBean.javabeanModelClassName}> ,${BaseKeyMapper} <${tableBean.javabeanModelClassName},${javabeanModelClassNameKey}>  {
+public interface ${tableBean.javabeanMapperClassName}  extends ${BaseMapper} <${tableBean.javabeanModelClassName},${javabeanModelClassNameKey}>  {
 
 }
 <#else>
-public interface ${tableBean.javabeanMapperClassName}  extends ${BaseMapper} <${tableBean.javabeanModelClassName}> {
+public interface ${tableBean.javabeanMapperClassName}  extends ${BaseNoKeyMapper} <${tableBean.javabeanModelClassName}> {
 
 }
 </#if>

@@ -24,7 +24,7 @@ public class FreemarkerCreateMapper extends FreemarkerCreateBase {
 			return false;
 		}
 		String BaseMapper = "BaseMapper";
-		String BaseKeyMapper = "BaseKeyMapper";
+		String BaseNoKeyMapper = "BaseNoKeyMapper";
 		{
 			String Base = "Base";
 			{
@@ -45,7 +45,7 @@ public class FreemarkerCreateMapper extends FreemarkerCreateBase {
 			}
 			
 			BaseMapper = Base + Mapper;
-			BaseKeyMapper = Base + "Key" + Mapper;
+			BaseNoKeyMapper = Base + "NoKey" + Mapper;
 		}
 		
 		Map<String, String> fileMap = new HashMap<String, String>();
@@ -84,7 +84,7 @@ public class FreemarkerCreateMapper extends FreemarkerCreateBase {
 			context.put("tableBean", tb);
 			context.put("ModelUtil", new ModelUtil());
 			context.put("BaseMapper", BaseMapper);
-			context.put("BaseKeyMapper", BaseKeyMapper);
+			context.put("BaseNoKeyMapper", BaseNoKeyMapper);
 			context.put("javabeanModelClassNameKey", javabeanModelClassNameKey);
 			context.put("importModelClassNameKey", importModelClassNameKey);
 			context.put("hasPrimaryKey", tb.getPrimaryKeyNum() != null && tb.getPrimaryKeyNum() > 0 ? true : false);

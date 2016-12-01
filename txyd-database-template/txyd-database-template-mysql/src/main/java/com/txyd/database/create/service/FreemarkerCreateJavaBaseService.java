@@ -21,6 +21,7 @@ public class FreemarkerCreateJavaBaseService extends FreemarkerCreateBase {
 		}
 		
 		String BaseService = "BaseService";
+		String BaseNoKeyService = "BaseNoKeyService";
 		{
 			String Base = "Base";
 			{
@@ -35,10 +36,11 @@ public class FreemarkerCreateJavaBaseService extends FreemarkerCreateBase {
 				if (jcb.getBasePackageService() != null && !jcb.getBasePackageService().trim().equals("")) {
 					String basePackageService = jcb.getBasePackageService().trim().toLowerCase();
 					basePackageService = basePackageService.substring(basePackageService.lastIndexOf(".") + 1);
-					Service =  StringUtil.getClassPrefixFromPackage(basePackageService);
+					Service = StringUtil.getClassPrefixFromPackage(basePackageService);
 				}
 			}
 			BaseService = Base + Service;
+			BaseNoKeyService = Base + "NoKey" + Service;
 			
 			
 		}
@@ -47,6 +49,7 @@ public class FreemarkerCreateJavaBaseService extends FreemarkerCreateBase {
 		context.put("StringUtil", new StringUtil());
 		context.put("jcb", jcb);
 		context.put("BaseService", BaseService);
+		context.put("BaseNoKeyService", BaseNoKeyService);
 		
 		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBase.ftl");
 		StringWriter writer = new StringWriter();
@@ -63,7 +66,7 @@ public class FreemarkerCreateJavaBaseService extends FreemarkerCreateBase {
 		
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseService文件
-		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FreemarkerCreateBase.FileType.baseService);
+		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseService);
 		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		

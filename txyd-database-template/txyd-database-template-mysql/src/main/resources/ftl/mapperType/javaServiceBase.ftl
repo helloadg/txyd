@@ -6,93 +6,56 @@ import java.util.List;
 import java.util.LinkedHashMap;
 
 
-public interface ${BaseService}<T> {
+public interface ${BaseService}<T,ID>  extends ${BaseNoKeyService}<T> {
 
 	/**
-	 * 保存
-	 * @param object
+	 * 通过id单条修改
+	 * @param t
+	 * @param id
 	 * @author ${jcb.author}
 	 * @return
 	 */
-	public int insert(T object);
-
-	/**
-	 * 保存
-	 * @param object
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public int insertNotNull(T object);
-
-	/**
-	 * 保存
-	 * @param list
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public int insertBatch(List<T> list);
+	public int updateById(T t, ID id);
 
     /**
-     * 通过条件筛选修改
-     * @param update
-     * @param where
+     * 通过ids批量修改
+     * @param t
+     * @param ids
      * @author ${jcb.author}
      * @return
      */
-    public int update(T update,T where);
+    public int updateByIds(T t, List<ID> ids);
 
 	/**
 	 * 删除
-	 * @param object
+	 * @param id
 	 * @author ${jcb.author}
 	 * @return
 	 */
-	public int delete(T object);
+	public int deleteById(ID id);
 
 	/**
-	 * 根据条件查询
-	 * @param object ：查询条件
-	 * @param sort ：排序规则
-	 * @param offset ：起始值
-	 * @param limit ：返回多少条
+	 * 删除
+	 * @param ids
 	 * @author ${jcb.author}
 	 * @return
 	 */
-	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset, Integer limit);
+	public int deleteByIds(List<ID> ids);
 
 	/**
-	 * 分页查询
-	 * @param object ：查询条件
-	 * @param offset ：起始值
-	 * @param limit ：返回多少条
+	 * 
+	 * @param id
 	 * @author ${jcb.author}
 	 * @return
 	 */
-	public List<T> select(T object,Integer offset, Integer limit);
-	
-	/**
-	 * 分页查询
-	 * @param object ：查询条件
-	 * @param sort ：排序规则
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public List<T> select(T object, LinkedHashMap<String,String> sort);
-	
-	/**
-	 * 分页查询
-	 * @param object ：查询条件
-	 * @author ${jcb.author}
-	 * @return
-	 */
-	public List<T> select(T object);
+	public T getById(ID id);
 
 	/**
-	 * 获取总条数
-	 * @param object
+	 * 
+	 * @param ids
 	 * @author ${jcb.author}
 	 * @return
 	 */
-	public int selectCount(T object);
+	public List<T> getByIds(List<ID> ids);
 
 }

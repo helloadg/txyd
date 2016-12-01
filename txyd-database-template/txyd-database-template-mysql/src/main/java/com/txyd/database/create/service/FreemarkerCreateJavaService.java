@@ -26,7 +26,7 @@ public class FreemarkerCreateJavaService extends FreemarkerCreateBase {
 		for (TableBean tb : listDb.get(0).getListTable()) {
 			
 			String BaseService = "BaseService";
-			String BaseKeyService = "BaseKeyService";
+			String BaseNoKeyService = "BaseNoKeyService";
 			{
 				String Base = "Base";
 				{
@@ -45,7 +45,7 @@ public class FreemarkerCreateJavaService extends FreemarkerCreateBase {
 					}
 				}
 				BaseService = Base + Service;
-				BaseKeyService = Base + "Key" + Service;
+				BaseNoKeyService = Base + "NoKey" + Service;
 				
 			}
 			String javabeanModelClassNameKey = "";
@@ -81,7 +81,7 @@ public class FreemarkerCreateJavaService extends FreemarkerCreateBase {
 			context.put("jcb", jcb);
 			context.put("tableBean", tb);
 			context.put("BaseService", BaseService);
-			context.put("BaseKeyService", BaseKeyService);
+			context.put("BaseNoKeyService", BaseNoKeyService);
 			context.put("ModelUtil", new ModelUtil());
 			context.put("javabeanModelClassNameKey", javabeanModelClassNameKey);
 			context.put("importModelClassNameKey", importModelClassNameKey);

@@ -11,12 +11,12 @@ ${importModelClassNameKey};
 
 <#if (hasPrimaryKey) >
 @Service
-public class ${tableBean.getJavabeanServiceImplClassName()} extends ${BaseWithKeyServiceImpl} <${tableBean.javabeanModelClassName},${javabeanModelClassNameKey}>   implements ${tableBean.getJavabeanServiceClassName()}{
+public class ${tableBean.getJavabeanServiceImplClassName()} extends ${BaseServiceImpl} <${tableBean.javabeanModelClassName},${javabeanModelClassNameKey}>   implements ${tableBean.getJavabeanServiceClassName()}{
 
 }
 <#else >
 @Service
-public class ${tableBean.getJavabeanServiceImplClassName()} extends ${BaseServiceImpl} <${tableBean.javabeanModelClassName}>   implements ${tableBean.getJavabeanServiceClassName()}{
+public class ${tableBean.getJavabeanServiceImplClassName()} extends ${BaseNoKeyServiceImpl} <${tableBean.javabeanModelClassName}>   implements ${tableBean.getJavabeanServiceClassName()}{
 
 }
 </#if>

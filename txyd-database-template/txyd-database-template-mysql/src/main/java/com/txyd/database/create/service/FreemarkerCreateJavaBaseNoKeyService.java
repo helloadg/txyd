@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
+public class FreemarkerCreateJavaBaseNoKeyService extends FreemarkerCreateBase {
 	
 	public static boolean create(List<DatabaseBean> listDb, JavaConfigBean jcb, Configuration configuration) throws Exception {
 		long startTime = System.currentTimeMillis();
@@ -20,7 +20,7 @@ public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
 			return false;
 		}
 		
-		String BaseKeyService = "BaseKeyService";
+		String BaseNoKeyService = "BaseNoKeyService";
 		{
 			String Base = "Base";
 			{
@@ -38,7 +38,7 @@ public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
 					Service = StringUtil.getClassPrefixFromPackage(basePackageService);
 				}
 			}
-			BaseKeyService = Base + "Key" + Service;
+			BaseNoKeyService = Base + "NoKey" + Service;
 			
 			
 		}
@@ -46,9 +46,9 @@ public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
 		Map<String, Object> context = new HashMap<String, Object>();
 		context.put("StringUtil", new StringUtil());
 		context.put("jcb", jcb);
-		context.put("BaseKeyService", BaseKeyService);
+		context.put("BaseNoKeyService", BaseNoKeyService);
 		
-		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseKey.ftl");
+		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseNoKey.ftl");
 		StringWriter writer = new StringWriter();
 		template.process(context, writer);
 
@@ -56,14 +56,14 @@ public class FreemarkerCreateJavaBaseKeyService extends FreemarkerCreateBase {
 		
 		Map<String, String> fileMap = new HashMap<String, String>();
 		
-		String fileName = BaseKeyService;
+		String fileName = BaseNoKeyService;
 		String fileContent = writer.toString();
 		System.out.println("创建：" + fileName + ".java");
 		fileMap.put(fileName, fileContent);
 		
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseService文件
-		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseService);
+		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FreemarkerCreateBase.FileType.baseService);
 		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		

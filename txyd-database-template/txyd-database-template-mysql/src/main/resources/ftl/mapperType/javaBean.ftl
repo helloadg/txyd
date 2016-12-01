@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author：${jcb.author}
  */
 <#-- 类文件的class注解模版 -->
-@JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+<#-- @JsonIgnoreProperties(ignoreUnknown = true) -->
+<#-- //@JsonInclude(JsonInclude.Include.NON_NULL) -->
 <#assign extendsClass="">
 <#if (tableBean.primaryKeyNum gt 1)>
 	<#assign extendsClass="${'extends ' + tableBean.javabeanKeyClassName}">
@@ -46,7 +46,7 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 	 * 列的数据类型：${columnBean.dataType}
 	 * 是否是主键：${columnBean.isPrimaryKey?string('是','否')}
 	 */
-	//@JsonProperty("${columnBean.columnName}")
+<#--	//@JsonProperty("${columnBean.columnName}") -->
 	private ${columnBean.javabeanFieldDataTypeSimple} ${columnBean.javabeanFieldName};	
 	</#if>
 </#list>

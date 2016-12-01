@@ -9,17 +9,15 @@ import org.apache.ibatis.annotations.Param;
  * 
  * @author ${jcb.author}
  * @param <T>
+ * @param <ID>
  */
-public interface ${BaseMapper}<T> {
-<#--	List<T> select(T whereAlias);-->
-	Integer selectCount(@Param("${jcb.whereAlias}") T whereAlias);
-	List<T> select(@Param("${jcb.whereAlias}") T whereAlias,@Param("sort") LinkedHashMap<String,String> sort, @Param("offset") Integer offset,  @Param("limit") Integer limit);
+public interface ${BaseMapper}<T,ID> extends ${BaseNoKeyMapper}<T>  {
+	T getById(ID id);
+	List<T> getByIds(List<ID> ids);
 
-	Integer insert(T t);
-	Integer insertNotNull(T t);
-	Integer insertBatch(List<T> list);
+	Integer updateById(@Param("${jcb.tableAlias}") T updateAlias, @Param("id") ID id);
+    Integer updateByIds(@Param("${jcb.tableAlias}") T updateAlias, @Param("ids")List<ID> ids);
 
-    Integer update(@Param("${jcb.tableAlias}") T updateAlias,@Param("${jcb.whereAlias}") T whereAlias);
-
-	Integer delete(T whereAlias);
+	Integer deleteById(ID id);
+	Integer deleteByIds(List<ID> list);
 }

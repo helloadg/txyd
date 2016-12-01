@@ -6,16 +6,12 @@ import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.WithItem;
-import txyd.util.JsonUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class Test {
@@ -204,26 +200,61 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		{
-			Set<Long> set = new HashSet<>();
-			set = Stream.<Long>iterate(0L,e->++e).limit(2000).collect(Collectors.<Long>toSet());
-			System.out.println(JsonUtil.toJson(set));
-			System.out.println(set.contains(1000L));
+			BigDecimal b1=new BigDecimal("100.0");
+			BigDecimal b2=new BigDecimal("100.00");
+			System.out.println(b1.equals(b2));
+			System.out.println(b1.compareTo(b2));
+		}
+		
+		{
+//			System.out.println(0.1*3);
+//			System.out.println(0.1*3.0);
+//			System.out.println(new BigDecimal("0.1").multiply(new BigDecimal("3")).toString());
+			{
+				{
+					double g= 2.4;
+					System.out.println(g* 1);
+					System.out.println(g* 1.0);
+					System.out.println(g* 0.1);
+				}
+//				double g= 12.35;
+//				{
+//					System.out.println("################################");
+//					System.out.println(Double.toHexString(g));
+//					System.out.println(Double.toHexString(0.1));
+//					System.out.println(Double.toHexString(15));
+//					System.out.println(Integer.toHexString(15));
+//					System.out.println("################################");
+//					BigDecimal bigG=new BigDecimal(g).setScale(1, BigDecimal.ROUND_HALF_UP); //期望得到12.4
+//					System.out.println("test G:"+bigG.doubleValue());//test G:12.3
+//				}
+//				{
+//					BigDecimal bigG=new BigDecimal(g+"").setScale(1, BigDecimal.ROUND_HALF_UP); //期望得到12.4
+//					System.out.println("test G:"+bigG.doubleValue());//test G:12.4
+//				}
+			}
 		}
 		{
-			int length =5;
-			List<User> userList = new ArrayList<>();
-			Set<User> setList = new HashSet<>();
-			for (int i = 0; i < length; i++) {
-				int index = i;
-				User user = new User();
-				user.setId(index);
-				user.setUserName("un" + index);
-				user.setPassword("password" + index);
-				userList.add(user);
-				setList.add(user);
-			}
-			System.out.println(JsonUtil.toJson(userList));
-			System.out.println(JsonUtil.toJson(setList));
+//			Set<Long> set = new HashSet<>();
+//			set = Stream.<Long>iterate(0L,e->++e).limit(2000).collect(Collectors.<Long>toSet());
+//			System.out.println(JsonUtil.toJson(set));
+//			System.out.println(set.contains(1000L));
+		}
+		{
+//			int length =5;
+//			List<User> userList = new ArrayList<>();
+//			Set<User> setList = new HashSet<>();
+//			for (int i = 0; i < length; i++) {
+//				int index = i;
+//				User user = new User();
+//				user.setId(index);
+//				user.setUserName("un" + index);
+//				user.setPassword("password" + index);
+//				userList.add(user);
+//				setList.add(user);
+//			}
+//			System.out.println(JsonUtil.toJson(userList));
+//			System.out.println(JsonUtil.toJson(setList));
 		}
 		{
 //			System.out.println(Application.GWS.ordinal());

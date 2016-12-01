@@ -20,9 +20,9 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 			return false;
 		}
 		String BaseService = "BaseService";
-		String BaseKeyService = "BaseKeyService";
+		String BaseNoKeyService = "BaseNoKeyService";
 		String BaseServiceImpl = "BaseServiceImpl";
-		String BaseImpl = "BaseImpl";
+		String BaseNoKeyServiceImpl = "BaseNoKeyServiceImpl";
 		{
 			String Base = "Base";
 			{
@@ -49,14 +49,14 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 				}
 			}
 			BaseService = Base + Service;
-			BaseKeyService = Base + "Key" + Service;
+			BaseNoKeyService = Base + "NoKey"  + Service;
+			BaseNoKeyServiceImpl = Base + "NoKey" + Service + Impl;
 			BaseServiceImpl = Base + Service + Impl;
-			BaseImpl = Base + Impl;
 		}
 		String BaseMapper = "BaseMapper";
-		String BaseKeyMapper = "BaseKeyMapper";
+		String BaseNoKeyMapper = "BaseNoKeyMapper";
 		String baseMapper = "baseMapper";
-		String baseKeyMapper = "baseKeyMapper";
+		String baseNoKeyMapper = "baseNoKeyMapper";
 		{
 			String Base = "Base";
 			String base = "base";
@@ -79,9 +79,9 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 			}
 			
 			BaseMapper = Base + Mapper;
-			BaseKeyMapper = Base + "Key" + Mapper;
+			BaseNoKeyMapper = Base + "NoKey" + Mapper;
 			baseMapper = base + Mapper;
-			baseKeyMapper = base + "Key" + Mapper;
+			baseNoKeyMapper = base + "NoKey" + Mapper;
 			
 		}
 		
@@ -89,13 +89,13 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 		context.put("StringUtil", new StringUtil());
 		context.put("jcb", jcb);
 		context.put("BaseService", BaseService);
-		context.put("BaseKeyService",BaseKeyService);
+		context.put("BaseNoKeyService", BaseNoKeyService);
 		context.put("BaseServiceImpl", BaseServiceImpl);
-		context.put("BaseImpl", BaseImpl);
+		context.put("BaseNoKeyServiceImpl", BaseNoKeyServiceImpl);
 		context.put("BaseMapper", BaseMapper);
-		context.put("BaseKeyMapper", BaseKeyMapper);
+		context.put("BaseNoKeyMapper", BaseNoKeyMapper);
 		context.put("baseMapper", baseMapper);
-		context.put("baseKeyMapper", baseKeyMapper);
+		context.put("baseNoKeyMapper", baseNoKeyMapper);
 		Template template = configuration.getTemplate("ftl/mapperType/javaServiceBaseImpl.ftl");
 		StringWriter writer = new StringWriter();
 		template.process(context, writer);
@@ -110,7 +110,7 @@ public class FreemarkerCreateJavaBaseServiceImpl extends FreemarkerCreateBase {
 		
 		long endTime = System.currentTimeMillis();
 		//创建javabean的baseServiceImpl文件
-		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FileType.baseServiceImpl);
+		boolean createFile = FreemarkerCreateBase.createFile(jcb, fileMap, FreemarkerCreateBase.FileType.baseServiceImpl);
 		System.out.println("创建{fileName}耗时：{time}ms".replace("{fileName}", fileName).replace("{time}", (endTime - startTime) + ""));
 		return createFile;
 		

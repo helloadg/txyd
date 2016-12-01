@@ -25,7 +25,7 @@ public class FreemarkerCreateJavaServiceImpl extends FreemarkerCreateBase {
 		
 		String BaseService = "BaseService";
 		String BaseKeyService = "BaseKeyService";
-		String BaseWithKeyServiceImpl = "BaseWithKeyServiceImpl";
+		String BaseNoKeyServiceImpl = "BaseNoKeyServiceImpl";
 		String BaseServiceImpl = "BaseServiceImpl";
 		{
 			String Base = "Base";
@@ -54,13 +54,13 @@ public class FreemarkerCreateJavaServiceImpl extends FreemarkerCreateBase {
 			}
 			BaseService = Base + Service;
 			BaseKeyService = Base + "Key" + Service;
-			BaseWithKeyServiceImpl = Base + "WithKey" + Service + Impl;
+			BaseNoKeyServiceImpl = Base + "NoKey" + Service + Impl;
 			BaseServiceImpl = Base + Service + Impl;
 		}
 		String BaseMapper = "BaseMapper";
-		String BaseKeyMapper = "BaseKeyMapper";
+		String BaseNoKeyMapper = "BaseNoKeyMapper";
 		String baseMapper = "baseMapper";
-		String baseKeyMapper = "baseKeyMapper";
+		String baseNoKeyMapper = "baseNoKeyMapper";
 		{
 			String Base = "Base";
 			String base = "base";
@@ -83,9 +83,9 @@ public class FreemarkerCreateJavaServiceImpl extends FreemarkerCreateBase {
 			}
 			
 			BaseMapper = Base + Mapper;
-			BaseKeyMapper = Base + "Key" + Mapper;
+			BaseNoKeyMapper = Base + "NoKey" + Mapper;
 			baseMapper = base + Mapper;
-			baseKeyMapper = base + "Key" + Mapper;
+			baseNoKeyMapper = base + "NoKey" + Mapper;
 			
 		}
 		
@@ -127,12 +127,12 @@ public class FreemarkerCreateJavaServiceImpl extends FreemarkerCreateBase {
 			
 			context.put("BaseService", BaseService);
 			context.put("BaseKeyService", BaseKeyService);
-			context.put("BaseWithKeyServiceImpl", BaseWithKeyServiceImpl);
+			context.put("BaseNoKeyServiceImpl", BaseNoKeyServiceImpl);
 			context.put("BaseServiceImpl", BaseServiceImpl);
 			context.put("BaseMapper", BaseMapper);
-			context.put("BaseKeyMapper", BaseKeyMapper);
+			context.put("BaseNoKeyMapper", BaseNoKeyMapper);
 			context.put("baseMapper", baseMapper);
-			context.put("baseKeyMapper", baseKeyMapper);
+			context.put("baseNoKeyMapper", baseNoKeyMapper);
 			
 			context.put("javabeanModelClassNameKey", javabeanModelClassNameKey);
 			context.put("importModelClassNameKey", importModelClassNameKey);
