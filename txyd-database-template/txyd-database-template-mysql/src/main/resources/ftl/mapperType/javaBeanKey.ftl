@@ -36,9 +36,9 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	<#if columnBean.isPrimaryKey >
 	
 	/**
-	 * 是否可以为NULL：${columnBean.nullAble}
+	 * 是否可以为NULL：${columnBean.isNullAble?string('是','否')}
 	 * 列类型：${columnBean.columnType}
-	 * 默认值：${columnBean.defaultValue}
+	 * 默认值：${columnBean.defaultValue!'null'}
 	 * 列的数据类型的长度：${columnBean.dataLength}
 	 * 列注释：${StringUtil.newLine2Html(columnBean.comments)}
 	 * 列的扩展：${columnBean.extra}

@@ -7,12 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TestMain {
-	private static ApplicationContext ctx;
+	private static ApplicationContext ctx= new ClassPathXmlApplicationContext("spring-component-scan-schema.xml");
 
 	@Autowired
 	private A a;
     public static void main(String[] args) {
-        ctx = new ClassPathXmlApplicationContext("spring-component-scan-schema.xml");
         System.out.println();
     }
 }

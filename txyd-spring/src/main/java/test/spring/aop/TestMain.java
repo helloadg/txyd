@@ -4,18 +4,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMain {
-	private static ApplicationContext ctx;
+	private static final ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-aop-schema.xml");
 
     public static void main(String[] args) {
-    	IHello helloService = new HelloService();
-        helloService.sayHello();
-        helloService.sayHello2();
-        System.out.println("*************************");
-        ctx = new ClassPathXmlApplicationContext("spring-aop-schema.xml");
+        {
+            IHello helloService = new HelloService();
+            helloService.sayHello();
+            System.out.println("*************************");
+        }
+        {
+            IHello helloService = ctx.getBean("helloService",IHello.class);
+    
+            helloService.sayHello();
+        }
         
-        helloService = ctx.getBean("helloService",IHello.class);
-        
-        helloService.sayHello();
-        helloService.sayHello2();
     }
 }

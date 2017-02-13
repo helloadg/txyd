@@ -106,7 +106,7 @@ public class FreemarkerCreateJavaBaseNoKeyServiceImpl extends FreemarkerCreateBa
 		
 		Map<String, String> fileMap = new HashMap<String, String>();
 		
-		String fileName = BaseServiceImpl;
+		String fileName = BaseNoKeyServiceImpl;
 		String fileContent = writer.toString();
 		System.out.println("创建：" + fileName + ".java");
 		fileMap.put(fileName, fileContent);

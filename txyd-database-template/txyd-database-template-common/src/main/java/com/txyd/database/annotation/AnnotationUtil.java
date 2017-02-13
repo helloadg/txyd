@@ -184,7 +184,7 @@ public class AnnotationUtil {
 				comments+="\t * 是否是主键：{isPrimaryKey}\n";
 				comments+="\t */";
 				
-				comments=comments.replace("{nullAble}", columnBean.getNullAble().equals(NullAble.yes)?"可以":"不可");
+				comments=comments.replace("{nullAble}", (columnBean.getIsNullAble()!=null&&columnBean.getIsNullAble())?"可以":"不可");
 				comments=comments.replace("{columnType}", columnBean.getColumnType());
 				comments=comments.replace("{defaultValue}", columnBean.getDefaultValue());
 				comments=comments.replace("{dataLength}", columnBean.getDataLength());
@@ -361,7 +361,7 @@ public class AnnotationUtil {
 			
 			@Override
 			public NullAble nullAble() {
-				return NullAble.valueOf(model.getNullAble());
+				return(model.getIsNullAble()!=null&&model.getIsNullAble())? NullAble.yes:NullAble.no;
 			}
 			
 			@Override

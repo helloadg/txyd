@@ -65,10 +65,7 @@ public class ColumnBean extends BaseBean{
 	 * 列注释
 	 */
 	private String comments;
-//	/**
-//	 * 此列是否是主键
-//	 */
-//	private String primaryKey;
+
 	/**
 	 * 此列是否是主键
 	 */
@@ -76,7 +73,7 @@ public class ColumnBean extends BaseBean{
 	/**
 	 * 是否可以为null
 	 */
-	private String nullAble;
+	private Boolean isNullAble;
 	
 	/**
 	 * 对应的javabean的Field名称
@@ -185,11 +182,11 @@ public class ColumnBean extends BaseBean{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	public String getNullAble() {
-		return nullAble;
+	public Boolean getIsNullAble() {
+		return isNullAble;
 	}
-	public void setNullAble(String nullAble) {
-		this.nullAble = nullAble;
+	public void setIsNullAble(Boolean isNullAble) {
+		this.isNullAble = isNullAble;
 	}
 	public String getJavabeanFieldName() {
 		return javabeanFieldName;

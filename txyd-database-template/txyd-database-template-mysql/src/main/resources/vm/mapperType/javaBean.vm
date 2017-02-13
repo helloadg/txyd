@@ -32,7 +32,7 @@ public class ${tableBean.javabeanModelClassName} extends ${extendsClass} {
 #foreach ($columnBean in $columnBeanList)
 #if(!(${tableBean.primaryKeyNum} >1 && ${columnBean.isPrimaryKey}) )
 	/**
-	 * 是否可以为NULL：${columnBean.nullAble}
+	 * 是否可以为NULL：${columnBean.isNullAble}
 	 * 列类型：${columnBean.columnType}
 	 * 默认值：${columnBean.defaultValue}
 	 * 列的数据类型的长度：${columnBean.dataLength}

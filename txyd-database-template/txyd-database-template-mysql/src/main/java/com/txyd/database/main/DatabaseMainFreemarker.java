@@ -237,7 +237,5 @@ public class DatabaseMainFreemarker {
 			long endTime = System.currentTimeMillis();
 			System.out.println("总耗时：" + (endTime - startTime) + "ms");
 		}
-		
-		
 	}
 }

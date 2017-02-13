@@ -1,14 +1,5 @@
 package com.txyd.database.utils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.txyd.database.annotation.Column;
 import com.txyd.database.annotation.Table;
 import com.txyd.database.bean.BaseBean;
@@ -20,40 +11,43 @@ import com.txyd.database.inter.NullAble;
 import com.txyd.database.inter.Primarykey;
 import com.txyd.database.inter.TableType;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * 注解处理类
- * @author Administrator
  *
+ * @author Administrator
  */
 public class AnnotationUtil {
 	/**
-	 * 
-	 * @Description 将注解和其对应的javabean的属性放入map中
-	 * @author     
 	 * @param cls
 	 * @param model
 	 * @return
+	 * @Description 将注解和其对应的javabean的属性放入map中
+	 * @author
 	 */
-	private static <T extends Annotation,MODEL extends BaseBean >  Map<Method, Field> parseAnnotation2Map(Class<T> cls,MODEL model)
-	{
-		Map<Method, Field> map=new HashMap<Method, Field>();
-		Field[] fields=model.getClass().getDeclaredFields();
+	private static <T extends Annotation, MODEL extends BaseBean> Map<Method, Field> parseAnnotation2Map(Class<T> cls, MODEL model) {
+		Map<Method, Field> map = new HashMap<Method, Field>();
+		Field[] fields = model.getClass().getDeclaredFields();
 		Field.setAccessible(fields, true);
 		
-		Method[] methods=cls.getDeclaredMethods();
+		Method[] methods = cls.getDeclaredMethods();
 		Method.setAccessible(methods, true);
-		for(Method method:methods)
-		{
-			for(Field field:fields)
-			{
+		for (Method method : methods) {
+			for (Field field : fields) {
 				//注解的可以显示的方法名和类的非只读属性名相同
-				if(method.getName().equals(field.getName())
-						&&!Modifier.isFinal(field.getModifiers()))
-				{
+				if (method.getName().equals(field.getName())
+						&& !Modifier.isFinal(field.getModifiers())) {
 					map.put(method, field);
-				}				
+				}
 //				//注解的可以显示的方法名和类的非只读属性名相同
 //				if(method.isAnnotationPresent(AnnotationField.class)
 //						&&method.getAnnotation(AnnotationField.class).require()
@@ -62,116 +56,109 @@ public class AnnotationUtil {
 //				{
 //					map.put(method, field);
 //				}
-			}		
+			}
 		}
 		return map;
 	}
+	
 	/**
-	 * 
-	 * @Description 生成javabean注解的注释
-	 * @author     
-	 * @param mapA
+	 * @param clzz
+	 * @param model
+	 * @param jcb
 	 * @return
+	 * @Description 生成javabean注解的注释
+	 * @author
 	 */
-	private static <T extends Annotation,MODEL extends BaseBean >  String[]  annotationComments(Class<T> clzz, final MODEL model,final JavaConfigBean jcb)
-	{
+	private static <T extends Annotation, MODEL extends BaseBean> String[] annotationComments(Class<T> clzz, final MODEL model, final JavaConfigBean jcb) {
 		
 		
-		String comments="";
+		String comments = "";
 		{//静态添加注释
-			if(clzz.isAssignableFrom(Table.class))
-			{
-				TableBean tableBean=(TableBean)model;
-				comments+="/**\n";
-				comments+=" *\n";			
-				comments+=" *数据库类型：{databaseType}\n";
-				comments+=" *表所属schema：{tableSchema}\n";
-				comments+=" *表所属用户：{tableOwner}\n";
-				comments+=" *表名称：{tableName}\n";
-				comments+=" *表注释：{comments}\n";
-				comments+=" *类型：{tableType}\n";
-				comments+=" *@author：{author}\n";
-				comments+=" */";
-				comments=comments.replace("{databaseType}", tableBean.getTableSchema());
-				comments=comments.replace("{tableSchema}", tableBean.getTableSchema());
-				comments=comments.replace("{tableOwner}", tableBean.getTableOwner());
-				comments=comments.replace("{tableName}", tableBean.getTableName());
-				comments=comments.replace("{comments}", tableBean.getComments());
-				comments=comments.replace("{tableType}", tableBean.getTableType().equals(TableType.table)?"基本表":"视图");
-				comments=comments.replace("{author}", jcb.getAuthor().trim());
-			}else if(clzz.isAssignableFrom(Column.class))
-			{
-				ColumnBean columnBean=(ColumnBean)model;
-				comments+="\t/**\n";
-				comments+="\t *\n";	
-				comments+="\t * 是否可以为NULL：{nullAble}\n";
-				comments+="\t * 列类型：{columnType}\n";
-				comments+="\t * 默认值：{defaultValue}\n";
-				comments+="\t * 列的数据类型的长度：{dataLength}\n";
-				comments+="\t * 列注释：{comments}\n";
-				comments+="\t * 列的扩展：{extra}\n";
-				comments+="\t * 列名：{columnName}\n";
-				comments+="\t * 列的数据类型：{dataType}\n";
-				comments+="\t * 是否是主键：{isPrimaryKey}\n";
-				comments+="\t */";
+			if (clzz.isAssignableFrom(Table.class)) {
+				TableBean tableBean = (TableBean) model;
+				comments += "/**\n";
+				comments += " *\n";
+				comments += " *数据库类型：{databaseType}\n";
+				comments += " *表所属schema：{tableSchema}\n";
+				comments += " *表所属用户：{tableOwner}\n";
+				comments += " *表名称：{tableName}\n";
+				comments += " *表注释：{comments}\n";
+				comments += " *类型：{tableType}\n";
+				comments += " *@author：{author}\n";
+				comments += " */";
+				comments = comments.replace("{databaseType}", tableBean.getTableSchema());
+				comments = comments.replace("{tableSchema}", tableBean.getTableSchema());
+				comments = comments.replace("{tableOwner}", tableBean.getTableOwner());
+				comments = comments.replace("{tableName}", tableBean.getTableName());
+				comments = comments.replace("{comments}", tableBean.getComments());
+				comments = comments.replace("{tableType}", tableBean.getTableType().equals(TableType.table) ? "基本表" : "视图");
+				comments = comments.replace("{author}", jcb.getAuthor().trim());
+			} else if (clzz.isAssignableFrom(Column.class)) {
+				ColumnBean columnBean = (ColumnBean) model;
+				comments += "\t/**\n";
+				comments += "\t *\n";
+				comments += "\t * 是否可以为NULL：{nullAble}\n";
+				comments += "\t * 列类型：{columnType}\n";
+				comments += "\t * 默认值：{defaultValue}\n";
+				comments += "\t * 列的数据类型的长度：{dataLength}\n";
+				comments += "\t * 列注释：{comments}\n";
+				comments += "\t * 列的扩展：{extra}\n";
+				comments += "\t * 列名：{columnName}\n";
+				comments += "\t * 列的数据类型：{dataType}\n";
+				comments += "\t * 是否是主键：{isPrimaryKey}\n";
+				comments += "\t */";
 				
-				comments=comments.replace("{nullAble}", columnBean.getNullAble().equals(NullAble.yes)?"可以":"不可");
-				comments=comments.replace("{columnType}", columnBean.getColumnType());
-				comments=comments.replace("{defaultValue}", columnBean.getDefaultValue());
-				comments=comments.replace("{dataLength}", columnBean.getDataLength());
+				comments = comments.replace("{nullAble}", columnBean.getIsNullAble() ? "可以" : "不可");
+				comments = comments.replace("{columnType}", columnBean.getColumnType());
+				comments = comments.replace("{defaultValue}", columnBean.getDefaultValue());
+				comments = comments.replace("{dataLength}", columnBean.getDataLength());
 				
-				comments=comments.replace("{comments}", StringUtil.newLine2Html(columnBean.getComments()));
-				comments=comments.replace("{extra}", columnBean.getExtra());
-				comments=comments.replace("{columnName}", columnBean.getColumnName());
-				comments=comments.replace("{dataType}", columnBean.getDataType());
-				comments=comments.replace("{isPrimaryKey}", columnBean.getIsPrimaryKey()?"是":"否");
+				comments = comments.replace("{comments}", StringUtil.newLine2Html(columnBean.getComments()));
+				comments = comments.replace("{extra}", columnBean.getExtra());
+				comments = comments.replace("{columnName}", columnBean.getColumnName());
+				comments = comments.replace("{dataType}", columnBean.getDataType());
+				comments = comments.replace("{isPrimaryKey}", columnBean.getIsPrimaryKey() ? "是" : "否");
 			}
 		}
-		
 		
 		
 		return comments.split("\n");
 	}
 	
 	/**
-	 * 
-	 * @Description 生成javabean的注解
-	 * @author     
-	 * @param clzz 注解名.class
+	 * @param clzz  注解名.class
 	 * @param model 类名
 	 * @return
+	 * @Description 生成javabean的注解
+	 * @author
 	 */
-	private static <T extends Annotation,MODEL extends BaseBean > String[] annotationContext(Class<T> clzz, final MODEL model,final JavaConfigBean jcb)
-	{
-		List<String> comments=new ArrayList<>();		
+	private static <T extends Annotation, MODEL extends BaseBean> String[] annotationContext(Class<T> clzz, final MODEL model, final JavaConfigBean jcb) {
+		List<String> comments = new ArrayList<>();
 		
 		{//添加jackson的注解模式
-			if(model.getClass().isAssignableFrom(ColumnBean.class) )
-			{
-				ColumnBean cb=(ColumnBean)model;
-				comments.add("@"+"JsonProperty(\""+cb.getColumnName()+"\")");
-			}else if(model.getClass().isAssignableFrom(TableBean.class) )
-			{
+			if (model.getClass().isAssignableFrom(ColumnBean.class)) {
+				ColumnBean cb = (ColumnBean) model;
+				comments.add("@" + "JsonProperty(\"" + cb.getColumnName() + "\")");
+			} else if (model.getClass().isAssignableFrom(TableBean.class)) {
 				comments.add("@JsonIgnoreProperties(ignoreUnknown = true)");
 				comments.add("@JsonInclude(JsonInclude.Include.NON_NULL)");
 				
-			}			
-		}	
-
-		return  comments.toArray(new String[1]);//将list转为字符串数组输出，和1无关系；
-	
+			}
+		}
+		
+		return comments.toArray(new String[1]);//将list转为字符串数组输出，和1无关系；
+		
 	}
+	
 	/**
-	 * 
-	 * @Description 返回ColumnBean类实例的注解
-	 * @author     
 	 * @param model
 	 * @param jcb
 	 * @return
+	 * @Description 返回ColumnBean类实例的注解
+	 * @author
 	 */
-	public static Column getAnnotation(final ColumnBean model,final JavaConfigBean jcb)
-	{
-		Column annotation =new  Column() {
+	public static Column getAnnotation(final ColumnBean model, final JavaConfigBean jcb) {
+		Column annotation = new Column() {
 			
 			@Override
 			public Class<? extends Annotation> annotationType() {
@@ -180,7 +167,7 @@ public class AnnotationUtil {
 			
 			@Override
 			public NullAble nullAble() {
-				return NullAble.valueOf(model.getNullAble());
+				return (model.getIsNullAble() != null && model.getIsNullAble()) ? NullAble.yes : NullAble.no;
 			}
 			
 			@Override
@@ -190,7 +177,7 @@ public class AnnotationUtil {
 			
 			@Override
 			public Primarykey isPrimaryKey() {
-				return model.getIsPrimaryKey()?Primarykey.yes:Primarykey.no;
+				return model.getIsPrimaryKey() ? Primarykey.yes : Primarykey.no;
 			}
 			
 			@Override
@@ -217,40 +204,40 @@ public class AnnotationUtil {
 			public String columnName() {
 				return model.getColumnName();
 			}
-
+			
 			@Override
 			public String columnType() {
 				return model.getColumnType();
 			}
-
+			
 			@Override
 			public String extra() {
 				return model.getExtra();
 			}
+			
 			@Override
 			public String[] annotationContext() {
-				return AnnotationUtil.annotationContext(Column.class,model,jcb);
+				return AnnotationUtil.annotationContext(Column.class, model, jcb);
 			}
 			
 			@Override
 			public String[] annotationComments() {
-				return AnnotationUtil.annotationComments(Column.class,model,jcb);
+				return AnnotationUtil.annotationComments(Column.class, model, jcb);
 			}
-
-		};			
-		return annotation;	
+			
+		};
+		return annotation;
 	}
+	
 	/**
-	 * 
-	 * @Description 返回tableBean的注解
-	 * @author     
 	 * @param model
 	 * @param jcb
 	 * @return
+	 * @Description 返回tableBean的注解
+	 * @author
 	 */
-	public static Table getAnnotation(final TableBean model,final JavaConfigBean jcb)
-	{
-		Table annotation=new Table() {
+	public static Table getAnnotation(final TableBean model, final JavaConfigBean jcb) {
+		Table annotation = new Table() {
 			@Override
 			public Class<? extends Annotation> annotationType() {
 				return this.getClass();
@@ -288,22 +275,20 @@ public class AnnotationUtil {
 			
 			@Override
 			public String[] annotationContext() {
-				return AnnotationUtil.annotationContext(Table.class,model,jcb);
+				return AnnotationUtil.annotationContext(Table.class, model, jcb);
 			}
 			
 			@Override
 			public String[] annotationComments() {
-				return AnnotationUtil.annotationComments(Table.class,model,jcb);
+				return AnnotationUtil.annotationComments(Table.class, model, jcb);
 			}
 		};
 		return annotation;
 	}
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		try {
-			for(Method method:Column.class.getDeclaredMethods())
-			{
+			for (Method method : Column.class.getDeclaredMethods()) {
 				
 			}
 		} catch (SecurityException e) {
@@ -322,7 +307,7 @@ public class AnnotationUtil {
 //			System.out.println(str);
 		}
 
-		
+
 //		TableBean table=new TableBean();
 //		table.setTableOwner("root");
 //		table.setTableName("t_worksheet_client");
@@ -343,5 +328,5 @@ public class AnnotationUtil {
 //		System.out.println(AnnotationUtil.getAnnotation(Column.class, column).annotationForField());
 		
 	}
-
+	
 }

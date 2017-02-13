@@ -25,7 +25,8 @@
         <module>txyd-qcode</module>
         <module>txyd-json</module>
 		<module>txyd-mc</module>
-	</modules>
+        <module>txyd-dubbo</module>
+    </modules>
 	<properties>
 		<!-- 自身版本号 -->
 		<self.version>0.0.1</self.version>
