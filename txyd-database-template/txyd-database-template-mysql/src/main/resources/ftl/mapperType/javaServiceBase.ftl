@@ -51,11 +51,29 @@ public interface ${BaseService}<T,ID>  extends ${BaseNoKeyService}<T> {
 	public T getById(ID id);
 
 	/**
+	 *
+	 * @param id
+	 * @param isForUpdate
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public T getById(ID id, Boolean isForUpdate);
+
+	/**
 	 * 
 	 * @param ids
 	 * @author ${jcb.author}
 	 * @return
 	 */
 	public List<T> getByIds(List<ID> ids);
+
+	/**
+	 *
+	 * @param ids
+	 * @param isForUpdate
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> getByIds(List<ID> ids, Boolean isForUpdate);
 
 }

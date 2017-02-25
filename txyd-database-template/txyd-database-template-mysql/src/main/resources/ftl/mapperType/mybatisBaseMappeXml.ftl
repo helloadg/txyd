@@ -399,12 +399,43 @@
 	</#list>	
     </trim>
   </insert>
+<#else>
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" >
+    INSERT INTO  ${tableBean.getTableName() }
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	<#list tableBean.getListColumn() as columnBean  >
+		<#assign columnName = columnBean.columnName >
+		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+			<#assign columnName = "`" + columnName + "`"  >
+		</#if>
+      <if test="${javabeanFieldName} != null">
+        ${columnName},
+      </if>
+	</#list>	
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+	<#list tableBean.getListColumn() as columnBean  >
+		<#assign columnName = columnBean.columnName >
+		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+			<#assign columnName = "`" + columnName + "`"  >
+		</#if>
+      <if test="${javabeanFieldName} != null">
+         ${r"#{"+javabeanFieldName+"}"} ,
+      </if>
+	</#list>	
+    </trim>
+  </insert>
 </#if>
 
 <#if (idExtra?? )  >
-  <!--insert batch into table -->
-  <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
+  <!--insert not exists into table -->
+  <insert id="insertNotExists" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
+    <trim>
     INSERT INTO ${tableBean.getTableName()}
+    <![CDATA[
       (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
@@ -429,6 +460,159 @@
 	
 	</#list>
 	  )
+    ]]>
+    <foreach collection="map" index="value" item="where" open="" close="" separator=" UNION ALL " >
+	  <if test="value != null">
+        SELECT
+	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
+		<#list columnlist as  columnBean >
+			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
+			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+				<#if (columnBean_index == 0)>
+		${r"#{value."+columnJavaBeanName+"}"}<#rt>
+				<#else>
+		${r"#{value."+columnJavaBeanName+"}"}<#t>
+				</#if>	
+			<#else>
+				<#if (columnBean_index == 0)>
+		${r"#{value."+columnJavaBeanName+"}"},<#rt>
+				<#else>
+		${r"#{value."+columnJavaBeanName+"}"},<#t>
+				</#if>			
+			</#if>
+		</#list>
+	
+	</#list>
+        FROM dual
+		<if test="where !=null" >
+			WHERE NOT EXISTS(
+              SELECT 1 FROM ${tableBean.getTableName()}
+			<where>
+	<#list tableBean.getListColumn() as columnBean  >
+		<#assign columnName = columnBean.columnName >
+		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+			<#assign columnName = "`" + columnName + "`"  >
+		</#if>
+                <if test="${columnBean.getJavabeanFieldName()} != null">
+                    AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
+                </if>
+	</#list>
+			</where>
+		    )
+		</if>
+      </if>
+    </foreach>
+    </trim>
+  </insert>
+<#else>
+  <!--insert not exists into table -->
+  <insert id="insertNotExists" parameterType="java.util.List">
+    <trim>
+    INSERT INTO ${tableBean.getTableName()}
+    <![CDATA[
+      (
+	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
+		<#list columnlist as  columnBean >
+			<#assign columnName = columnBean.getColumnName() >
+			<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
+				<#assign columnName ="`"+columnName+"`" >
+			</#if>
+			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+				<#if (columnBean_index == 0)>
+		${columnName}<#rt>
+				<#else>
+		${columnName}<#t>
+				</#if>	
+			<#else>
+				<#if (columnBean_index == 0)>
+		${columnName},<#rt>
+				<#else>
+		${columnName},<#t>
+				</#if>			
+			</#if>
+		</#list>
+	
+	</#list>
+	  )
+     ]]>
+    <foreach collection="list" index="value" item="where" open="" close="" separator=" UNION ALL " >
+	  <if test="value != null">
+        SELECT
+	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
+		<#list columnlist as  columnBean >
+			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
+			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+				<#if (columnBean_index == 0)>
+		${r"#{value."+columnJavaBeanName+"}"}<#rt>
+				<#else>
+		${r"#{value."+columnJavaBeanName+"}"}<#t>
+				</#if>	
+			<#else>
+				<#if (columnBean_index == 0)>
+		${r"#{value."+columnJavaBeanName+"}"},<#rt>
+				<#else>
+		${r"#{value."+columnJavaBeanName+"}"},<#t>
+				</#if>			
+			</#if>
+		</#list>
+	
+	</#list>
+        FROM dual
+		<if test="where !=null" >
+			WHERE NOT EXISTS(
+              SELECT 1 FROM ${tableBean.getTableName()}
+			<where>
+	<#list tableBean.getListColumn() as columnBean  >
+		<#assign columnName = columnBean.columnName >
+		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
+		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
+			<#assign columnName = "`" + columnName + "`"  >
+		</#if>
+                <if test="${columnBean.getJavabeanFieldName()} != null">
+                    AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
+                </if>
+	</#list>
+			</where>
+		    )
+		</if>
+      </if>
+    </foreach>
+    </trim>
+  </insert>
+</#if>
+
+
+<#if (idExtra?? )  >
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
+    INSERT INTO ${tableBean.getTableName()}
+	<![CDATA[
+      (
+	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
+		<#list columnlist as  columnBean >
+			<#assign columnName = columnBean.getColumnName() >
+			<#if ( KeyWords.contains( columnName?string?upper_case?trim) ) >
+				<#assign columnName ="`"+columnName+"`" >
+			</#if>
+			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
+				<#if (columnBean_index == 0)>
+		${columnName}<#rt>
+				<#else>
+		${columnName}<#t>
+				</#if>	
+			<#else>
+				<#if (columnBean_index == 0)>
+		${columnName},<#rt>
+				<#else>
+		${columnName},<#t>
+				</#if>			
+			</#if>
+		</#list>
+	
+	</#list>
+	  )
+    ]]>
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
 	  (
@@ -458,6 +642,7 @@
   <!--insert batch into table -->
   <insert id="insertBatch" parameterType="java.util.List">
     INSERT INTO ${tableBean.getTableName()}
+    <![CDATA[
       (
 	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
@@ -482,6 +667,7 @@
 	
 	</#list>
 	  )
+    ]]>
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
       (
@@ -508,6 +694,7 @@
     </foreach>
   </insert>
 </#if>
+
   
 <#if (tableBean.getPrimaryKeyNum() gt 0 )  >
   <!-- get the records by id -->
@@ -529,6 +716,9 @@
 		</#if>
 	</#list>	
 	</where>
+	<if test="isForUpdate !=null and isForUpdate == true ">
+        FOR UPDATE
+    </if>
   </select>
 </#if>
 
@@ -544,6 +734,9 @@
       <foreach collection="list" item="item" open="(" separator="," close=")">
        ${r"#{item}"}
       </foreach>
+      <if test="isForUpdate !=null and isForUpdate == true ">
+          FOR UPDATE
+      </if>
     </trim>
   </select>  
 	<#else>
@@ -557,6 +750,9 @@
       <foreach collection="list" item="item" open="(" separator="," close=")">
         (${idJavaBeanNamesWithItem})
       </foreach>
+      <if test="isForUpdate !=null and isForUpdate == true ">
+          FOR UPDATE
+      </if>
     </trim>
   </select>	
 	</#if>
@@ -580,6 +776,9 @@
           limit ${r"#{limit}"}
         </when>
       </choose>
+      <if test="isForUpdate !=null and isForUpdate == true ">
+          FOR UPDATE
+	  </if>
     </trim>
   </select>
 

@@ -61,6 +61,18 @@ public interface ${BaseNoKeyService}<T> {
 	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset, Integer limit);
 
 	/**
+	 * 根据条件查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset, Integer limit, Boolean isForUpdate);
+
+	/**
 	 * 分页查询
 	 * @param object ：查询条件
 	 * @param offset ：起始值
@@ -69,6 +81,17 @@ public interface ${BaseNoKeyService}<T> {
 	 * @return
 	 */
 	public List<T> select(T object,Integer offset, Integer limit);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> select(T object,Integer offset, Integer limit, Boolean isForUpdate);
 	
 	/**
 	 * 分页查询
@@ -78,7 +101,17 @@ public interface ${BaseNoKeyService}<T> {
 	 * @return
 	 */
 	public List<T> select(T object, LinkedHashMap<String,String> sort);
-	
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+     * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Boolean isForUpdate);
+
 	/**
 	 * 分页查询
 	 * @param object ：查询条件
@@ -86,6 +119,15 @@ public interface ${BaseNoKeyService}<T> {
 	 * @return
 	 */
 	public List<T> select(T object);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author ${jcb.author}
+	 * @return
+	 */
+	public List<T> select(T object, Boolean isForUpdate);
 
 	/**
 	 * 获取总条数

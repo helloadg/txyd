@@ -8,12 +8,10 @@ import ${jcb.basePackageBaseMapper}.${BaseMapper};
 import ${jcb.basePackageBaseService}.${BaseService};
 import ${jcb.basePackageBaseService}.${BaseNoKeyService};
 
-public abstract class ${BaseServiceImpl}<T,ID> extends ${BaseNoKeyServiceImpl}<T>  implements ${BaseService}<T,ID> {
-
+public abstract class ${BaseServiceImpl}<T, ID> extends ${BaseNoKeyServiceImpl}<T>  implements ${BaseService}<T, ID> {
 	
 	@Autowired
 	private ${BaseMapper}<T, ID> ${baseMapper};
-
 
 	@Override
 	public int updateById(T t, ID id) {
@@ -54,19 +52,40 @@ public abstract class ${BaseServiceImpl}<T,ID> extends ${BaseNoKeyServiceImpl}<T
 	}
 
 	@Override
-	public T getById(ID  id) {
-		return this.${baseMapper}.getById(id);
+	public T getById(ID id) {
+		return this.${baseMapper}.getById(id, null);
+	}
+
+	@Override
+	public T getById(ID id, Boolean isForUpdate) {
+		return this.${baseMapper}.getById(id, isForUpdate);
 	}
 	
 	@Override
-	public List<T> getByIds(List<ID>  ids) {
+	public List<T> getByIds(List<ID> ids) {
 		List<T> result = new ArrayList<>();
 		
 		List<List<ID>> list = splite(ids);
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				if(list.get(i) != null && list.get(i).size() > 0){
-					result.addAll(this.${baseMapper}.getByIds(list.get(i))) ;
+					result.addAll(this.${baseMapper}.getByIds(list.get(i), null)) ;
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<T> getByIds(List<ID> ids, Boolean isForUpdate) {
+		List<T> result = new ArrayList<>();
+		
+		List<List<ID>> list = splite(ids);
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i) != null && list.get(i).size() > 0){
+					result.addAll(this.${baseMapper}.getByIds(list.get(i), isForUpdate)) ;
 				}
 			}
 		}

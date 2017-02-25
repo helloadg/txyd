@@ -72,11 +72,35 @@ public class TimeUtil {
 	}
 	
 	/**
+	 * TODO 将时间格式按format
+	 * @param timeStamp   日期时间
+	 * @param format 日期时间格式
+	 * @return
+	 */
+	public static String toStr(final int timeStamp, final String format)
+	{
+		Calendar cal = calendar();
+		cal.setTimeInMillis((long)(timeStamp*1000.0));
+		
+		final SimpleDateFormat customFormat = (SimpleDateFormat) TimeUtil.DATE_TIME_FORMAT.clone();
+		customFormat.applyPattern(format.trim());
+		return customFormat.format(cal.getTime());
+	}
+	
+	/**
 	 * 获取时间的格式化"yyyy-MM-dd HH:mm:ss" 字符串
 	 * @return
 	 */
 	public static String toStr( Date date){
 		return toStr(date, TimeUtil.DATE_TIME_PATTERN);
+	}
+	
+	/**
+	 * 获取时间的格式化"yyyy-MM-dd HH:mm:ss" 字符串
+	 * @return
+	 */
+	public static String toStr( final int timeStamp){
+		return toStr(timeStamp, TimeUtil.DATE_TIME_PATTERN);
 	}
 	
 	/**
@@ -309,6 +333,7 @@ public class TimeUtil {
 
 		return getFirstDayOfMonth(now());
 	}
+	
 	/**
 	 * 指定日期所在月的第一天
 	 * <p>
@@ -327,6 +352,24 @@ public class TimeUtil {
 		return cal.getTime();
 	}
 	
+	/**
+	 * 指定日期所在月的第一天
+	 * <p>
+	 * HH:mm:ss SS为零
+	 *
+	 * @return
+	 */
+	public static int getFirstDayOfMonth(final int timestamp) {
+		final Calendar cal = calendar();
+		cal.setTimeInMillis((long)(timestamp * 1000.0));
+		
+		cal.set(Calendar.DAY_OF_MONTH, 1); // M月置1
+		cal.set(Calendar.HOUR_OF_DAY, 0);// H置零
+		cal.set(Calendar.MINUTE, 0);// m置零
+		cal.set(Calendar.SECOND, 0);// s置零
+		cal.set(Calendar.MILLISECOND, 0);// S置零
+		return (int)(cal.getTimeInMillis() /1000.0);
+	}
 	/**
 	 * 获得指定日期的所在礼拜的礼拜几的日期
 	 * @param week
@@ -550,23 +593,79 @@ public class TimeUtil {
 //
 //	}
 	
+	/**
+	 *
+	 * @param timeStamp
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param hour
+	 * @param minute
+	 * @param second
+	 * @param milliSecond
+	 * @return
+	 */
+	public static int addDate(int timeStamp,int year,int month,int day,int hour,int minute,int second,int milliSecond){
+		Calendar cal =calendar();
+		cal.setTimeInMillis((long)(timeStamp *1000.0));
+		
+		cal.add(Calendar.YEAR,year);
+		cal.add(Calendar.MONTH,month);
+		cal.add(Calendar.DAY_OF_MONTH,day);
+		cal.add(Calendar.HOUR_OF_DAY,hour);
+		cal.add(Calendar.MINUTE,minute);
+		cal.add(Calendar.SECOND,second);
+		cal.add(Calendar.MILLISECOND,milliSecond);
+		
+		return (int) (cal.getTimeInMillis()/1000);
+	}
+	
+	/**
+	 *
+	 * @param date
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param hour
+	 * @param minute
+	 * @param second
+	 * @param milliSecond
+	 * @return
+	 */
+	public static Date addDate(Date date,int year,int month,int day,int hour,int minute,int second,int milliSecond){
+		Calendar cal =calendar();
+		cal.setTime(date);
+		
+		cal.add(Calendar.YEAR,year);
+		cal.add(Calendar.MONTH,month);
+		cal.add(Calendar.DAY_OF_MONTH,day);
+		cal.add(Calendar.HOUR_OF_DAY,hour);
+		cal.add(Calendar.MINUTE,minute);
+		cal.add(Calendar.SECOND,second);
+		cal.add(Calendar.MILLISECOND,milliSecond);
+		
+		return cal.getTime();
+	}
+	
 	public static void main(String[] args) throws ParseException {
 //		System.out.println(TimeUtil.toStr(null, null));
 //		System.out.println(TimeUtil.toStr(TimeUtil.toDate(null, null), null));
 //		Date d=TimeUtil.toDate("2014-08-08 09:32:04", null);
 //		System.out.println(d.toString());
 		
-		System.out.println(TimeUtil.getDayOfMonth());
+//		System.out.println(TimeUtil.getDayOfMonth());
+//
+//		Date date= TimeUtil.toDate("2016-10-17", TimeUtil.DATE_PATTERN);
+//		Calendar calendar = Calendar.getInstance(Locale.CHINESE);
+//		calendar.setFirstDayOfWeek(Calendar.MONDAY);
+//
+//		calendar.setTime(date);
+//		System.out.println(TimeUtil.toStr(date));
+//		System.out.println(calendar.get(Calendar.MONTH)+1);
+//		System.out.println(TimeUtil.getDayOfMonth(TimeUtil.getLastDayOfMonth(date)));
+//		System.out.println(TimeUtil.toStr(TimeUtil.getDateOfWeek(1)));
 		
-		Date date= TimeUtil.toDate("2016-10-17", TimeUtil.DATE_PATTERN);
-		Calendar calendar = Calendar.getInstance(Locale.CHINESE);
-		calendar.setFirstDayOfWeek(Calendar.MONDAY);
-		
-		calendar.setTime(date);
-		System.out.println(TimeUtil.toStr(date));
-		System.out.println(calendar.get(Calendar.MONTH)+1);
-		System.out.println(TimeUtil.getDayOfMonth(TimeUtil.getLastDayOfMonth(date)));
-		System.out.println(TimeUtil.toStr(TimeUtil.getDateOfWeek(1)));
+		System.out.println(TimeUtil.toStr(TimeUtil.addDate(TimeUtil.getSecs(),0,0,0,0,0,0,0)));
 		
 				 
 		

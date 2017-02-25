@@ -49,24 +49,43 @@ public abstract class ${BaseNoKeyServiceImpl}<T> extends ${BaseImpl} implements 
 	
 	@Override
 	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset,  Integer limit) {
-		return this.${baseNoKeyMapper}.select(object,sort,  offset,  limit);
+		return this.${baseNoKeyMapper}.select(object,sort,  offset,  limit, null);
+	}
+
+	@Override
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset,  Integer limit ,Boolean isForUpdate) {
+		return this.${baseNoKeyMapper}.select(object, sort, offset, limit, isForUpdate);
 	}
 
 	@Override
 	public List<T> select(T object, Integer offset, Integer limit) {
-		return this.${baseNoKeyMapper}.select(object,null,  offset,  limit);
+		return this.${baseNoKeyMapper}.select(object, null, offset, limit, null);
+	}
+	@Override
+	public List<T> select(T object, Integer offset, Integer limit, Boolean isForUpdate) {
+		return this.${baseNoKeyMapper}.select(object, null, offset, limit, isForUpdate);
 	}
 	
 	@Override
 	public List<T> select(T object, LinkedHashMap<String,String> sort) {
-		return this.${baseNoKeyMapper}.select(object,sort,  null,  null);
+		return this.${baseNoKeyMapper}.select(object, sort, null, null, null);
 	}
-	
+
+	@Override
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Boolean isForUpdate) {
+		return this.${baseNoKeyMapper}.select(object, sort, null, null, null, isForUpdate);
+	}
+
 	@Override
 	public List<T> select(T object) {
-		return this.${baseNoKeyMapper}.select(object,null,  null,  null);
+		return this.${baseNoKeyMapper}.select(object, null, null, null, null);
 	}
-	
+
+	@Override
+	public List<T> select(T object, Boolean isForUpdate) {
+		return this.${baseNoKeyMapper}.select(object, null, null, null, isForUpdate);
+	}
+
 	@Override
 	public int selectCount(T object) {
 		return this.${baseNoKeyMapper}.selectCount(object);
