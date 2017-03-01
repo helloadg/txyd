@@ -49,7 +49,7 @@ public class FreemarkerCreateBaseMybatisXml extends FreemarkerCreateBase {
 	        context.put("KeyWords", new KeyWords());
 	        context.put("static", wrapper.getStaticModels());  
 //	        context.put("KeyWords", (TemplateHashModel)wrapper.getStaticModels().get("com.txyd.database.sql.KeyWords"));
-	        Template template = configuration.getTemplate("ftl/mapperType/mybatisBaseMappeXml.ftl");	        
+	        Template template = configuration.getTemplate("ftl/mapperType/mybatisBaseMapperXml.ftl");
 	        StringWriter writer = new StringWriter();
 	        template.process(context, writer);
 	        
