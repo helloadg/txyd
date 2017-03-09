@@ -14,19 +14,19 @@
 		<property name="javaPathRoot" value="src" /><!-- java文件所在的根目录 -->		
 		<property name="databaseType" value="mysql" /><!-- 数据库类型 -->		
 		<property name="databaseOwner" value="root" /><!-- 数据库所属用户 -->		
-		<property name="databaseSchema" value="pop_settlement" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
-		<property name="basePackage" value="com.sprucetec.pop.settlement" /><!-- 基础包名 -->
-		<property name="basePackageMapper" value="com.sprucetec.pop.settlement.dao" /><!-- 基础包名 ：mapper -->
-		<property name="basePackageBaseMapper" value="com.sprucetec.pop.settlement.dao.base" /><!-- 基础包名 ：mapper的基础根类 -->
+		<property name="databaseSchema" value="pop_product" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
+		<property name="basePackage" value="com.sprucetec.pop.product.sync" /><!-- 基础包名 -->
+		<property name="basePackageMapper" value="com.sprucetec.pop.product.sync.mapper" /><!-- 基础包名 ：mapper -->
+		<property name="basePackageBaseMapper" value="com.sprucetec.pop.product.sync.mapper.base" /><!-- 基础包名 ：mapper的基础根类 -->
 		<property name="basePackageDao" value="com.txyd.dao" /><!-- 基础包名 ：dao -->		
 		<property name="basePackageDaoImpl" value="com.txyd.dao.impl" /><!-- 基础包名 ：dao实现包 -->		
-		<property name="basePackageModel" value="com.sprucetec.pop.settlement.entity" /><!-- 基础包名 ：model -->
-		<property name="basePackageParam" value="com.sprucetec.pop.settlement.param" /><!-- 基础包名 ：param -->
+		<property name="basePackageModel" value="com.sprucetec.pop.product.sync.domain" /><!-- 基础包名 ：model -->
+		<property name="basePackageParam" value="com.sprucetec.pop.product.sync.param" /><!-- 基础包名 ：param -->
 		<property name="modelKey" value="Key" /><!-- 如果model所对应的表含联合主键，生成的model所对应的主键类名的后缀 -->		
-		<property name="basePackageService" value="com.sprucetec.pop.settlement.manager" /><!-- 基础包名：service -->
-		<property name="basePackageBaseService" value="com.sprucetec.pop.settlement.manager.base" /><!-- 基础包名：baseService -->
-		<property name="basePackageServiceImpl" value="com.sprucetec.pop.settlement.manager.impl" /><!-- 基础包名：service实现包 -->
-		<property name="basePackageBaseServiceImpl" value="com.sprucetec.pop.settlement.manager.impl.base" /><!-- 基础包名：service基础实现包 -->
+		<property name="basePackageService" value="com.sprucetec.pop.product.sync.manager" /><!-- 基础包名：service -->
+		<property name="basePackageBaseService" value="com.sprucetec.pop.product.sync.manager.base" /><!-- 基础包名：baseService -->
+		<property name="basePackageServiceImpl" value="com.sprucetec.pop.product.sync.manager.impl" /><!-- 基础包名：service实现包 -->
+		<property name="basePackageBaseServiceImpl" value="com.sprucetec.pop.product.sync.manager.impl.base" /><!-- 基础包名：service基础实现包 -->
 		<property name="xmlMapper" value="Mapper" /><!-- xml文件名称后缀 -->		
 		<property name="xmlPath" value="mapper" /><!-- 基础包名：xml所在路径 -->		
 		<property name="xmlBaseMapper" value="BaseMapper" /><!-- xml基础文件名称后缀 -->	

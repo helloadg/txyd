@@ -41,6 +41,30 @@ public abstract class ${BaseImpl} {
 		return list;
 	}
 	
+	/**
+	 * 将大集合按照步长分段
+	 *
+	 * @param all 大集合
+	 * @author
+	 */
+	public static <T, V> List<Map<T, V>> splite(Map<T, V> all) {
+		List<T> list = new ArrayList<>(all.keySet());
+		List<List<T>> steps = splite(list, batchNum);
+		List<Map<T, V>> result = new ArrayList<>();
+		if (steps != null && steps.size() > 0) {
+			for (List<T> item : steps) {
+				if (item != null && item.size() > 0) {
+					Map<T, V> map = new LinkedHashMap<>();
+					for(T t : item){
+						map.put(t,all.get(t));
+					}
+					result.add(map);
+				}
+			}
+		}
+		return result;
+	}
+	
     /**
      * 将大集合按照步长分段
      * @param all  大集合

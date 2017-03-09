@@ -3,6 +3,7 @@ package ${jcb.basePackageBaseService?lower_case};
 
 <#-- 类文件的import模版 -->
 import java.util.List;
+import java.util.Map;
 import java.util.LinkedHashMap;
 
 
@@ -31,6 +32,15 @@ public interface ${BaseNoKeyService}<T> {
 	 * @return
 	 */
 	public int insertBatch(List<T> list);
+
+
+	/**
+	 * 根据条件保存
+	 * @param insert
+	 * @author
+	 * @return
+	 */
+	public Integer insertNotExists(Map<T, T> insert);
 
     /**
      * 通过条件筛选修改

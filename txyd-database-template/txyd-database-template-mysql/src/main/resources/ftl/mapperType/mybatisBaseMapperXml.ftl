@@ -432,7 +432,7 @@
 
 <#if (idExtra?? && idExtra !="" )  >
   <!--insert not exists into table -->
-  <insert id="insertNotExists" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
+  <insert id="insertNotExists" useGeneratedKeys="true" keyProperty="${idExtra}" >
     <trim>
     INSERT INTO ${tableBean.getTableName()}
     <![CDATA[
@@ -507,7 +507,7 @@
   </insert>
 <#else>
   <!--insert not exists into table -->
-  <insert id="insertNotExists" parameterType="java.util.List">
+  <insert id="insertNotExists" >
     <trim>
     INSERT INTO ${tableBean.getTableName()}
     <![CDATA[
@@ -587,7 +587,7 @@
   <!--insert batch into table -->
   <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
     INSERT INTO ${tableBean.getTableName()}
-	<![CDATA[
+    <![CDATA[
     (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >

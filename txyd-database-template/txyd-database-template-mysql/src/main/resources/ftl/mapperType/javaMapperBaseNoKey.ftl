@@ -3,6 +3,7 @@ package ${jcb.basePackageBaseMapper?lower_case};
 
 <#-- 类文件的import模版 -->
 import java.util.List;
+import java.util.Map;
 import java.util.LinkedHashMap;
 import org.apache.ibatis.annotations.Param;
 /**
