@@ -264,7 +264,7 @@
     <trim>
      <![CDATA[
        INSERT INTO ${tableBean.getTableName()}
-       (
+         (
 	 <#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 	 	<#list columnlist as  columnBean >
 	 		<#assign columnName = columnBean.getColumnName() >
@@ -273,43 +273,43 @@
 	 		</#if>
 	 		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 	 			<#if (columnBean_index == 0)>
-	 	    ${columnName}<#rt>
+            ${columnName}<#rt>
 	 			<#else>
-	 	    ${columnName}<#t>
+            ${columnName}<#t>
 	 			</#if>
 	 		<#else>
 	 			<#if (columnBean_index == 0)>
-	 	    ${columnName},<#rt>
+            ${columnName},<#rt>
 	 			<#else>
-	 	    ${columnName},<#t>
+            ${columnName},<#t>
 	 			</#if>
 	 		</#if>
 	 	</#list>
 
 	 </#list>
-       )
+         )
        VALUES
-       (
+         (
 	 <#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 	  	<#list columnlist as  columnBean >
 	  		<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 	  			<#if (columnBean_index == 0)>
-	  	   ${r"#{"+columnJavaBeanName+"}"}<#rt>
+            ${r"#{"+columnJavaBeanName+"}"}<#rt>
 	  			<#else>
-	  	   ${r"#{"+columnJavaBeanName+"}"}<#t>
+            ${r"#{"+columnJavaBeanName+"}"}<#t>
 	  			</#if>
 	  		<#else>
 	  			<#if (columnBean_index == 0)>
-	  	   ${r"#{"+columnJavaBeanName+"}"},<#rt>
+            ${r"#{"+columnJavaBeanName+"}"},<#rt>
 	  			<#else>
-	       ${r"#{"+columnJavaBeanName+"}"},<#t>
+            ${r"#{"+columnJavaBeanName+"}"},<#t>
 	  			</#if>
 	  		</#if>
 	  	</#list>
 
 	  </#list>
-       )
+         )
       ]]>
     </trim>
   </insert>
@@ -319,7 +319,7 @@
     <trim>
       <![CDATA[
        INSERT INTO ${tableBean.getTableName()}
-       (
+         (
 	  <#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 	  	<#list columnlist as  columnBean >
 	  		<#assign columnName = columnBean.getColumnName() >
@@ -328,43 +328,43 @@
 	  		</#if>
 	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 	  			<#if (columnBean_index == 0)>
-	  		${columnName}<#rt>
+            ${columnName}<#rt>
 	  			<#else>
-	  		${columnName}<#t>
+            ${columnName}<#t>
 	  			</#if>
 	  		<#else>
 	  			<#if (columnBean_index == 0)>
-	  		${columnName},<#rt>
+            ${columnName},<#rt>
 	  			<#else>
-	  		${columnName},<#t>
+            ${columnName},<#t>
 	  			</#if>
 	  		</#if>
 	  	</#list>
 
 	  </#list>
-       )
+         )
        VALUES
-       (
+         (
 	  <#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 	  	<#list columnlist as  columnBean >
 	  		<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 	  		<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 	  			<#if (columnBean_index == 0)>
-	  		${r"#{"+columnJavaBeanName+"}"}<#rt>
+            ${r"#{"+columnJavaBeanName+"}"}<#rt>
 	  			<#else>
-	  		${r"#{"+columnJavaBeanName+"}"}<#t>
+            ${r"#{"+columnJavaBeanName+"}"}<#t>
 	  			</#if>
 	  		<#else>
 	  			<#if (columnBean_index == 0)>
-	  		${r"#{"+columnJavaBeanName+"}"},<#rt>
+            ${r"#{"+columnJavaBeanName+"}"},<#rt>
 	  			<#else>
-	  		${r"#{"+columnJavaBeanName+"}"},<#t>
+            ${r"#{"+columnJavaBeanName+"}"},<#t>
 	  			</#if>
 	  		</#if>
 	  	</#list>
 
 	  </#list>
-       )
+         )
       ]]>
     </trim>
   </insert>
@@ -434,9 +434,9 @@
   <!--insert not exists into table -->
   <insert id="insertNotExists" useGeneratedKeys="true" keyProperty="${idExtra}" >
     <trim>
-    INSERT INTO ${tableBean.getTableName()}
-    <![CDATA[
-    (
+      INSERT INTO ${tableBean.getTableName()}
+        <![CDATA[
+        (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnName = columnBean.getColumnName() >
@@ -445,62 +445,63 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-		  ${columnName}<#rt>
+            ${columnName}<#rt>
 				<#else>
-		  ${columnName}<#t>
+            ${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-		  ${columnName},<#rt>
+            ${columnName},<#rt>
 				<#else>
-		  ${columnName},<#t>
+            ${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-    )
-    ]]>
-    <foreach collection="map" index="value" item="where" open="" close="" separator=" UNION ALL " >
-      <if test="value != null">
-        SELECT
+        )
+        ]]>
+      <foreach collection="map" index="value" item="where" open="" close="" separator=" UNION ALL " >
+        <if test="value != null">
+          SELECT
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-          ${r"#{value."+columnJavaBeanName+"}"}<#rt>
+            ${r"#{value."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-          ${r"#{value."+columnJavaBeanName+"}"}<#t>
+            ${r"#{value."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-          ${r"#{value."+columnJavaBeanName+"}"},<#rt>
+            ${r"#{value."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-          ${r"#{value."+columnJavaBeanName+"}"},<#t>
+            ${r"#{value."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-        FROM dual
-      </if>
-      <if test="where !=null" >
-        WHERE NOT EXISTS(
-          SELECT 1 FROM ${tableBean.getTableName()}
-          <where>
+          FROM dual
+        </if>
+        <if test="where !=null" >
+          WHERE NOT EXISTS
+          (
+            SELECT 1 FROM ${tableBean.getTableName()}
+            <where>
 	<#list tableBean.getListColumn() as columnBean  >
 		<#assign columnName = columnBean.columnName >
 		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
 		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 			<#assign columnName = "`" + columnName + "`"  >
 		</#if>
-            <if test="${columnBean.getJavabeanFieldName()} != null">
-              AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
-            </if>
+              <if test="${columnBean.getJavabeanFieldName()} != null">
+                AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
+              </if>
 	</#list>
-          </where>
-        )
+            </where>
+          )
       </if>
     </foreach>
     </trim>
@@ -509,9 +510,9 @@
   <!--insert not exists into table -->
   <insert id="insertNotExists" >
     <trim>
-    INSERT INTO ${tableBean.getTableName()}
-    <![CDATA[
-    (
+      INSERT INTO ${tableBean.getTableName()}
+        <![CDATA[
+        (
 	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnName = columnBean.getColumnName() >
@@ -520,64 +521,65 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-		  ${columnName}<#rt>
+            ${columnName}<#rt>
 				<#else>
-		  ${columnName}<#t>
+            ${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-		  ${columnName},<#rt>
+            ${columnName},<#rt>
 				<#else>
-		  ${columnName},<#t>
+            ${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-    )
-     ]]>
-    <foreach collection="list" index="value" item="where" open="" close="" separator=" UNION ALL " >
-      <if test="value != null">
-        SELECT
+        )
+         ]]>
+      <foreach collection="list" index="value" item="where" open="" close="" separator=" UNION ALL " >
+        <if test="value != null">
+          SELECT
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-          ${r"#{value."+columnJavaBeanName+"}"}<#rt>
+            ${r"#{value."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-          ${r"#{value."+columnJavaBeanName+"}"}<#t>
+            ${r"#{value."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-          ${r"#{value."+columnJavaBeanName+"}"},<#rt>
+            ${r"#{value."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-          ${r"#{value."+columnJavaBeanName+"}"},<#t>
+            ${r"#{value."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-        FROM dual
-      </if>
-      <if test="where !=null" >
-        WHERE NOT EXISTS(
-          SELECT 1 FROM ${tableBean.getTableName()}
-          <where>
+          FROM dual
+        </if>
+        <if test="where !=null" >
+          WHERE NOT EXISTS
+          (
+            SELECT 1 FROM ${tableBean.getTableName()}
+            <where>
 	<#list tableBean.getListColumn() as columnBean  >
 		<#assign columnName = columnBean.columnName >
 		<#assign javabeanFieldName = columnBean.javabeanFieldName  >
 		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 			<#assign columnName = "`" + columnName + "`"  >
 		</#if>
-            <if test="${columnBean.getJavabeanFieldName()} != null">
-              AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
-            </if>
+              <if test="${columnBean.getJavabeanFieldName()} != null">
+                AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
+              </if>
 	</#list>
-          </where>
-         )
-      </if>
-    </foreach>
+            </where>
+           )
+        </if>
+      </foreach>
     </trim>
   </insert>
 </#if>
@@ -587,8 +589,8 @@
   <!--insert batch into table -->
   <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="${idExtra}" >
     INSERT INTO ${tableBean.getTableName()}
-    <![CDATA[
-    (
+      <![CDATA[
+      (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnName = columnBean.getColumnName() >
@@ -597,53 +599,53 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-      ${columnName}<#rt>
+        ${columnName}<#rt>
 				<#else>
-      ${columnName}<#t>
+        ${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-      ${columnName},<#rt>
+        ${columnName},<#rt>
 				<#else>
-      ${columnName},<#t>
+        ${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-    )
-    ]]>
+      )
+      ]]>
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
-    (
+      (
 	<#list tableBeanWithoutExtra.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-      ${r"#{item."+columnJavaBeanName+"}"}<#rt>
+        ${r"#{item."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-      ${r"#{item."+columnJavaBeanName+"}"}<#t>
+        ${r"#{item."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-      ${r"#{item."+columnJavaBeanName+"}"},<#rt>
+        ${r"#{item."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-      ${r"#{item."+columnJavaBeanName+"}"},<#t>
+        ${r"#{item."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>    	
-    )
+      )
     </foreach>
   </insert>
 <#else>
   <!--insert batch into table -->
   <insert id="insertBatch" parameterType="java.util.List">
     INSERT INTO ${tableBean.getTableName()}
-    <![CDATA[
-    (
+      <![CDATA[
+      (
 	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnName = columnBean.getColumnName() >
@@ -652,45 +654,45 @@
 			</#if>
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-      ${columnName}<#rt>
+        ${columnName}<#rt>
 				<#else>
-      ${columnName}<#t>
+        ${columnName}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-      ${columnName},<#rt>
+        ${columnName},<#rt>
 				<#else>
-      ${columnName},<#t>
+        ${columnName},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>
-    )
-    ]]>
+      )
+      ]]>
     VALUES
     <foreach collection="list" item="item" open="" separator="," close="">
-    (
+      (
 	<#list tableBean.getListColumn() ? chunk(5) as columnlist  >
 		<#list columnlist as  columnBean >
 			<#assign columnJavaBeanName = columnBean.getJavabeanFieldName() >
 			<#if !(columnlist_has_next)&&! (columnBean_has_next)  ><#--- 最后一个  -->
 				<#if (columnBean_index == 0)>
-      ${r"#{item."+columnJavaBeanName+"}"}<#rt>
+          ${r"#{item."+columnJavaBeanName+"}"}<#rt>
 				<#else>
-      ${r"#{item."+columnJavaBeanName+"}"}<#t>
+          ${r"#{item."+columnJavaBeanName+"}"}<#t>
 				</#if>	
 			<#else>
 				<#if (columnBean_index == 0)>
-      ${r"#{item."+columnJavaBeanName+"}"},<#rt>
+          ${r"#{item."+columnJavaBeanName+"}"},<#rt>
 				<#else>
-      ${r"#{item."+columnJavaBeanName+"}"},<#t>
+          ${r"#{item."+columnJavaBeanName+"}"},<#t>
 				</#if>			
 			</#if>
 		</#list>
 	
 	</#list>    	
-    )
+      )
     </foreach>
   </insert>
 </#if>
