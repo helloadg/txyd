@@ -12,8 +12,8 @@ import org.apache.ibatis.annotations.Param;
  * @param <ID>
  */
 public interface ${BaseMapper}<T,ID> extends ${BaseNoKeyMapper}<T>  {
-	T getById(ID id,@Param("isForUpdate") Boolean isForUpdate);
-	List<T> getByIds(List<ID> ids,@Param("isForUpdate") Boolean isForUpdate);
+	T getById(@Param("id") ID id,@Param("isForUpdate") Boolean isForUpdate);
+	List<T> getByIds(@Param("ids") List<ID> ids,@Param("isForUpdate") Boolean isForUpdate);
 
 	Integer updateById(@Param("${jcb.tableAlias}") T updateAlias, @Param("id") ID id);
     Integer updateByIds(@Param("${jcb.tableAlias}") T updateAlias, @Param("ids")List<ID> ids);

@@ -9,6 +9,8 @@ import net.sf.jsqlparser.statement.select.WithItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -200,10 +202,10 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		{
-			BigDecimal b1=new BigDecimal("100.0");
-			BigDecimal b2=new BigDecimal("100.00");
-			System.out.println(b1.equals(b2));
-			System.out.println(b1.compareTo(b2));
+//			BigDecimal b1=new BigDecimal("100.0");
+//			BigDecimal b2=new BigDecimal("100.00");
+//			System.out.println(b1.equals(b2));
+//			System.out.println(b1.compareTo(b2));
 		}
 		
 		{
@@ -212,10 +214,34 @@ public class Test {
 //			System.out.println(new BigDecimal("0.1").multiply(new BigDecimal("3")).toString());
 			{
 				{
-					double g= 2.4;
-					System.out.println(g* 1);
-					System.out.println(g* 1.0);
-					System.out.println(g* 0.1);
+					List<BigDecimal> list = new ArrayList<BigDecimal>(){{
+						add(new BigDecimal("2"));
+						add(new BigDecimal("5"));
+						add(new BigDecimal("1"));
+						add(new BigDecimal("7"));
+						add(new BigDecimal("9"));
+						add(new BigDecimal("8"));
+					}};
+					System.out.println(list);
+					Collections.sort(list, new Comparator<BigDecimal>() {
+						@Override
+						public int compare(BigDecimal o1, BigDecimal o2) {
+							return o1.compareTo(o2);
+						}
+					});
+					System.out.println(list);
+					
+				}
+				{
+//					Set<String> set = new HashSet<>();
+//					set.add(new String("dd"));
+//					System.out.println(set.contains(new String("dd")));
+				}
+				{
+//					double g= 2.4;
+//					System.out.println(g* 1);
+//					System.out.println(g* 1.0);
+//					System.out.println(g* 0.1);
 				}
 //				double g= 12.35;
 //				{

@@ -14,11 +14,7 @@ import org.apache.ibatis.annotations.Param;
 public interface ${BaseNoKeyMapper}<T> {
 <#--	List<T> select(T whereAlias);-->
 	Integer selectCount(@Param("${jcb.whereAlias}") T whereAlias);
-	List<T> select(@Param("${jcb.whereAlias}") T whereAlias,
-		@Param("sort") LinkedHashMap<String,String> sort,
-		@Param("offset") Integer offset,
-		@Param("limit") Integer limit,
-		@Param("isForUpdate") Boolean isForUpdate);
+	List<T> select(@Param("${jcb.whereAlias}") T whereAlias, @Param("sort") LinkedHashMap<String,String> sort, @Param("offset") Integer offset, @Param("limit") Integer limit, @Param("isForUpdate") Boolean isForUpdate);
 
 	Integer insert(T t);
 	Integer insertNotNull(T t);

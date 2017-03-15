@@ -66,7 +66,7 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 	</#if>
 </#list>
 
-<#-- 深度复制 -->
+<#-- 深度复制
 	/**
 	* 深度复制
 	*/
@@ -98,5 +98,6 @@ public class ${tableBean.javabeanKeyClassName} implements Serializable  {
 </#list>
 		+"}";
 	}
+-->
 }
 </#if>

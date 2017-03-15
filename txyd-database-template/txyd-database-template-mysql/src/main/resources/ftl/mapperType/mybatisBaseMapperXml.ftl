@@ -733,7 +733,7 @@
       <include refid="columns"/>
       FROM ${tableBean.getTableName()}
 	    WHERE ${ids} in
-      <foreach collection="list" item="item" open="(" separator="," close=")">
+      <foreach collection="ids" item="item" open="(" separator="," close=")">
        ${r"#{item}"}
       </foreach>
       <if test="isForUpdate !=null and isForUpdate == true ">
@@ -749,7 +749,7 @@
       <include refid="columns"/>
       FROM ${tableBean.getTableName()}
 	    WHERE (${ids}) in
-      <foreach collection="list" item="item" open="(" separator="," close=")">
+      <foreach collection="ids" item="item" open="(" separator="," close=")">
         (${idJavaBeanNamesWithItem})
       </foreach>
       <if test="isForUpdate !=null and isForUpdate == true ">

@@ -66,7 +66,7 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 
 </#list>
 
-<#-- 深度复制 -->
+<#-- 深度复制
 	/**
 	* 深度复制
 	*/
@@ -98,4 +98,5 @@ public class ${tableBean.javabeanModelClassName} ${extendsClass} implements Seri
 </#list>
 		+"}";
 	}
+-->
 }
