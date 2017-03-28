@@ -1,0 +1,84 @@
+数据库中时间时期的使用
+1，主流数据库系统中日期时间类型的表示方式 
+  在MYSQL、MSSQLServer和DB2中可以用字符串来表示日期时间类型，数据库系统
+会自动在内部将它们转换为日期时间类型，比如“'2008-08-08'”、“2008-08-08  08:00:00”、
+“08:00:00”  、“2008-08-08 08:00:00.000000”等。 
+  在Oracle 中以字符串表示的数据是不能自动转换为日期时间类型的，必须使用
+TO_DATE()函数来手动将字符串转换为日期时间类型的，比如TO_DATE('2008-08-08', 
+'YYYY-MM-DD  HH24:MI:SS') 、TO_DATE('2008-08-08  08:00:00',  'YYYY-MM-DD 
+HH24:MI:SS')、TO_DATE('08:00:00', 'YYYY-MM-DD HH24:MI:SS')等。
+2，取得当前日期时间
+2.1Mysql 
+  MYSQL中提供了NOW()函数用于取得当前的日期时间，NOW()函数还有SYSDATE()、
+CURRENT_TIMESTAMP等别名。如下： 
+Sql代码  收藏代码
+SELECT NOW(),SYSDATE(),CURRENT_TIMESTAMP   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果： 
+Java代码  收藏代码
+NOW()                        SYSDATE()                CURRENT_TIMESTAMP   
+8-01-12 01:13:19  2008-01-12 01:13:19        2008-01-12 01:13:19   
+ 
+  如果想得到不包括时间部分的当前日期，则可以使用CURDATE()函数，CURDATE()
+函数还有CURRENT_DATE等别名。如下： 
+Sql代码  收藏代码
+SELECT CURDATE(),CURRENT_DATE   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果： 
+Java代码  收藏代码
+CURDATE()  CURRENT_DATE   
+2008-01-12  2008-01-12   
+ 
+  如果想得到不包括日期部分的当前时间，则可以使用CURTIME()函数，CURTIME ()
+函数还有CURRENT_TIME等别名。如下： 
+Sql代码  收藏代码
+SELECT CURTIME(),CURRENT_TIME   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果：
+Java代码  收藏代码
+CURTIME()  CURRENT_TIME   
+01:17:09  01:17:09   
+ 2.2，oracle
+Oracle 中没有提供取得当前日期时间的函数，不过我们可以到系统表DUAL中查询SYSTIMESTAMP的值来得到当前的时间戳。如下： 
+Sql代码  收藏代码
+SELECT SYSTIMESTAMP    
+FROM DUAL   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果：
+Java代码  收藏代码
+   
+SYSTIMESTAMP   
+2008-1-14 21.46.42.78000000 8:0   
+ 同样，我们可以到系统表DUAL中查询SYSDATE的值来得到当前日期时间。如下： 
+Sql代码  收藏代码
+SELECT SYSDATE   
+FROM DUAL   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果：
+Java代码  收藏代码
+SYSDATE   
+2008-01-14 21:47:16.0   
+   同样，Oracle中也没有专门提供取得当前日期、取得当前时间的函数，不过我们可以将
+SYSDATE的值进行处理，这里需要借助于TO_CHAR()函数，这个函数的详细介绍后面章节
+介绍，这里只介绍它在日期处理方面的应用。 
+  使用TO_CHAR(时间日期值, 'YYYY-MM-DD') 可以得到日期时间值的日期部分，因此下
+面的SQL语句可以得到当前的日期值： 
+Java代码  收藏代码
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD')   
+FROM DUAL   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果：
+Java代码  收藏代码
+TO_CHAR(SYSDATE,YYYY-MM-DD)   
+2008-01-14   
+ 
+  使用TO_CHAR(时间日期值, 'HH24:MI:SS') 可以得到日期时间值的时间部分，因此下
+面的SQL语句可以得到当前的日期值： 
+Sql代码  收藏代码
+SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS')   
+FROM DUAL   
+ 
+  执行完毕我们就能在输出结果中看到下面的执行结果：
+Java代码  收藏代码
+TO_CHAR(SYSDATE,HH24:MI:SS)   
+21:56:13   

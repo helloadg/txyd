@@ -1,0 +1,132 @@
+java中String、StringBuffer、StringBuilder是编程中经常使用的字符串类，他们之间的区别也是经常在面试中会问到的问题。现在总结一下，看看他们的不同与相同。
+
+1.可变与不可变
+
+　　String类中使用字符数组保存字符串，如下就是，因为有“final”修饰符，所以可以知道string对象是不可变的。
+
+　　　　private final char value[];
+
+　　StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，如下就是，可知这两种对象都是可变的。
+
+　　　　char[] value;
+
+2.是否多线程安全
+
+　　String中的对象是不可变的，也就可以理解为常量，显然线程安全。
+
+　　AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。
+
+　　StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。看如下源码：
+
+复制代码
+ public synchronized StringBuffer reverse() {
+     super.reverse();
+     return this;
+ }
+ 
+ public int indexOf(String str) {
+     return indexOf(str, 0);        //存在 public synchronized int indexOf(String str, int fromIndex) 方法
+ }
+复制代码
+　　StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。
+
+ 3.StringBuilder与StringBuffer共同点
+
+　　StringBuilder与StringBuffer有公共父类AbstractStringBuilder(抽象类)。
+　抽象类与接口的其中一个区别是：抽象类中可以定义一些子类的公共方法，子类只需要增加新的功能，不需要重复写已经存在的方法；而接口中只是对方法的申明和常量的定义。
+　
+
+　　StringBuilder、StringBuffer的方法都会调用AbstractStringBuilder中的公共方法，如super.append(...)。只是StringBuffer会在方法上加synchronized关键字，进行同步。
+
+　　最后，如果程序不是多线程的，那么使用StringBuilder效率高于StringBuffer。
+
+
+
+StringBuffer类和String一样，也用来代表字符串，只是由于StringBuffer的内部实现方式和String不同，所以StringBuffer在进行字符串处理时，不生成新的对象，在内存使用上要优于String类。
+所以在实际使用时，如果经常需要对一个字符串进行修改，例如插入、删除等操作，使用StringBuffer要更加适合一些。
+在StringBuffer类中存在很多和String类一样的方法，这些方法在功能上和String类中的功能是完全一样的。
+
+但是有一个最显著的区别在于，对于StringBuffer对象的每次修改都会改变对象自身，这点是和String类最大的区别。
+另外由于StringBuffer是线程安全的，关于线程的概念后续有专门的章节进行介绍，所以在多线程程序中也可以很方便的进行使用，但是程序的执行效率相对来说就要稍微慢一些。
+
+1、StringBuffer对象的初始化
+
+StringBuffer对象的初始化不像String类的初始化一样，Java提供的有特殊的语法，而通常情况下一般使用构造方法进行初始化。
+例如：
+    StringBuffer s = new StringBuffer();
+这样初始化出的StringBuffer对象是一个空的对象。
+如果需要创建带有内容的StringBuffer对象，则可以使用：
+    StringBuffer s = new StringBuffer(“abc”);
+这样初始化出的StringBuffer对象的内容就是字符串”abc”。
+需要注意的是，StringBuffer和String属于不同的类型，也不能直接进行强制类型转换，下面的代码都是错误的：
+    StringBuffer s = “abc”;               //赋值类型不匹配
+    StringBuffer s = (StringBuffer)”abc”;    //不存在继承关系，无法进行强转
+StringBuffer对象和String对象之间的互转的代码如下：
+   String s = “abc”;
+   StringBuffer sb1 = new StringBuffer(“123”);
+   StringBuffer sb2 = new StringBuffer(s);   //String转换为StringBuffer
+   String s1 = sb1.toString();              //StringBuffer转换为String
+2、StringBuffer的常用方法
+
+StringBuffer类中的方法主要偏重于对于字符串的变化，例如追加、插入和删除等，这个也是StringBuffer和String类的主要区别。
+a、append方法
+    public StringBuffer append(boolean b)
+该方法的作用是追加内容到当前StringBuffer对象的末尾，类似于字符串的连接。调用该方法以后，StringBuffer对象的内容也发生改变，例如：
+   StringBuffer sb = new StringBuffer(“abc”);
+   sb.append(true);
+则对象sb的值将变成”abctrue”。
+使用该方法进行字符串的连接，将比String更加节约内容，例如应用于数据库SQL语句的连接，例如：
+   StringBuffer sb = new StringBuffer();
+   String user = “test”;
+   String pwd = “123”;
+   sb.append(“select * from userInfo where username=“)
+    .append(user)
+    .append(“ and pwd=”)
+    .append(pwd);
+         这样对象sb的值就是字符串“select * from userInfo where username=test and pwd=123”。
+b、deleteCharAt方法
+   public StringBuffer deleteCharAt(int index)
+该方法的作用是删除指定位置的字符，然后将剩余的内容形成新的字符串。例如：
+  StringBuffer sb = new StringBuffer(“Test”);
+  sb. deleteCharAt(1);
+该代码的作用删除字符串对象sb中索引值为1的字符，也就是删除第二个字符，剩余的内容组成一个新的字符串。所以对象sb的值变为”Tst”。
+还存在一个功能类似的delete方法：
+  public StringBuffer delete(int start,int end)
+该方法的作用是删除指定区间以内的所有字符，包含start，不包含end索引值的区间。例如：
+ StringBuffer sb = new StringBuffer(“TestString”);
+ sb. delete (1,4);
+该代码的作用是删除索引值1(包括)到索引值4(不包括)之间的所有字符，剩余的字符形成新的字符串。则对象sb的值是”TString”。
+c、insert方法
+
+  public StringBuffer insert(int offset, boolean b)
+
+  该方法的作用是在StringBuffer对象中插入内容，然后形成新的字符串。例如：
+
+   StringBuffer sb = new StringBuffer(“TestString”);
+   sb.insert(4,false);
+
+该示例代码的作用是在对象sb的索引值4的位置插入false值，形成新的字符串，则执行以后对象sb的值是”TestfalseString”。
+d、reverse方法
+   public StringBuffer reverse()
+
+该方法的作用是将StringBuffer对象中的内容反转，然后形成新的字符串。例如：
+   StringBuffer sb = new StringBuffer(“abc”);
+   sb.reverse();
+经过反转以后，对象sb中的内容将变为”cba”。
+e、setCharAt方法
+
+   public void setCharAt(int index, char ch)
+
+   该方法的作用是修改对象中索引值为index位置的字符为新的字符ch。例如：
+
+            StringBuffer sb = new StringBuffer(“abc”);
+
+            sb.setCharAt(1,’D’);
+
+   则对象sb的值将变成”aDc”。
+
+f、trimToSize方法
+  public void trimToSize()
+
+该方法的作用是将StringBuffer对象的中存储空间缩小到和字符串长度一样的长度，减少空间的浪费。
+总之，在实际使用时，String和StringBuffer各有优势和不足，可以根据具体的使用环境，选择对应的类型进行使用。

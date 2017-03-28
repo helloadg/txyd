@@ -1,0 +1,22 @@
+
+BEGIN或START TRANSACTION；显示地开启一个事务；
+COMMIT；也可以使用COMMIT WORK，不过二者是等价的。COMMIT会提交事务，并使已对数据库进行的所有修改称为永久性的；
+ROLLBACK；有可以使用ROLLBACK WORK，不过二者是等价的。回滚会结束用户的事务，并撤销正在进行的所有未提交的修改；
+SAVEPOINT identifier；SAVEPOINT允许在事务中创建一个保存点，一个事务中可以有多个SAVEPOINT；
+RELEASE SAVEPOINT identifier；删除一个事务的保存点，当没有指定的保存点时，执行该语句会抛出一个异常；
+ROLLBACK TO identifier；把事务回滚到标记点；
+SET TRANSACTION；用来设置事务的隔离级别。InnoDB存储引擎提供事务的隔离级别有READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ和SERIALIZABLE。
+
+
+mysql强制索引和禁止某个索引
+1、mysql强制使用索引:force index(索引名或者主键PRI)
+例如:
+select * from table force index(PRI) limit 2;(强制使用主键)
+select * from table force index(ziduan1_index) limit 2;(强制使用索引"ziduan1_index")
+select * from table force index(PRI,ziduan1_index) limit 2;(强制使用索引"PRI和ziduan1_index")
+ 
+2、mysql禁止某个索引：ignore index(索引名或者主键PRI)
+例如:
+select * from table ignore index(PRI) limit 2;(禁止使用主键)
+select * from table ignore index(ziduan1_index) limit 2;(禁止使用索引"ziduan1_index")
+select * from table ignore index(PRI,ziduan1_index) limit 2;(禁止使用索引"PRI,ziduan1_index")

@@ -1,0 +1,18 @@
+java switch 类型
+java 1.6(包括)以前，只是支持等价成int 基本类型的数据或enum:byte ,short,char,int及其封装类(其他的都不可以，比如long flota double string 不可以）
+1.7加入的新特性可以支持String类型的数据以及表达式（结果必须是enum或等价于int的类型或string类型）。
+
+Java中的switch没有C#的方便，C#中，string都可以用。java、C++中只能用整型。
+
+      Java 7之前，switch后面的括号里面只能放int类型的值，注意是只能放int类型，但是放byte，short，char类型的也可以，是因为byte，short，shar可以自动提升（自动类型转换）为int，不是说就可以放它们，说白了，你放的byte，short，shar类型，然后他们会自动转换为int类型（宽化，自动转换并且安全），其实最后放的还是int类型！
+
+       给你解释一下原理：Java中8种基本数据类型，boolean类型不参与转换，任何类型不能转换为boolean型，boolean也不能转换为其他类型，所以剩下7种，按照他们的表数范围，（也就是能表示的最大的数的大小，比如char是0到65535，byte是-128到正127）从小到大，排序，依次为：byte、short、char、int、long、float、double。   
+
+
+规则：
+
+1.小的往大的转换(宽化)，自动转换，有些时候就会自动提升为大的类型，比如switch中
+
+2.大的往小的转换(窄化)必须强制类型转换所以long不行，要想行就得强转如（int）long。同理，float、double也是不行的，要想行就强转。
+
+        Java 7增强了switch语句的功能，允许switch语句的控制表达式是java.lang.String类型的变量或表达式，开始支持java.lang.String类型，但是不支持StringBuffer或StringBuilder这两种类型。

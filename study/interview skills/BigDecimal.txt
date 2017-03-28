@@ -1,0 +1,48 @@
+package com.sprucetec.pop.admin.utils;
+
+import java.math.BigDecimal;
+
+/**
+ * 
+ * @author liubin
+ *
+ */
+public class MoneyUtil {
+	/**
+	 * BIDDECIMAL精确两位小数
+	 * @param bigDecimal
+	 * @return
+	 */
+	public static BigDecimal transferTwoPoint(BigDecimal bigDecimal) {
+		BigDecimal resultDecimal = null;
+		if (bigDecimal == null) {
+			resultDecimal = new BigDecimal("0.00");
+		} else {
+			resultDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+		}
+		return resultDecimal;
+	}
+	
+	public static double transferTwoPoint(double price) {
+		BigDecimal bd = new BigDecimal(price);
+		return transferTwoPoint(bd).doubleValue();
+	}
+	public static String stripTrailingZeros(double price){
+		return BigDecimal.valueOf(price).stripTrailingZeros().toPlainString();
+	}
+	
+	public static String stripTrailingZeros(BigDecimal price){
+		if(price==null){
+			return "";
+		}
+		return price.stripTrailingZeros().toPlainString();
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(BigDecimal.valueOf(10.00).stripTrailingZeros().doubleValue());
+		System.out.println(10.00);
+		System.out.println(BigDecimal.valueOf(10.00).stripTrailingZeros().toPlainString());
+		System.out.println(BigDecimal.valueOf(10.00).stripTrailingZeros().toString());
+	}
+
+}

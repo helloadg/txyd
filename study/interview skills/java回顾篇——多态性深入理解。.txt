@@ -1,0 +1,91 @@
+是一个Java的编程人员就知道，在以后项目开发的时候，我们的多态性几乎天天用。
+
+小编和读者今天就来深究一下多态性的一些细节。
+
+首先我们要知道多态性的三个必要满足的条件：
+
+1.有继承
+
+2.有方法的重写
+
+3.有父类引用指向子类对象
+
+接下来我们来分析以下代码：（经典）
+
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+package objectandclass;  
+  
+class A {    
+         public void show(D obj){    
+                System.out.println("A and D");  
+         }     
+         public void show(A obj){    
+             System.out.println ("A and A");    
+         }     
+}     
+class B extends A{    
+         public void show(B obj){    
+             System.out.println("B and B");    
+         }    
+         public void show(A obj){    
+             System.out.println("B and A");    
+         }     
+}    
+class C extends B{}     
+class D extends B{}    
+根据以上代码，写出下面代码运行的结果：
+
+[java] view plain copy 在CODE上查看代码片派生到我的代码片
+A a1 = new A();    
+        A a2 = new B();    
+        B b = new B();    
+        C c = new C();     
+        D d = new D();     
+        a1.show(b);  
+        a1.show(c);  
+        a1.show(d);  
+        a2.show(b);  
+        a2.show(c);  
+        a2.show(d);  
+        b.show(b);  
+        b.show(c);  
+        b.show(d);  
+
+答案是如下：
+A and A
+A and A
+A and D
+B and A
+B and A
+A and D
+B and B
+B and B
+A and D
+
+我们来自己分析这个答案。
+
+答案的前三条很简单，最多是有参数上的多态
+
+我们有以下的优先级：
+
+优先级1：this.方法名（参数）
+
+优先级2：super.方法名（参数），这一点是因为子类从父类继承了方法。
+
+优先级3：this.方法名（（super）参数）
+
+优先级4：super.方法名（（super）参数）
+
+如果本方法被子类覆盖，则调用子类的方法
+
+根据优先级接下来我们看看第一条和第二条答案：b和c都是B和C的对象，他们的超类是A。this指的是A的对象。优先级1中因为没有B和C的类型的参数，所以看优先级2，也不满足，A没有超类（除了Object类），再看优先级三，刚好满足。所以输出为A and A 。
+
+第三行输出：因为有满足D对象的参数，满足优先级1，所以输出A and D
+
+第四和第五行输出：这里有创建对象的多态，第一第二优先级都不满足，首先他满足第三优先级，但是被方法被重写，所以调用B类被重写的方法。
+
+第六行：因为this代表的是A的对象。因为A类中偶对应的参数，满足第一优先级，所以输出为”A and D“
+
+七八行：在创建对象时并没有多态，我们来考虑参数的多态，七行是符合优先级1的，八行符合优先级三。
+
+第九行：因为B从A中继承了含有D类参数的方法，复合优先级二，所以输出”A and D”

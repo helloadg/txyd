@@ -1,0 +1,103 @@
+LIMIT
+	SELECT * FROM table   LIMIT [offset,] rows ;
+	SELECT * FROM table   LIMIT rows OFFSET offset ;
+
+
+replace into 用法（insert into 的增强版）
+	MySQL replace into 有三种形式：
+	1. replace into tbl_name(col_name, ...) values(...)
+	2. replace into tbl_name(col_name, ...) select ...
+	3. replace into tbl_name set col_name=value, ...
+
+	MySQL使用下列算法 REPLACE（和LOAD DATA ... REPLACE）：
+		1.尝试插入新行插入表
+		2.而插入失败，因为发生在主键或唯一索引的重复键错误：
+		3.从表中删除了重复的键值冲突的行
+		4.再次尝试插入新行插入表
+
+	若要执行此语句，必须具有delete和insert权限，（有可能会造成主从库自增主键不一致，但是实践中未发现此类情况）
+
+
+ON DUPLICATE KEY UPDATE
+
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
+
+    [INTO] tbl_name
+    SET col_name={expr | DEFAULT}, ...
+    [ ON DUPLICATE KEY UPDATE col_name=expr, ... ]
+HANDLER
+
+HANDLER tbl_name OPEN [ AS alias ]
+HANDLER tbl_name READ index_name { = | >= | <= | < } (value1,value2,...)
+
+ 
+
+DO
+
+DO expr [, expr] ...
+
+DO用于执行表达式，但是不返回任何结果。DO是SELECT expr的简化表达方式。DO有一个优势，就是如果您不太关心结果的话，DO的速度稍快。
+DO主要用于执行有副作用的函数，比如RELEASE_LOCK()。
+
+ 
+
+Join
+
+MySQL中cross join等同于inner join，多个表用逗号分隔，在无联合条件下与inner join是语义相同的。
+
+可以使用STRAIGHT_JOIN强制左表在右表之前被读取。STRAIGH_JOIN可以被用于这样的情况，即联合优化符以错误的顺序排列表。
+
+MYSQL扩展了SQL标准语法，可以使用下面的方式连接：
+
+SELECT * FROM t1 LEFT JOIN (t2, t3, t4) ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
+
+相当于：
+
+SELECT * FROM t1 LEFT JOIN (t2 INNER JOIN t3 INNER JOIN t4) ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c);
+
+可以使用USING(column_list)子句为一系列的列进行命名。这些列必须同时在两个表中存在。如果表a和表b都包含列c1, c2和c3，则以下联合会对比来自两个表的对应的列：
+
+a LEFT JOIN b USING (c1,c2,c3) 《=》 a left join b on a.c1= b.c1 and a.c2=b.c2 and a.c3=b.c3
+
+ 
+
+DELETE
+
+可以使用DELETE QUICK再加上OPTIMIZE TABLE加快删除速度；
+
+可以使用LIMIT来限制每次删除的记录数，确保一个DELETE语句不会占用过多的时间，但从多个表删除时不能使用LIMIT和ORDER BY；
+
+可以一次从多个表中删除记录（可以利用多个表查询）：
+
+DELETE t1, t2 FROM t1, t2, t3 WHERE t1.id=t2.id AND t2.id=t3.id;
+
+或：
+
+DELETE FROM t1, t2 USING t1, t2, t3 WHERE t1.id=t2.id AND t2.id=t3.id;
+
+当搜索待删除的行时，这些语句使用所有三个表，但是只从表t1和表t2中删除对应的行。
+
+ 
+
+UNION
+
+SELECT ...
+
+UNION [ALL | DISTINCT]
+SELECT ...
+[UNION [ALL | DISTINCT]
+SELECT ...]
+默认情况下UNION代表UNION DISTINCT。
+
+ 
+
+multiple-table Update
+
+UPDATE [LOW_PRIORITY] [IGNORE] table_references
+
+    SET col_name1=expr1 [, col_name2=expr2 ...]
+    [WHERE where_definition]
+例子：
+
+UPDATE items,month SET items.price=month.price
+WHERE items.id=month.id;
