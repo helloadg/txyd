@@ -1,0 +1,4 @@
+
+对MySQL DELETE语法的详细解析： http://database.51cto.com/art/201005/202216.htm
+不使用别名：delete  from t_settlement_bill_period  where  pop_id >1000 ;
+使用别名：delete r from t_settlement_bill_period r where  r.pop_id >1000 ;

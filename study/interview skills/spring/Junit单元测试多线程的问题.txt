@@ -1,0 +1,104 @@
+Junit单元测试不支持多线程
+
+然后，整个人都不好了...浪费了我好多时间，就是因为这个！！!
+
+虽然知道了结果，但是笔者还是需要亲自验证一下。
+
+复制代码
+/**
+ * @Title: TestDoWork.java
+ * @Describe:
+ * @author: Mr.Yanphet
+ * @Email: mr_yanphet@163.com
+ * @date: 2016年8月15日 下午5:50:03
+ * @version: 1.0
+ */
+public class TestDoWork {
+
+    class DoWork implements Runnable {
+
+        @Override
+        public void run() {
+            for (int i = 0; i < 10000; i++) {
+                long milliSecond = System.currentTimeMillis();
+                System.out.println("i=" + i + "，milliSecond=" + milliSecond);// 输出循环次数和当前的系统时间
+            }
+        }
+
+    }
+
+    @Test
+    public void test() {
+        DoWork dw = new DoWork();
+        Thread t = new Thread(dw);
+        t.start();
+    }
+
+}
+复制代码
+输出结果如下（笔者省略了部分输出）：
+
+复制代码
+.....
+i=751，milliSecond=1471257586416
+i=752，milliSecond=1471257586416
+i=753，milliSecond=1471257586416
+i=754，milliSecond=1471257586416
+i=755，milliSecond=1471257586416
+i=756，milliSecond=1471257586416
+i=757，milliSecond=1471257586416
+i=758，milliSecond=1471257586416
+复制代码
+从结果可以看到，循环到了759次后就没再输出了，说明子线程还没结束任务，整个程序就被强迫结束了。
+
+既然知道了现象，那么为什么会出现这样的现象呢，贴出部分Junit4 TestRunner源码就知道了
+
+复制代码
+public static final int SUCCESS_EXIT = 0;
+public static final int FAILURE_EXIT = 1;
+public static final int EXCEPTION_EXIT = 2;
+
+public static void main(String args[]) {
+    TestRunner aTestRunner = new TestRunner();
+    try {
+        TestResult r = aTestRunner.start(args);
+        if (!r.wasSuccessful())
+            System.exit(FAILURE_EXIT);
+        System.exit(SUCCESS_EXIT);
+    } catch (Exception e) {
+        System.err.println(e.getMessage());
+        System.exit(EXCEPTION_EXIT);
+    } 
+}
+复制代码
+再贴上TestResult部分源码，以供参考
+
+复制代码
+protected  List<TestFailure>    fFailures
+protected  List<TestFailure>    fErrors
+
+public synchronized boolean wasSuccessful() {
+    return failureCount() == 0 && errorCount() == 0;
+}
+
+public synchronized int errorCount() {
+    return fErrors.size();
+}
+
+public synchronized int failureCount() {
+    return fFailures.size();
+}
+复制代码
+在TestRunner中可以看出，如果是单线程，当测试主线程执行结束后，不管子线程是否结束，都会回调TestResult的wasSuccessful方法，
+
+然后判断结果是成功还是失败，最后调用相应的System.exit()方法。大家都知道这个方法是用来结束当前正在运行中的java虚拟机，jvm都自身难保了，所以子线程也就对不住你咧...
+
+解决办法：
+
+1 简单粗暴地让主线程休眠一段时间，然后让子线程能够运行结束。但是这个方法的弊端是，你不知道子线程的运行时间，所以需要看脸＝_＝
+
+　　Thread.sleep();
+
+2 使用CountDownLatch工具类，让主线程阻塞，直到子线程运行结束或者阻塞超时，这个方法要比第一个方法好点。
+
+　　countDownLatch.await(5, TimeUnit.MINUTES);

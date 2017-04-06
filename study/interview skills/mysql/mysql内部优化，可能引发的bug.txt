@@ -1,0 +1,15 @@
+1:如下语句，执行两次，两次返回结果不一致：第一次结果可能为n，第二次结果为0！
+    UPDATE t_pop_rule_class r SET r.c1_name = trim(r.c1_name);
+    update t_pop_rule_class r set r.c1_name =trim(CONCAT(r.c1_name,' '));
+
+2:如下语句，执行两次，两次返回结果不一致：第一次结果可能为n，第二次结果为n！
+    UPDATE t_pop_rule_class r SET r.c1_name = trim('蔬菜')
+
+3:表t_pop_rule_old_user的preferential_point_value不能为null，则以下语句执行结果永远返回0；
+    update t_pop_rule_old_user r set r.preferential_point_value =null where r.preferential_point_value = 0
+
+
+select * from table1 left join table2 using(poo_id) where ...
+和
+select * from table1 r1 left join table2 r2 on r1.pop_id=r2.pop_id where ...
+的不同之处？？？

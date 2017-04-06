@@ -1,24 +1,14 @@
-http://blog.csdn.net/lisonglisonglisong/article/details/51051282
-
-http://blog.csdn.net/lisonglisonglisong/article/details/51327586
-
-http://blog.csdn.net/lisonglisonglisong/article/details/51038041
-
-http://blog.csdn.net/lisonglisonglisong/article/details/51944671
-
-http://www.importnew.com/17105.html
-
-http://www.importnew.com/21445.html
-
-http://www.importnew.com/15851.html
-
-http://www.importnew.com/11657.html
-
-http://www.importnew.com/22019.html
-
-http://www.importnew.com/21832.html
-
-http://blog.csdn.net/liangrui1988/article/category/2381787/1
+腾讯后台模拟M-S题（附答案）   http://blog.csdn.net/lisonglisonglisong/article/details/51051282   
+腾讯M-S题（附答案）   http://blog.csdn.net/lisonglisonglisong/article/details/51327586   
+网易Java研发M-S题（附答案）——20160322   http://blog.csdn.net/lisonglisonglisong/article/details/51038041  
+IO模型：同步、异步、阻塞、非阻塞   http://blog.csdn.net/lisonglisonglisong/article/details/51944671   
+Java类的连接与初始化 (及2013阿里初始化M-S题解析)   http://www.importnew.com/17105.html   
+M-S 总结  http://www.importnew.com/21445.html   
+SpringM-S问答Top 25   http://www.importnew.com/15851.html   
+关于Spring的69个M-S问答——终极列表   http://www.importnew.com/11657.html   
+也谈IO模型   http://www.importnew.com/22019.html   
+Java对象初始化顺序   http://www.importnew.com/21832.html   
+redis分布式锁   http://blog.csdn.net/liangrui1988/article/category/2381787/1
 
 线程：http://www.cnblogs.com/wxd0108/p/5488290.html
 java M-S集锦 ： http://blog.csdn.net/jackfrued/article/details/44921941
@@ -41,3 +31,22 @@ Mysql查询语句使用select.. for update导致的数据库死锁分析 http://
 mysql事务，select for update，及数据的一致性处理  http://www.cnblogs.com/houweijian/p/5869243.html
 Mysql 锁表 for update （引擎/事务）  http://www.cnblogs.com/bigfish--/archive/2012/02/18/2356886.html
 Java程序员MS题集（151-180） http://blog.csdn.net/jackfrued/article/details/40058989
+MySQL ROLLUP和CUBE问题 http://blog.itpub.net/29773961/viewspace-1255419/
+Java设计模式   http://blog.csdn.net/column/details/study-disgnpattern.html
+JavaM-S题集锦   http://blog.csdn.net/column/details/study-interview.html
+JavaEE面试秘籍   http://blog.csdn.net/column/details/ofinterview.html
+Spring详解   http://blog.csdn.net/column/details/study-springmvc.html
+MyBatis学习   http://blog.csdn.net/column/details/study-mybatis.html
+跟我学Spring    http://blog.csdn.net/column/details/spring-detail.html
+Oracle442个应用场景  http://blog.csdn.net/column/details/oracleexample.html
+MySQL详解   http://blog.csdn.net/column/details/detailofmysql.html
+Oracle学习笔记  http://blog.csdn.net/column/details/studyoracle.html
+MySQL数据库学习  http://blog.csdn.net/column/details/studymysql.html
+Spring学习笔记   http://blog.csdn.net/column/details/studyspring.html
+疯狂Java学习笔记   http://blog.csdn.net/column/details/crazyjava.html
+M-S系列  http://blog.csdn.net/column/details/ms100.html
+
+
+
+
+
