@@ -33,3 +33,8 @@ show global variables like '%iso%';
 select @@tx_isolation;
 select @@global.tx_isolation; -- REPEATABLE-READ  -- READ-COMMITTED
 set global tx_isolation='REPEATABLE-READ'
+
+
+show OPEN TABLES where In_use > 0;
+show status like '%lock%';
+show full processlist;
