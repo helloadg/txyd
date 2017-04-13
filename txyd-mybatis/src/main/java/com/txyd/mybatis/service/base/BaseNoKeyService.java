@@ -1,0 +1,148 @@
+package com.txyd.mybatis.service.base;
+
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
+
+public interface BaseNoKeyService<T> {
+
+	/**
+	 * 保存
+	 * @param object
+	 * @author 
+	 * @return
+	 */
+	public int insert(T object);
+
+	/**
+	 * 保存
+	 * @param object
+	 * @author 
+	 * @return
+	 */
+	public int insertNotNull(T object);
+
+	/**
+	 * 保存
+	 * @param list
+	 * @author 
+	 * @return
+	 */
+	public int insertBatch(List<T> list);
+
+
+	/**
+	 * 根据条件保存
+	 * @param insert
+	 * @author
+	 * @return
+	 */
+	public Integer insertNotExists(Map<T, T> insert);
+
+    /**
+     * 通过条件筛选修改
+     * @param update
+     * @param where
+     * @author 
+     * @return
+     */
+    public int update(T update,T where);
+
+	/**
+	 * 删除
+	 * @param object
+	 * @author 
+	 * @return
+	 */
+	public int delete(T object);
+
+	/**
+	 * 根据条件查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset, Integer limit);
+
+	/**
+	 * 根据条件查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Integer offset, Integer limit, Boolean isForUpdate);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object,Integer offset, Integer limit);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param offset ：起始值
+	 * @param limit ：返回多少条
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object,Integer offset, Integer limit, Boolean isForUpdate);
+	
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param sort ：排序规则
+     * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object, LinkedHashMap<String,String> sort, Boolean isForUpdate);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object);
+
+	/**
+	 * 分页查询
+	 * @param object ：查询条件
+	 * @param isForUpdate ：是否锁记录(结合事务)
+	 * @author 
+	 * @return
+	 */
+	public List<T> select(T object, Boolean isForUpdate);
+
+	/**
+	 * 获取总条数
+	 * @param object
+	 * @author 
+	 * @return
+	 */
+	public int selectCount(T object);
+
+}

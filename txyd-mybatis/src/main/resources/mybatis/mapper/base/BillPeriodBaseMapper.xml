@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- base mybatis file for sql defined by tool  -->
+<mapper namespace="com.txyd.mybatis.dao.BillPeriodDao">
+  <!--database table: (t_settlement_bill_period) with javabean : (com.sprucetec.pop.enter.entity.BillPeriodEntity)-->
+  <resultMap id="rm_BillPeriodEntity" type="com.txyd.mybatis.entity.BillPeriodEntity">
+  	<result property="id" column="id"/>
+  	<result property="popId" column="pop_id"/>
+  	<result property="billStartTime" column="bill_start_time"/>
+  	<result property="billEndTime" column="bill_end_time"/>
+  	<result property="preExeTime" column="pre_exe_time"/>
+  	<result property="exeTime" column="exe_time"/>
+  	<result property="status" column="status"/>
+  	<result property="reason" column="reason"/>
+  	<result property="ct" column="c_t"/>
+  	<result property="ut" column="u_t"/>
+  	<result property="isDeleted" column="is_deleted"/>
+  </resultMap>
+  
+  <!--columns of table-->
+  <sql id="columns">
+    <![CDATA[
+		id,pop_id,bill_start_time,bill_end_time,pre_exe_time,
+		exe_time,status,reason,c_t,u_t,
+		is_deleted
+     ]]>
+  </sql>
+  
+  <!--the 'where' sql of search  -->
+  <sql id="where_sql">
+    <if test="id != null">
+      and id =  #{id}
+    </if>
+    <if test="popId != null">
+      and pop_id =  #{popId}
+    </if>
+    <if test="billStartTime != null">
+      and bill_start_time =  #{billStartTime}
+    </if>
+    <if test="billEndTime != null">
+      and bill_end_time =  #{billEndTime}
+    </if>
+    <if test="preExeTime != null">
+      and pre_exe_time =  #{preExeTime}
+    </if>
+    <if test="exeTime != null">
+      and exe_time =  #{exeTime}
+    </if>
+    <if test="status != null">
+      and status =  #{status}
+    </if>
+    <if test="reason != null">
+      and reason =  #{reason}
+    </if>
+    <if test="ct != null">
+      and c_t =  #{ct}
+    </if>
+    <if test="ut != null">
+      and u_t =  #{ut}
+    </if>
+    <if test="isDeleted != null">
+      and is_deleted =  #{isDeleted}
+    </if>
+  </sql>
+  
+  <!--the 'where' sql with where alias of search  -->
+  <sql id="where_with_alias_sql">
+    <if test="wb.id != null">
+      and id =  #{wb.id}
+    </if>
+    <if test="wb.popId != null">
+      and pop_id =  #{wb.popId}
+    </if>
+    <if test="wb.billStartTime != null">
+      and bill_start_time =  #{wb.billStartTime}
+    </if>
+    <if test="wb.billEndTime != null">
+      and bill_end_time =  #{wb.billEndTime}
+    </if>
+    <if test="wb.preExeTime != null">
+      and pre_exe_time =  #{wb.preExeTime}
+    </if>
+    <if test="wb.exeTime != null">
+      and exe_time =  #{wb.exeTime}
+    </if>
+    <if test="wb.status != null">
+      and status =  #{wb.status}
+    </if>
+    <if test="wb.reason != null">
+      and reason =  #{wb.reason}
+    </if>
+    <if test="wb.ct != null">
+      and c_t =  #{wb.ct}
+    </if>
+    <if test="wb.ut != null">
+      and u_t =  #{wb.ut}
+    </if>
+    <if test="wb.isDeleted != null">
+      and is_deleted =  #{wb.isDeleted}
+    </if>
+  </sql>
+  
+  <!-- the 'like' sql for search -->
+  <sql id="like_sql">
+    <if test="like != null and like.size() gt 0 ">
+      <foreach collection="like" index="key" item="value" open="" separator="" close="">
+        <choose>
+          <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+              and id like #{value}
+          </when>
+          <when test="key!=null and 'popId'.equalsIgnoreCase(key)">
+              and pop_id like #{value}
+          </when>
+          <when test="key!=null and 'billStartTime'.equalsIgnoreCase(key)">
+              and bill_start_time like #{value}
+          </when>
+          <when test="key!=null and 'billEndTime'.equalsIgnoreCase(key)">
+              and bill_end_time like #{value}
+          </when>
+          <when test="key!=null and 'preExeTime'.equalsIgnoreCase(key)">
+              and pre_exe_time like #{value}
+          </when>
+          <when test="key!=null and 'exeTime'.equalsIgnoreCase(key)">
+              and exe_time like #{value}
+          </when>
+          <when test="key!=null and 'status'.equalsIgnoreCase(key)">
+              and status like #{value}
+          </when>
+          <when test="key!=null and 'reason'.equalsIgnoreCase(key)">
+              and reason like #{value}
+          </when>
+          <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+              and c_t like #{value}
+          </when>
+          <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+              and u_t like #{value}
+          </when>
+          <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+              and is_deleted like #{value}
+          </when>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  
+  <!-- the 'sort' sql for search -->
+  <sql id="sort_sql">
+    <if test="sort != null and sort.size() gt 0 ">
+      ORDER BY
+      <foreach collection="sort" index="key" item="value" open="" separator="," close="">
+        <choose>
+          <when test="key!=null and 'id'.equalsIgnoreCase(key)">
+            id
+          </when>
+          <when test="key!=null and 'popId'.equalsIgnoreCase(key)">
+            pop_id
+          </when>
+          <when test="key!=null and 'billStartTime'.equalsIgnoreCase(key)">
+            bill_start_time
+          </when>
+          <when test="key!=null and 'billEndTime'.equalsIgnoreCase(key)">
+            bill_end_time
+          </when>
+          <when test="key!=null and 'preExeTime'.equalsIgnoreCase(key)">
+            pre_exe_time
+          </when>
+          <when test="key!=null and 'exeTime'.equalsIgnoreCase(key)">
+            exe_time
+          </when>
+          <when test="key!=null and 'status'.equalsIgnoreCase(key)">
+            status
+          </when>
+          <when test="key!=null and 'reason'.equalsIgnoreCase(key)">
+            reason
+          </when>
+          <when test="key!=null and 'ct'.equalsIgnoreCase(key)">
+            c_t
+          </when>
+          <when test="key!=null and 'ut'.equalsIgnoreCase(key)">
+            u_t
+          </when>
+          <when test="key!=null and 'isDeleted'.equalsIgnoreCase(key)">
+            is_deleted
+          </when>
+        </choose>
+        <choose>
+          <when test="'asc'.equalsIgnoreCase(value)">
+            asc
+          </when>
+          <when test="'desc'.equalsIgnoreCase(value)">
+            desc
+          </when>
+          <otherwise>
+            asc
+          </otherwise>
+        </choose>
+      </foreach>
+    </if>
+  </sql>
+  
+  <!-- the 'set' sql for search -->
+  <sql id="update_sql">
+    <if test="id != null">
+      id =  #{id} ,
+    </if>
+    <if test="popId != null">
+      pop_id =  #{popId} ,
+    </if>
+    <if test="billStartTime != null">
+      bill_start_time =  #{billStartTime} ,
+    </if>
+    <if test="billEndTime != null">
+      bill_end_time =  #{billEndTime} ,
+    </if>
+    <if test="preExeTime != null">
+      pre_exe_time =  #{preExeTime} ,
+    </if>
+    <if test="exeTime != null">
+      exe_time =  #{exeTime} ,
+    </if>
+    <if test="status != null">
+      status =  #{status} ,
+    </if>
+    <if test="reason != null">
+      reason =  #{reason} ,
+    </if>
+    <if test="ct != null">
+      c_t =  #{ct} ,
+    </if>
+    <if test="ut != null">
+      u_t =  #{ut} ,
+    </if>
+    <if test="isDeleted != null">
+      is_deleted =  #{isDeleted} ,
+    </if>
+  </sql>
+  
+  <!-- the 'set' sql with table alias for search -->
+  <sql id="update_with_alias_sql">
+    <if test="tb.id != null">
+      id = #{tb.id} ,
+    </if>
+    <if test="tb.popId != null">
+      pop_id = #{tb.popId} ,
+    </if>
+    <if test="tb.billStartTime != null">
+      bill_start_time = #{tb.billStartTime} ,
+    </if>
+    <if test="tb.billEndTime != null">
+      bill_end_time = #{tb.billEndTime} ,
+    </if>
+    <if test="tb.preExeTime != null">
+      pre_exe_time = #{tb.preExeTime} ,
+    </if>
+    <if test="tb.exeTime != null">
+      exe_time = #{tb.exeTime} ,
+    </if>
+    <if test="tb.status != null">
+      status = #{tb.status} ,
+    </if>
+    <if test="tb.reason != null">
+      reason = #{tb.reason} ,
+    </if>
+    <if test="tb.ct != null">
+      c_t = #{tb.ct} ,
+    </if>
+    <if test="tb.ut != null">
+      u_t = #{tb.ut} ,
+    </if>
+    <if test="tb.isDeleted != null">
+      is_deleted = #{tb.isDeleted} ,
+    </if>
+  </sql>
+
+  <!-- update the records by ids sql -->
+  <update id="update" parameterType="java.util.Map">
+    <trim>
+      UPDATE t_settlement_bill_period
+  	  <set>
+  	    <include refid="update_with_alias_sql"/>
+  	  </set>
+  	  <where>
+  	    <include refid="where_with_alias_sql"/>
+      </where>
+    </trim>
+  </update>
+
+  <!-- update the table by 'id' sql -->
+  <update id="updateById" parameterType="java.util.Map">
+    <trim>
+      UPDATE t_settlement_bill_period
+      <set>
+        <include refid="update_with_alias_sql"/>
+      </set>
+	  <where>
+		  and id = #{id}
+	  </where>
+    </trim>
+  </update>
+
+  <!-- update the records by ids sql -->
+  <update id="updateByIds" parameterType="java.util.Map">
+    <trim>
+      UPDATE t_settlement_bill_period
+      <set>
+	    <include refid="update_with_alias_sql"/>
+      </set>
+	    WHERE id in
+	  <foreach collection="ids" item="item" open="(" separator="," close=")">
+	    #{item}
+	  </foreach>
+    </trim>
+  </update>
+
+  <!-- insert value sql -->
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <trim>
+     <![CDATA[
+       INSERT INTO t_settlement_bill_period
+         (
+            pop_id,bill_start_time,bill_end_time,pre_exe_time,exe_time,
+            status,reason,c_t,u_t,is_deleted
+         )
+       VALUES
+         (
+            #{popId},#{billStartTime},#{billEndTime},#{preExeTime},#{exeTime},
+            #{status},#{reason},#{ct},#{ut},#{isDeleted}
+         )
+      ]]>
+    </trim>
+  </insert>
+
+  <!-- insert into table with not null -->
+  <insert id="insertNotNull" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO  t_settlement_bill_period
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="popId != null">
+        pop_id,
+      </if>
+      <if test="billStartTime != null">
+        bill_start_time,
+      </if>
+      <if test="billEndTime != null">
+        bill_end_time,
+      </if>
+      <if test="preExeTime != null">
+        pre_exe_time,
+      </if>
+      <if test="exeTime != null">
+        exe_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="ct != null">
+        c_t,
+      </if>
+      <if test="ut != null">
+        u_t,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="  VALUES(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+         #{id} ,
+      </if>
+      <if test="popId != null">
+         #{popId} ,
+      </if>
+      <if test="billStartTime != null">
+         #{billStartTime} ,
+      </if>
+      <if test="billEndTime != null">
+         #{billEndTime} ,
+      </if>
+      <if test="preExeTime != null">
+         #{preExeTime} ,
+      </if>
+      <if test="exeTime != null">
+         #{exeTime} ,
+      </if>
+      <if test="status != null">
+         #{status} ,
+      </if>
+      <if test="reason != null">
+         #{reason} ,
+      </if>
+      <if test="ct != null">
+         #{ct} ,
+      </if>
+      <if test="ut != null">
+         #{ut} ,
+      </if>
+      <if test="isDeleted != null">
+         #{isDeleted} ,
+      </if>
+    </trim>
+  </insert>
+
+  <!--insert not exists into table -->
+  <insert id="insertNotExists" useGeneratedKeys="true" keyProperty="id" >
+    <trim>
+      INSERT INTO t_settlement_bill_period
+        <![CDATA[
+        (
+            pop_id,bill_start_time,bill_end_time,pre_exe_time,exe_time,	
+            status,reason,c_t,u_t,is_deleted	
+        )
+        ]]>
+      <foreach collection="map" index="value" item="where" open="" close="" separator=" UNION ALL " >
+        <if test="value != null">
+          SELECT
+            #{value.popId},#{value.billStartTime},#{value.billEndTime},#{value.preExeTime},#{value.exeTime},	
+            #{value.status},#{value.reason},#{value.ct},#{value.ut},#{value.isDeleted}	
+          FROM dual
+        </if>
+        <if test="where !=null" >
+          WHERE NOT EXISTS
+          (
+            SELECT 1 FROM t_settlement_bill_period
+            <where>
+              <if test="where.id != null">
+                AND id =  #{where.id}
+              </if>
+              <if test="where.popId != null">
+                AND pop_id =  #{where.popId}
+              </if>
+              <if test="where.billStartTime != null">
+                AND bill_start_time =  #{where.billStartTime}
+              </if>
+              <if test="where.billEndTime != null">
+                AND bill_end_time =  #{where.billEndTime}
+              </if>
+              <if test="where.preExeTime != null">
+                AND pre_exe_time =  #{where.preExeTime}
+              </if>
+              <if test="where.exeTime != null">
+                AND exe_time =  #{where.exeTime}
+              </if>
+              <if test="where.status != null">
+                AND status =  #{where.status}
+              </if>
+              <if test="where.reason != null">
+                AND reason =  #{where.reason}
+              </if>
+              <if test="where.ct != null">
+                AND c_t =  #{where.ct}
+              </if>
+              <if test="where.ut != null">
+                AND u_t =  #{where.ut}
+              </if>
+              <if test="where.isDeleted != null">
+                AND is_deleted =  #{where.isDeleted}
+              </if>
+            </where>
+          )
+      </if>
+    </foreach>
+    </trim>
+  </insert>
+
+
+  <!--insert batch into table -->
+  <insert id="insertBatch" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO t_settlement_bill_period
+      <![CDATA[
+      (
+        pop_id,bill_start_time,bill_end_time,pre_exe_time,exe_time,	
+        status,reason,c_t,u_t,is_deleted	
+      )
+      ]]>
+    VALUES
+    <foreach collection="list" item="item" open="" separator="," close="">
+      (
+        #{item.popId},#{item.billStartTime},#{item.billEndTime},#{item.preExeTime},#{item.exeTime},	
+        #{item.status},#{item.reason},#{item.ct},#{item.ut},#{item.isDeleted}	
+      )
+    </foreach>
+  </insert>
+
+  
+  <!-- get the records by id -->
+  <select id="getById" resultMap="rm_BillPeriodEntity">
+    SELECT
+    <include refid="columns"/>
+      <![CDATA[
+        FROM t_settlement_bill_period
+      ]]>
+    <where>
+		and id =#{id}
+    </where>
+	<if test="isForUpdate !=null and isForUpdate == true ">
+        FOR UPDATE
+    </if>
+  </select>
+
+  <!-- get the records by ids -->
+  <select id="getByIds" resultMap="rm_BillPeriodEntity" parameterType="java.util.List">
+	<trim>
+      SELECT
+      <include refid="columns"/>
+      FROM t_settlement_bill_period
+	    WHERE id in
+      <foreach collection="ids" item="item" open="(" separator="," close=")">
+       #{item}
+      </foreach>
+      <if test="isForUpdate !=null and isForUpdate == true ">
+          FOR UPDATE
+      </if>
+    </trim>
+  </select>  
+
+  <!-- get the records by condition -->
+  <select id="select" resultMap="rm_BillPeriodEntity">
+    <trim>
+      SELECT
+      	<include refid="columns"/>
+	  	FROM t_settlement_bill_period
+      <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+      <include refid="sort_sql"/>
+      <choose>
+        <when test="limit != null  and offset != null">
+          limit #{limit} offset  #{offset}
+        </when>
+        <when test="limit != null  and offset == null">
+          limit #{limit}
+        </when>
+      </choose>
+      <if test="isForUpdate !=null and isForUpdate == true ">
+          FOR UPDATE
+      </if>
+    </trim>
+  </select>
+
+  <!-- get the count by condition -->
+  <select id="selectCount" resultType="int">
+    <trim>
+      SELECT count(1) FROM t_settlement_bill_period
+      <where>
+        <include refid="where_with_alias_sql"/>
+      </where>
+    </trim>
+  </select>
+ 
+  <!-- delete the records by conditions -->
+  <delete id="delete">
+    <trim>
+      DELETE FROM t_settlement_bill_period
+      <where>
+        <include refid="where_sql"/>
+      </where>
+    </trim>
+  </delete>
+
+  <!-- deleted the records by id -->
+  <delete id="deleteById">
+    <trim>
+      DELETE FROM t_settlement_bill_period
+      <where>
+	  	and id = #{id}
+      </where>
+    </trim>
+  </delete>
+
+  <!-- deleted the records by ids -->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    <trim>
+      delete from t_settlement_bill_period
+        WHERE id in
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+	    #{item}
+      </foreach>
+    </trim>
+  </delete> 
+</mapper>

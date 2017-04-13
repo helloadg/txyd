@@ -38,3 +38,26 @@ set global tx_isolation='REPEATABLE-READ'
 show OPEN TABLES where In_use > 0;
 show status like '%lock%';
 show full processlist;
+
+
+    begin;
+
+    SELECT * FROM `test_isolation` where sid not in(1,2) for update ;
+    SELECT * FROM `test_isolation` ignore index(i_sid) where sid =1 for update;
+
+    insert into test_isolation (sid,`name`,is_deleted) VALUES ('1','name1_insert','0');
+
+
+    SELECT * FROM `test_isolation` r force index( i_sid) where r.sid =1  for update;
+    SELECT SQL_CACHE * FROM `test_isolation` r force index( i_sid) where r.sid =1  for update;
+    SELECT SQL_NO_CACHE * FROM `test_isolation` r force index( i_sid) where r.sid =1  for update;
+    update `test_isolation` r set `name` = 'name1_update'  where r.sid =1;
+    insert into test_isolation (sid,`name`,is_deleted) value('3','name1_insert','0');
+
+update `test_isolation` r set `name` = 'name1_update'  where r.id =1;
+
+    lock tables `test_isolation` read;
+    unlock tables;
+
+    commit;
+    ROLLBACK;

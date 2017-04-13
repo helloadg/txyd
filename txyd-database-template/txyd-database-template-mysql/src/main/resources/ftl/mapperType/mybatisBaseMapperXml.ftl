@@ -496,7 +496,7 @@
 		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 			<#assign columnName = "`" + columnName + "`"  >
 		</#if>
-              <if test="${columnBean.getJavabeanFieldName()} != null">
+              <if test="${r'where.'+javabeanFieldName} != null">
                 AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
               </if>
 	</#list>
@@ -572,7 +572,7 @@
 		<#if (KeyWords.contains( columnName?string?upper_case?trim )) >
 			<#assign columnName = "`" + columnName + "`"  >
 		</#if>
-              <if test="${columnBean.getJavabeanFieldName()} != null">
+              <if test="${r'where.'+javabeanFieldName} != null">
                 AND ${columnName} =  ${r"#{where."+javabeanFieldName+"}"}
               </if>
 	</#list>

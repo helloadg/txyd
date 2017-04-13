@@ -41,8 +41,7 @@
 		<!-- spring version -->
 		<spring.version>4.1.6.RELEASE</spring.version>
 
-		<!-- aop version -->
-		<aspectjweaver.version>1.8.8</aspectjweaver.version>
+
 
 
 		<!-- httpclient version -->
@@ -90,8 +89,10 @@
 		<!-- gson  json version  -->
 		<gson.version>2.6.2</gson.version>
         
-        <!-- spring aop -->
-        <aspectjweaver.version>1.8.8</aspectjweaver.version>
+        <!-- spring aop version -->
+		<aspectjweaver.version>1.8.8</aspectjweaver.version>
+		<aopalliance.version>1.0</aopalliance.version>
+
         <!-- ehcache -->
         <ehcache.version>2.10.1</ehcache.version>
 		<!-- jsqlparser.version -->

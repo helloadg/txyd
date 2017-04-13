@@ -1,43 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
-    <!-- scan for mappers and let them be autowired -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- xml方式使用mybatis   -->
+    <!--<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+        <!--<property name="basePackage" value="com.txyd.mybatis.dao"/>-->
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>-->
+    <!--</bean>-->
+
+    <!-- 注解方式使用 mybatis-->
+    <bean id="mapperScannerConfigurer_annotation" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.txyd.mybatis.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory_annotation" />
+        <property name="annotationClass" value="com.txyd.mybatis.dao.MyBatisRepository"/>
     </bean>
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+    <bean id="sqlSessionFactory_annotation" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+        <!-- mapper 和 resultmap 配置路径 -->
+        <!--<property name="mapperLocations" value="classpath:mybatis/mapper/*Mapper.xml"/>-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/mapper/*Mapper.xml</value>
+                <value>classpath:mybatis/mapper/base/*Mapper.xml</value>
+            </list>
+        </property>
     </bean>
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="connectionProperties" value="${jdbc.connectionProperties}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-        <property name="initialSize" value="${dbcp.initialSize}"/>
-        <property name="maxActive" value="${dbcp.maxActive}"/>
-        <property name="maxIdle" value="${dbcp.maxIdle}"/>
-        <property name="minIdle" value="${dbcp.minIdle}"/>
-        <property name="maxWait" value="${dbcp.maxWait}"/>
-        <property name="defaultAutoCommit" value="${dbcp.defaultAutoCommit}"/>
-        <property name="timeBetweenEvictionRunsMillis" value="${dbcp.timeBetweenEvictionRunsMillis}"/>
-        <property name="numTestsPerEvictionRun" value="${dbcp.numTestsPerEvictionRun}"/>
-        <property name="minEvictableIdleTimeMillis" value="${dbcp.minEvictableIdleTimeMillis}"/>
-        <property name="testWhileIdle" value="${dbcp.testWhileIdle}"/>
-        <property name="testOnBorrow" value="${dbcp.testOnBorrow}"/>
-        <property name="testOnReturn" value="${dbcp.testOnReturn}"/>
-        <property name="validationQuery" value="${dbcp.validationQuery}"/>
-        <property name="removeAbandoned" value="${dbcp.removeAbandoned}"/>
-        <property name="removeAbandonedTimeout" value="${dbcp.removeAbandonedTimeout}"/>
-        <property name="logAbandoned" value="${dbcp.logAbandoned}"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="30"/>
+        <property name="maxIdle" value="5"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="600000"/>
+        <property name="numTestsPerEvictionRun" value="3"/>
+        <property name="minEvictableIdleTimeMillis" value="1800000"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select 1"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="180"/>
+        <property name="logAbandoned" value="true"/>
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <!-- 事务相关 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <aop:aspectj-autoproxy/>
+
+    <!-- 自动事务相关 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--no-rollback-for="java.lang.RuntimeException" -->
+            <tx:method name="insert*" propagation="REQUIRED"  read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="modify*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="handle*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="allPublicMethod"  expression="execution(public * com.txyd.mybatis.service.impl.*.*(..))"/>
+        <aop:advisor pointcut-ref="allPublicMethod" advice-ref="txAdvice"/>
+    </aop:config>
+
 </beans>
