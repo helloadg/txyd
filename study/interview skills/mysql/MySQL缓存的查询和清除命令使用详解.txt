@@ -1,0 +1,85 @@
+Mysql 查询缓存 
+查询缓存的作用就是当查询接收到一个和之前同样的查询，服务器将会从查询缓存种检索结果，而不是再次分析和执行上次的查询。这样就大大提高了性能，节省时间。 
+1.配置查询缓存 
+修改配置文件，修改[mysqld]下的query_cache_size和query_cache_type（如果没有则添加）。其中query_cache_size表示缓存的大小，而query_cache_type有3个值，表示缓存那种类  型的select结果集，query_cache_type各个值如下： 
+0或off关闭缓存 
+1或on开启缓存，但是不保存使用sql_no_cache的select语句,如不缓存select  sql_no_cache name from wei where id=2 
+2或demand开启有条件缓存，只缓存带sql_cache的select语句，缓存select  sql_cache name from wei where id=4 
+例子的配置为下，配置完成重启Mysql服务器即可。 
+
+query_cache_size=10M 
+query_cache_type=1 
+可以用如下命令查看是否开启，其中have_query_cache为是否开启，query_cache_limit 指定单个查询能够使用的缓冲区大小，缺省为1M；query_cache_min_res_unit为系统分配的最小缓存块大小，默认是4KB，设置值大对大数据查询有好处，但如果你的查询都是小数据 查询，就容易造成内存碎片和浪费；query_cache_size和query_cache_type就是上面我们的配置；query_cache_wlock_invalidate表示当有其他客户端正在对MyISAM表进行写操作时，如果查询在query cache中，是否返回cache结果还是等写操作完成再读表获取结果。 
+
+mysql> show variables like '%query_cache%'; 
++------------------------------+----------+ 
+| Variable_name        | Value  | 
++------------------------------+----------+ 
+| have_query_cache       | YES   | 
+| query_cache_limit      | 1048576 | 
+| query_cache_min_res_unit   | 4096   | 
+| query_cache_size       | 10485760 | 
+| query_cache_type       | ON    | 
+| query_cache_wlock_invalidate | OFF   | 
++------------------------------+----------+ 
+6 rows in set (0.00 sec) 
+2.测试 
+我们先执行一次，select  count(*) from wei ;然后再执行一次，可以看出第二次用的时间远远低于第一次的执行，因为第二次从缓存中读取了select结果。 
+
+mysql> select count(*) from wei ; 
++----------+ 
+| count(*) | 
++----------+ 
+| 4194304 | 
++----------+ 
+1 row in set (3.92 sec) 
+  
+mysql> select count(*) from wei ; 
++----------+ 
+| count(*) | 
++----------+ 
+| 4194304 | 
++----------+ 
+1 row in set (0.00 sec) 
+我们可以通过如下命令查看现在缓存的情况 
+
+mysql> show status like 'qcache%'; 
++-------------------------+----------+ 
+| Variable_name      | Value  | 
++-------------------------+----------+ 
+| Qcache_free_blocks   | 1    | 
+| Qcache_free_memory   | 10475424 | 
+| Qcache_hits       | 1    | 
+| Qcache_inserts     | 1    | 
+| Qcache_lowmem_prunes  | 0    | 
+| Qcache_not_cached    | 0    | 
+| Qcache_queries_in_cache | 1    | 
+| Qcache_total_blocks   | 4    | 
++-------------------------+----------+ 
+8 rows in set (0.00 sec) 
+其中各个参数的意义如下：
+Qcache_free_blocks：缓存中相邻内存块的个数。数目大说明可能有碎片。FLUSH QUERY CACHE会对缓存中的碎片进行整理，从而得到一个空闲块。
+Qcache_free_memory：缓存中的空闲内存。
+Qcache_hits：每次查询在缓存中命中时就增大
+Qcache_inserts：每次插入一个查询时就增大。命中次数除以插入次数就是不中比率。
+Qcache_lowmem_prunes：缓存出现内存不足并且必须要进行清理以便为更多查询提供空间的次数。这个数字最好长时间来看;如果这个 数字在不断增长，就表示可能碎片非常严重，或者内存很少。(上面的 free_blocks和free_memory可以告诉您属于哪种情况)
+Qcache_not_cached：不适合进行缓存的查询的数量，通常是由于这些查询不是 SELECT 语句或者用了now()之类的函数。
+Qcache_queries_in_cache：当前缓存的查询(和响应)的数量。
+Qcache_total_blocks：缓存中块的数量。
+
+清除缓存
+mysql的FLUSH句法(清除缓存） 
+
+FLUSH flush_option [,flush_option]
+如果你想要清除一些MySQL使用内部缓存，你应该使用FLUSH命令。为了执行FLUSH，你必须有reload权限。
+flush_option可以是下列任何东西：
+HOSTS       这个用的最多，经常碰见。主要是用来清空主机缓存表。如果你的某些主机改变IP数字，或如果你得到错误消息Host ... isblocked，你应该清空主机表。当在连接MySQL服务器时，对一台给定的主机有多于 max_connect_errors个错误连续不断地发生，MySQL为了安全的需要将会阻止该主机进一步的连接请求。清空主机表允许主机再尝试连接。
+LOGS        关闭当前的二进制日志文件并创建一个新文件，新的二进制日志文件的名字在当前的二进制文件的编号上加1。
+PRIVILEGES  这个也是经常使用的，每当重新赋权后，为了以防万一，让新权限立即生效，一般都执行一把，目地是从数据库授权表中重新装载权限到缓存中。
+TABLES       关闭所有打开的表，同时该操作将会清空查询缓存中的内容。
+FLUSH TABLES WITH READ LOCK   关闭所有打开的表，同时对于所有数据库中的表都加一个读锁，直到显示地执行unlock tables，该操作常常用于数据备份的时候。
+STATUS       重置大多数状态变量到0。
+MASTER        删除所有的二进制日志索引文件中的二进制日志文件，重置二进制日志文件的索引文件为空，创建一个新的二进制日志文件,不过这个已经不推荐使用，改成reset master 了。可以想象，以前自己是多土啊，本来一条简单的命令就可以搞定的，却要好几条命令来，以前的做法是先查出来当前的二进制日志文件名，再用purge 操作。
+QUERY CACHE   重整查询缓存，消除其中的碎片，提高性能，但是并不影响查询缓存中现有的数据，这点和Flush table 和Reset Query  Cache（将会清空查询缓存的内容）不一样的。
+SLAVE        类似于重置复制吧，让从数据库忘记主数据库的复制位置，同时也会删除已经下载下来的relay log,与Master一样，已经不推荐使用，改成Reset Slave了。这个也很有用的。
+  一般来讲，Flush操作都会记录在二进制日志文件中，但是FLUSH LOGS、FLUSH MASTER、FLUSH SLAVE、FLUSH TABLES WITH READ LOCK不会记录，因此上述操作如果记录在二进制日志文件中话，会对从数据库造成影响。注意：Reset操作其实扮演的是一个Flush操作的增强版的角色。

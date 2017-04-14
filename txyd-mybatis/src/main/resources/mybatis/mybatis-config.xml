@@ -23,6 +23,8 @@
         <!-- 数据库超过25000秒仍未响应则超时 -->
         <setting name="defaultStatementTimeout" value="25000" />
         <setting name="defaultExecutorType" value="REUSE"/>
+        <!-- 打印sql语句 ：mybatis的日志打印方式比较多，SLF4J | LOG4J | LOG4J2 | JDK_LOGGING | COMMONS_LOGGING | STDOUT_LOGGING | NO_LOGGING， -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
     <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->
     <!--<typeAliases>-->

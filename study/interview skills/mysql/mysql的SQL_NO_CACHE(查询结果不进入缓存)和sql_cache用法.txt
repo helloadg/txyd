@@ -1,0 +1,33 @@
+了测试sql语句的效率，有时候要不用缓存来查询。
+
+ 使用  
+
+  SELECT SQL_NO_CACHE ...
+
+ 语法即可
+
+ SQL_NO_CACHE的真正作用是禁止缓存查询结果，但并不意味着cache不作为结果返回给query。
+
+ 目前流传的SQL_NO_CACHE不外乎两种解释：
+
+1.对当前query不使用数据库已有缓存来查询，则当前query花费时间会多点
+
+2.对当前query的产生的结果集不缓存至系统query cache里，则下次相同query花费时间会多点
+
+我做了下实验，似乎两种都对。
+
+ sql_cache意思是说，查询的时候使用缓存。
+
+ 对SQL_NO_CACHE的解释及测试如下:
+
+SQL_NO_CACHE means that the query result is not cached. It does not mean
+
+that the cache is not used to answer the query.
+
+
+
+You may use RESET QUERY CACHE to remove all queries from the cache and
+
+then your next query should be slow again. Same effect if you change
+
+the table, because this makes all cached queries invalid.
