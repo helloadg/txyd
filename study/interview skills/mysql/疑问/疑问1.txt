@@ -1,0 +1,46 @@
+疑问1： 以下语句的执行速度问题
+    总条数：452213
+    sql1:
+        SELECT 
+        (r.record_c_t- r.place_order_time)/(24*3600) jiange,
+        FROM_UNIXTIME(r.place_order_time),
+        FROM_UNIXTIME(r.record_c_t),
+        r.* 
+            from t_settlement_record r 
+        where r.record_c_t <>0
+        order by (r.record_c_t- r.place_order_time)/(24*3600)  desc
+        ;
+    执行时间为4.100；
+    sql2:
+        SELECT 
+        (r.record_c_t- r.place_order_time)/(24*3600) as jiange,
+        FROM_UNIXTIME(r.place_order_time),
+        FROM_UNIXTIME(r.record_c_t),
+        r.* 
+            from t_settlement_record r 
+        where r.record_c_t <>0
+        order by jiange desc
+        ;
+    执行时间为4.375；
+    sql3:
+        select * from (
+        
+            SELECT 
+            (r.record_c_t- r.place_order_time)/(24*3600) jiange,
+            FROM_UNIXTIME(r.place_order_time),
+            FROM_UNIXTIME(r.record_c_t),
+            r.* 
+                from t_settlement_record r 
+            where r.record_c_t <>0
+        )rr
+        order by rr.jiange  desc
+        ;
+    执行时间为5.911；
+
+
+
+    sql1优于sql2，sql2优于sql3；
+
+疑问2：_rowId的意义
+    _rowid：代表表中主键，如果表中无主键，则报错：[Err] 1054 - Unknown column '_rowid' in 'field list';
+    如果想获得行号，可以使用：SELECT @rowid:=@rowid+1 as rowid,  r.* FROM `t_settlement_record` r, (SELECT @rowid:=0) as init;
