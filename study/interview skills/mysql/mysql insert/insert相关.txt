@@ -1,0 +1,14 @@
+1:INSERT IGNORE 与INSERT INTO的区别 
+    INSERT IGNORE 与INSERT INTO的区别就是INSERT IGNORE会忽略数据库中已经存在 的数据，如果数据库没有数据，就插入新的数据，如果有数据的话就跳过这条数据。这样就可以保留数据库中已经存在数据，达到在间隙中插入数据的目的。
+    eg:
+    insert ignore into table(name)  select  name from table2 
+
+2:MySql避免重复插入记录方法(ignore,Replace,ON DUPLICATE KEY UPDATE)
+案一：使用ignore关键字
+如果是用主键primary或者唯一索引unique区分了记录的唯一性,避免重复插入记录可以使用：
+ 代码如下	复制代码
+1 INSERT IGNORE INTO `table_name` (`email`, `phone`, `user_id`) VALUES ('test9@163.com', '99999', '9999');
+这样当有重复记录就会忽略,执行后返回数字0
+还有个应用就是复制表,避免重复记录：
+ 代码如下	复制代码
+1 INSERT IGNORE INTO `table_1` (`name`) SELECT `name` FROM `table_2`;

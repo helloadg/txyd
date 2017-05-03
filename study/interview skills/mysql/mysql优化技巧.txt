@@ -1,0 +1,5 @@
+1:mysql技巧之select count：count(*) ,count(1),count(column_name)比较：
+    count(*)与count(1)：两者之间没有区别，则优先走列类型最短的索引（然后类型比较长的索引，然后复合索引）；若无索引，则走主键；若无主键，则走全文扫描；
+    count(column_name)：若指定的column_name，上建有索引（无论是单列索引还是复合索引），则走索引（优先走单列索引，然后按照最左原则走复合索引，复合索引中，指定的column_name越靠左，该索引越优先）；否者，则走全文扫描；
+详情请见：http://www.cnblogs.com/cchust/p/3264147.html
+   

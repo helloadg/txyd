@@ -30,9 +30,13 @@ show full processlist;
 
 show engine innodb status;
 show global variables like '%iso%';
+show session variables  LIKE '%iso%';
+show variables  LIKE '%iso%';
 select @@tx_isolation;
+select @@session.tx_isolation;
 select @@global.tx_isolation; -- REPEATABLE-READ  -- READ-COMMITTED
 set global tx_isolation='REPEATABLE-READ'
+
 
 
 show OPEN TABLES where In_use > 0;

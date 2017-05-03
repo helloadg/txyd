@@ -34,7 +34,7 @@ Java程序员MS题集（151-180） http://blog.csdn.net/jackfrued/article/detail
 MySQL ROLLUP和CUBE问题 http://blog.itpub.net/29773961/viewspace-1255419/
 Java设计模式   http://blog.csdn.net/column/details/study-disgnpattern.html
 JavaM-S题集锦   http://blog.csdn.net/column/details/study-interview.html
-JavaEE面试秘籍   http://blog.csdn.net/column/details/ofinterview.html
+JavaEE M-S秘籍   http://blog.csdn.net/column/details/ofinterview.html
 Spring详解   http://blog.csdn.net/column/details/study-springmvc.html
 MyBatis学习   http://blog.csdn.net/column/details/study-mybatis.html
 跟我学Spring    http://blog.csdn.net/column/details/spring-detail.html
