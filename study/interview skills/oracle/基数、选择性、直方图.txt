@@ -1,0 +1,135 @@
+一、基数：
+ 
+   一个列中唯一键(Distinct_keys)的个数，如有一个100W行的表，性别列的基数为2 (select distinct gender from test)，主键列的基数为100W(select distinct mid from test);
+
+二、选择性：
+    基数/总行数所占的百分比，性别 2/100w * 100% 主键 100%  选择性越高 越有利于使用索引
+    20~30%就算是比较高了
+
+ 2.1、如何判断是一个索引创建的是好还是坏呢？ 
+     就看他的基数和选择性 如果基数大选择性大 那么使用索引就比较好
+ 2.2、性别这个列使不使用索引？
+    要看情况，从OLTP系统上来说 在选择性低的列上创建索引肯定不适合的，基数/选择性高的列，适合建立B-Tree索引；
+    在OLAP系统中基数低的列根据需求，有可能会建立bitmap索引
+ 2.3、如何查看列的选择性和基数呢？
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+create table test as select * from dba_objects;  
+create index idx on test(owner);   
+--最简单直接的写法是运行下面的语句 但可能会卡死 想象如果一张表30G 上千万行 而segment_size只有10G   
+select count(distinct column_name),count(*) total_rows,count(distinct column_name) / count(*) * 100 selectivity from table_name;  
+  
+--在做SQL优化的时候，不要急忙运行上面SQL，首先应该检查表的segment_size有多大，如果表的segment_size过大(比如超过SGA的buffer_cache)，你要考虑运行上面SQL是否对你当前的系统有影响，如果是测试环境，无所谓，如果是生产环境，要小心谨慎。  
+  
+--其实建议使用统计信息表（dba_tab_col_statistics 、dba_tables ）里的信息来查看选择性和基数  
+select a.column_name,  
+       b.num_rows,  
+       a.num_distinct Cardinality,  
+       round(a.num_distinct / b.num_rows * 100, 2) selectivity,  
+  from dba_tab_col_statistics a, dba_tables b  
+ where a.owner = b.owner  
+   and a.table_name = b.table_name  
+   and a.owner = upper('&owner')  
+   and a.table_name = upper('&table_name')  
+and a.column_name = upper('&column_name');  
+
+2.4、请写一个脚本找出系统中不合理（选择性很低）的索引！！！
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+select a.OWNER,  
+       a.INDEX_NAME,  
+       a.TABLE_NAME,  
+       a.DISTINCT_KEYS Cardinality,  
+       a.NUM_ROWS,  
+       round(a.DISTINCT_KEYS / NUM_ROWS * 100, 2) selectivity  
+  from dba_ind_statistics a  
+ where A.OWNER = 'SCOTT'  
+ --selectivity <5 一般选择性小于5% 就属于选择性差  
+  
+--上面如果统计信息有可能不是最新的  最好使用下面的语句  
+select table_name,index_name,round(distinct_keys/num_rows * 100, 2) selectivity from user_indexes;  
+但是选择性低的列也不一定不需要建索引 要根据业务来 比如有7W行记录 SCOTT的有23行 如果经常根据SCOTT查 要不要建立索引？
+
+三、直方图
+3.1、概述
+    直方图 当某列数据分布不均衡，为了让CBO能生成最佳的执行计划，我们可能需要对表收集直方图，直方图最大的桶数(Bucket)是254。收集直方图是一个很耗时的过程，如无必要，千万别去收集直方图。
+    OLTP系统中没有必要千万不要去收集直方图，因为OLTP一般会用绑定变量，但11g之前一直有绑定变量窥探的问题，导致收集的直方图没有作用；
+     对于SELECT列不要去收集直方图 要对WHERE列使用直方图  因为直方图是给CBO使用的
+
+3.2、如何查看直方图
+直方图是根据统计信息而来的 
+所以要先收集统计信息
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+BEGIN  
+  DBMS_STATS.GATHER_TABLE_STATS(ownname          => 'SCOTT',  
+                                tabname          => 'TEST',  
+                                estimate_percent => 100,  
+                                method_opt       => 'for all columns size skewonly',  
+                                no_invalidate    => FALSE,  
+                                degree           => 1,  
+                                cascade          => TRUE);  
+END;  
+/  
+
+然后再查询统计信息
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+select a.column_name,  
+        b.num_rows,  
+        a.num_distinct Cardinality,  
+         round(a.num_distinct / b.num_rows * 100, 2) selectivity,  
+        a.histogram,  
+        a.num_buckets  
+   from dba_tab_col_statistics a, dba_tables b  
+  where a.owner = b.owner  
+    and a.table_name = b.table_name  
+    and a.owner = 'SCOTT'  
+    and a.table_name = 'TEST';  
+参数说明：
+NUM_ROWS 表示总行数 
+CARDINALITY 表示基数  
+SELECTIVITY表示选择性  选择性在10%以上都比较高了
+HISTOGRAM表示直方图的类型：
+     FREQUECNCY频率直方图、 当列中Distinct_keys 较少(小于254)，如果不手工指定直方图桶数(BUCKET)，Oracle就会自动的创建频率直方图，并且桶数(BUCKET)等于Distinct_Keys。
+     HEIGHT BALANCED 高度平衡直方图 当列中Distinct_keys大于254，如果不手工指定直方图桶数(BUCKET)，Oracle就会自动的创建高度平衡直方图。
+     NONE表示未收集直方图
+NUM_BUCKETS 表示桶数
+
+oracle 一般查询数据行数在5%以下希望走索引
+
+生成了直方图之后  执行以下两个句子查看一下分别的执行计划对比看看 
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+select * from test where owner='SYS';  --查询出3W行  ROWS估算3W行  估算正确  走全表  
+select * from test where owner='SCOTT';--查询出7行   ROWS估算7行（低于5%）   估算正确  走索引  
+如果删除了直方图呢 再执行上面语句比较一下
+
+删除直方图信息
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+BEGIN  
+  DBMS_STATS.GATHER_TABLE_STATS(ownname          => 'SCOTT',  
+                                tabname          => 'TEST',  
+                                estimate_percent => 100,  
+                                method_opt       => 'for all columns size 1',  
+                                no_invalidate    => FALSE,  
+                                degree           => 1,  
+                                cascade          => TRUE);  
+END;  
+/  
+
+[sql] view plain copy 在CODE上查看代码片派生到我的代码片
+select * from test where owner='SYS';    
+--查询出3W行  ROWS估算7W/基数23=2501行（低于5%）它也叫基数 预估均匀分配走索引  估算错误  
+select * from test where owner='SCOTT';  
+--查询出7行   ROWS估算2501行（低于5%）预估均匀分配走索引  估算错误     
+
+    如果是采样率estimate_percent100%，SQL条件不复杂的话，那么一般执行计划里估算的基数也是准确的；
+    如果一个表10个G 那么如果要采样率100% 会搞死人的  所以一般都是收集30%，这时候估算的基数不一定准确了，但是估算给CBO一般够了；
+3.3、疑问
+1、直方图到底应该什么时候收集直方图？ 
+    就查一下执行计划和实际查询行数进行比较 估算的基数ROWS是不是算错了。
+
+2、只对有索引的列收集直方图也是错的！
+
+
+3、直方图究竟是干嘛的？
+告诉CBO 有没有收集直方图  这个列是不是均衡的 
+1. 没收集直方图 ---CBO认为这个列是分布均匀的；
+2. 收集过了 ---告诉CBO这个列数据有问题 分布不均衡  你别算错了 特别是频率直方图算的会很准
+最终就是影响rows

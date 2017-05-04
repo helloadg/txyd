@@ -1,0 +1,21 @@
+什么是回表？
+        简单来说就是数据库根据索引找到了指定的记录所在行后，还需要根据rowid再次到数据块里取数据的操作；
+    示例：基本表结构与索引情况如下：
+create table MOB_ANALYZE_NAME
+(
+      PHONETYPE VARCHAR2(100),
+      TYPENAME  VARCHAR2(500)
+;
+--这时候还没有索引 访问数据块为 是全表扫描 效率肯定不行
+select a.phonetype from mob_analyze_name a where a.phonetype = 'zg_20090611_00057';
+--加入索引
+create index IDX_MOB_ANALYZE_NAME_ID on MOB_ANALYZE_NAME (PHONETYPE);
+--该语句不会回表 从索引块里就可取出全部数据 
+select a.phonetype from mob_analyze_name a where a.phonetype = 'zg_20090611_00057';
+--该语句取得数据行rowid后 将会根据rowid回表查询出typename，因为有两行，就回表多查了2个数据块
+--此处遗留一个问题是 一行数据是否有可能放到两个数据块里，那是不是可能会出现本来查询一行数据 就多访问两个数据块
+select a.typename from mob_analyze_name a where a.phonetype = 'zg_20090611_00057';//2行
+怎么避免回表？
+        如果只是简单的查询name id 这种情况 可以考虑创建组合索引 要根据实际情况考虑创建索引的成本！
+drop index IDX_MOB_ANALYZE_NAME_ID ;
+create index IDX_MOB_ANALYZE_NAME_ID_NAME on MOB_ANALYZE_NAME (PHONETYPE, TYPENAME);
