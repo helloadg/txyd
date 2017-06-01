@@ -1,0 +1,26 @@
+in 是把外表和内表作hash 连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询
+exists()后面的子查询被称做相关子查询   他是不返回列表的值的.只是返回一个ture或false的结果(这也是为什么子查询里是 "select   1 "的原因   当然也可以select任何东西) 
+其运行方式是先运行主查询一次   再去子查询里查询与其对应的结果   如果是ture则输出,反之则不输出.再根据主查询中的每一行去子查询里去查询. 
+
+in()后面的子查询   是返回结果集的,换句话说执行次序和exists()不一样.子查询先产生结果集,然后主查询再去结果集里去找符合要求的字段列表去.符合要求的输出,反之则不输出. 
+
+exists的执行过程是怎么样的 
+------------------------------------------ 
+执行顺序如下： 
+1.首先执行一次外部查询 
+2.对于外部查询中的每一行分别执行一次子查询，而且每次执行子查询时都会引用外部查询中当前行的值。 
+3.使用子查询的结果来确定外部查询的结果集。 
+如果外部查询返回100行，SQL   就将执行101次查询，一次执行外部查询，然后为外部查询返回的每一行执行一次子查询。但实际上，SQL的查询 
+优化器有可能会找到一种更好的方法来执行相关子查询，而不需要实际执行101次查询。 
+
+exists与in具体谁的效率更高，要看具体的业务场景
+一般来讲：
+一、in和exists的效率比较
+当大数据量的表A做主表查询，小数据量的表B做子查询时，用in的效率比较高，exists的效率比较低；反正则exists的效率比较高，in的效率比较低，如下：
+select * from A where id in(select cid from B );//快
+select * from A where exists(select cid from B where A.id=B.cid);//慢
+
+select * from B where cid in(select id from A );//慢
+select * from B where exists(select id from A where A.id=B.cid);//快
+二、not in和not exists的效率比较
+not in和not exists的效率比较也如in和exists的效率比较一样，大表做主表查询时not in的效率会比较高，小表做主表查询时not exists的效率会比较高

@@ -1,0 +1,22 @@
+MySql 申明变量以及赋值
+sql server中变量要先申明后赋值：
+
+局部变量用一个@标识，全局变量用两个@（常用的全局变量一般都是已经定义好的）；
+
+申明局部变量语法：declare @变量名 数据类型；例如：declare @num int；
+
+赋值：有两种方法式（@num为变量名，value为值）
+
+set @num=value;   或   select @num=value;
+
+如果想获取查询语句中的一个字段值可以用select给变量赋值,如下：
+
+select @num=字段名 from 表名 where ……
+
+mysql中变量不用事前申明，在用的时候直接用“@变量名”使用就可以了。
+
+第一种用法：set @num=1; 或set @num:=1; //这里要使用变量来保存数据，直接使用@num变量
+
+第二种用法：select @num:=1; 或 select @num:=字段名 from 表名 where ……
+
+注意上面两种赋值符号，使用set时可以用“=”或“：=”，但是使用select时必须用“：=赋值”

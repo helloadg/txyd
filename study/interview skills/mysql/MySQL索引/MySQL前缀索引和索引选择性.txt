@@ -1,0 +1,22 @@
+有时候需要索引很长的字符列，这会让索引变得大且慢。通常可以索引开始的部分字符，这样可以大大节约索引空间，从而提高索引效率。但这样也会降低索引的选择性。索引的选择性是指不重复的索引值（也称为基数，cardinality)和数据表的记录总数的比值，范围从1/#T到1之间。索引的选择性越高则查询效率越高，因为选择性高的索引可以让MySQL在查找时过滤掉更多的行。唯一索引的选择性是1，这是最好的索引选择性，性能也是最好的。
+
+一般情况下某个前缀的选择性也是足够高的，足以满足查询性能。对于BLOB，TEXT，或者很长的VARCHAR类型的列，必须使用前缀索引，因为MySQL不允许索引这些列的完整长度。
+
+诀窍在于要选择足够长的前缀以保证较高的选择性，同时又不能太长（以便节约空间）。前缀应该足够长，以使得前缀索引的选择性接近于索引的整个列。换句话说，前缀的”基数“应该接近于完整的列的”基数“。
+
+为了决定前缀的合适长度，需要找到最常见的值的列表，然后和最常见的前缀列表进行比较
+
+计算基数： 
+    select count(distinct city_name) as cn_all ,
+        count(distinct left(city_name,长度)) as cn_num 
+    from city ;
+    或者
+    select count(*) as cn,left(city_name,3) as pref from city group by pref order by cn desc limit 10;
+计算选择性：
+    select count(distinct city_name) as cn_all ,
+        count(distinct left(city_name,长度)) as cn_num ,
+        count(distinct left(city_name,长度)) /count(distinct city_name) as '选择性'
+    from city 
+
+前缀索引是一种能使索引更小，更快的有效办法，但另一方面也有其缺点：
+mysql无法使用其前缀索引做ORDER BY和GROUP BY，也无法使用前缀索引做覆盖扫描。

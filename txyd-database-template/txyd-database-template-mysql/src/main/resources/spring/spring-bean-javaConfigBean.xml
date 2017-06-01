@@ -14,7 +14,7 @@
 		<property name="javaPathRoot" value="src" /><!-- java文件所在的根目录 -->		
 		<property name="databaseType" value="mysql" /><!-- 数据库类型 -->		
 		<property name="databaseOwner" value="root" /><!-- 数据库所属用户 -->		
-		<property name="databaseSchema" value="popbase" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
+		<property name="databaseSchema" value="pop_settlement" /><!-- 数据库schema：oracle：数据库所属用户；mysql：数据库库名； -->
 		<property name="basePackage" value="com.sprucetec.pop.enter" /><!-- 基础包名 -->
 		<property name="basePackageMapper" value="com.sprucetec.pop.enter.dao" /><!-- 基础包名 ：mapper -->
 		<property name="basePackageBaseMapper" value="com.sprucetec.pop.enter.dao.base" /><!-- 基础包名 ：mapper的基础根类 -->

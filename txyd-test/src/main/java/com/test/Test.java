@@ -7,10 +7,8 @@ import net.sf.jsqlparser.statement.select.SelectBody;
 import net.sf.jsqlparser.statement.select.SetOperationList;
 import net.sf.jsqlparser.statement.select.WithItem;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -202,6 +200,28 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception {
 		{
+			ArrayList<Integer> list = new ArrayList<>();
+			list.addAll(new HashMap<String,Integer>().values());
+			System.out.println(list);
+		}
+		{
+//			Map<String,String>  map1=new LinkedHashMap<String,String>(){{
+//				for(int i=0;i<10;i++){
+//					put("key_"+(i+1),"value_"+(i+1));
+//				}
+//			}};
+//			Map<String,String>  map2=new LinkedHashMap<String,String>(){{
+//				for(int i=5;i<15;i++){
+//					put("key_"+(i+1),"value_"+(i+1));
+//				}
+//			}};
+//			Set<String> set1=new HashSet<>(map1.keySet());
+//			set1.retainAll(map2.keySet());
+//			System.out.println(set1);
+//			System.out.println(map1);
+//			System.out.println(map2);
+		}
+		{
 //			BigDecimal b1=new BigDecimal("100.0");
 //			BigDecimal b2=new BigDecimal("100.00");
 //			System.out.println(b1.equals(b2));
@@ -214,22 +234,22 @@ public class Test {
 //			System.out.println(new BigDecimal("0.1").multiply(new BigDecimal("3")).toString());
 			{
 				{
-					List<BigDecimal> list = new ArrayList<BigDecimal>(){{
-						add(new BigDecimal("2"));
-						add(new BigDecimal("5"));
-						add(new BigDecimal("1"));
-						add(new BigDecimal("7"));
-						add(new BigDecimal("9"));
-						add(new BigDecimal("8"));
-					}};
-					System.out.println(list);
-					Collections.sort(list, new Comparator<BigDecimal>() {
-						@Override
-						public int compare(BigDecimal o1, BigDecimal o2) {
-							return o1.compareTo(o2);
-						}
-					});
-					System.out.println(list);
+//					List<BigDecimal> list = new ArrayList<BigDecimal>(){{
+//						add(new BigDecimal("2"));
+//						add(new BigDecimal("5"));
+//						add(new BigDecimal("1"));
+//						add(new BigDecimal("7"));
+//						add(new BigDecimal("9"));
+//						add(new BigDecimal("8"));
+//					}};
+//					System.out.println(list);
+//					Collections.sort(list, new Comparator<BigDecimal>() {
+//						@Override
+//						public int compare(BigDecimal o1, BigDecimal o2) {
+//							return o1.compareTo(o2);
+//						}
+//					});
+//					System.out.println(list);
 					
 				}
 				{

@@ -1,0 +1,55 @@
+SELECT @rowid:=@rowid+1 as rowid,  r.* FROM `t_settlement_record` r, (SELECT @rowid:=0) as init;
+SELECT _rowid,r.* FROM `t_settlement_record` r;
+_rowid：意义：
+
+
+-- 查看那些表锁到了
+show OPEN TABLES where In_use > 0;
+-- 查看进程号
+show full processlist;
+-- 删除进程
+ kill 1085850；
+
+show engine innodb status;
+
+
+show global variables like '%iso%';
+select @@tx_isolation;
+select @@global.tx_isolation; -- REPEATABLE-READ  -- READ-COMMITTED
+set global tx_isolation='REPEATABLE-READ'
+
+reset query cache;
+FLUSH QUERY CACHE;
+select @@query_cache_size -- 1048576
+set global query_cache_size = 1048576;  --  Variable 'query_cache_size' is a GLOBAL variable and should be set with SET GLOBAL
+
+set global query_cache_type = 0;
+set session query_cache_type = 0;
+set  query_cache_type = 0;
+SELECT SQL_NO_CACHE r.* FROM `t_settlement_bill_period` r where  r.pop_id =210;
+show variables like '%query_cache%'; 
+
+
+mysql更新返回值问题（更新内容跟之前内容一样，返回0）
+mysql更新返回值问题 
+问：
+
+有一界面要更新个人信息，有几十个text标签需要填写
+假设有一用户从用户列表点修改进入了修改页面，但又没有修改什么，马上点击保存
+这时，因为text标签非常多，不能够一一判断用户是否修改了什么，就直接将post过来的值
+去update, 但因为新值和旧值都是一样，这样mysql返回影响的行数为0
+在ms sql server,oracle中，不管新值旧值是否一样，返回的影响的行数都是1的
+当出现这种情况时，是不是该考虑是否出现异常，再判断修改是否成功？(之前是根据返回的值，为1，则提示修改成功，为0则提示修改失败)
+
+
+返回成功和影响行数为0有以下几种情况：
+1、update中set的值与当前的值一致;
+2、未找到Where 条件中匹配的行;
+
+
+
+
+update test_no_pk r set r.`name`='name1' where r.id=1;
+SELECT ROW_COUNT();
+SELECT * from test_no_pk;
+SELECT FOUND_ROWS()

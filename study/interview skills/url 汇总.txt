@@ -45,6 +45,7 @@ MySQL数据库学习  http://blog.csdn.net/column/details/studymysql.html
 Spring学习笔记   http://blog.csdn.net/column/details/studyspring.html
 疯狂Java学习笔记   http://blog.csdn.net/column/details/crazyjava.html
 M-S系列  http://blog.csdn.net/column/details/ms100.html
+深入理解 Java 垃圾回收机制  http://www.cnblogs.com/andy-zcx/p/5522836.html
 
 
 
