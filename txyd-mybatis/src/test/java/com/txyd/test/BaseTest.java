@@ -38,4 +38,12 @@ public class BaseTest implements ApplicationContextAware {
 		System.out.println(Arrays.asList(this.applicationContext.getBeanDefinitionNames()));
 		System.out.println(str.toString());
 	}
+	
+	protected String getLine(){
+		StringBuilder sb =new StringBuilder();
+		Stream.iterate(0,e->++e).limit(10).forEach(e->{
+			sb.append("############################################################\n");
+		});
+		return sb.toString();
+	}
 }

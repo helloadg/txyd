@@ -56,6 +56,17 @@
 			<artifactId>xdocreport</artifactId>
 			<version>1.0.5</version>
 		</dependency>
-		<!-- poi(end) -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectjrt.version}</version>
+		</dependency>
+        <!-- poi(end) -->
 	</dependencies>
 </project>

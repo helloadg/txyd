@@ -71,26 +71,27 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-    <aop:aspectj-autoproxy/>
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" order="2" />
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+    <!--<aop:aspectj-autoproxy/>-->
 
-    <!-- 自动事务相关 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <!--no-rollback-for="java.lang.RuntimeException" -->
-            <tx:method name="insert*" propagation="REQUIRED"  read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="modify*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-            <tx:method name="handle*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
-        </tx:attributes>
-    </tx:advice>
+    <!--&lt;!&ndash; 自动事务相关 &ndash;&gt;-->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--&lt;!&ndash;no-rollback-for="java.lang.RuntimeException" &ndash;&gt;-->
+            <!--<tx:method name="insert*" propagation="REQUIRED"  read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="modify*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+            <!--<tx:method name="handle*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
 
-    <aop:config>
-        <aop:pointcut id="allPublicMethod"  expression="execution(public * com.txyd.mybatis.service.impl.*.*(..))"/>
-        <aop:advisor pointcut-ref="allPublicMethod" advice-ref="txAdvice"/>
-    </aop:config>
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="allPublicMethod"  expression="execution( public * com.txyd.mybatis.service.impl.*.*(..))"/>-->
+        <!--<aop:advisor pointcut-ref="allPublicMethod" advice-ref="txAdvice"/>-->
+    <!--</aop:config>-->
 
 </beans>

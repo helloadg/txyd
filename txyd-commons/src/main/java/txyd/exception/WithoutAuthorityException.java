@@ -19,7 +19,7 @@ public class WithoutAuthorityException extends RuntimeException implements BaseE
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.WITHOUT_AUTHORITY_CODE;
+		return ExceptionCode.withoutAuthority.code;
 	}
 	
 }

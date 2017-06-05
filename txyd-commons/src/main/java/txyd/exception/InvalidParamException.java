@@ -19,7 +19,7 @@ public class InvalidParamException extends RuntimeException implements BaseExcep
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.INVALID_PARAM_ERROR_CODE;
+		return ExceptionCode.invalidParam.code;
 	}
 	
 	

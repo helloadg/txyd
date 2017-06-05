@@ -19,7 +19,7 @@ public class WithoutLoginException extends RuntimeException implements BaseExcep
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.WITHOUT_LOGIN_CODE;
+		return ExceptionCode.withoutLogin.code;
 	}
 	
 }

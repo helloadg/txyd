@@ -20,6 +20,6 @@ public class SystemException extends RuntimeException implements BaseException {
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.SYSTEM_ERROR_CODE;
+		return ExceptionCode.system.code;
 	}
 }

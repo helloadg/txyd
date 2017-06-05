@@ -19,6 +19,6 @@ public class ResourceNotExistException extends RuntimeException implements BaseE
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.RESOURCE_NOT_EXIST_ERROR_CODE;
+		return ExceptionCode.resourceNotExist.code;
 	}
 }

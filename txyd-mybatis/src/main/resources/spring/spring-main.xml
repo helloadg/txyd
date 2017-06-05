@@ -27,5 +27,13 @@
       	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<!-- <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" /> -->
     </context:component-scan>
-    
+
+    <bean id="exceptionAop" class="txyd.aop.ExceptionAop"/>
+    <aop:config >
+        <aop:aspect  ref="exceptionAop"  order="1" >
+            <aop:pointcut expression="execution(public * com.txyd.mybatis.service.impl..*(..))" id="exceptionPointcut" />
+            <!--<aop:after-throwing pointcut-ref="exceptionPointcut" method="afterThrow" throwing="ex"  />-->
+            <aop:around  pointcut-ref="exceptionPointcut" method="around"   />
+        </aop:aspect>
+    </aop:config>
 </beans>

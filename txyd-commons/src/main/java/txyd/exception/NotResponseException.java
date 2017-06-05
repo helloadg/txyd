@@ -19,7 +19,7 @@ public class NotResponseException extends RuntimeException implements BaseExcept
 	
 	
 	public int getErrorCode() {
-		return ExceptionConstant.NOT_RESPONSE_CODE;
+		return ExceptionCode.notResponse.code;
 	}
 	
 }
