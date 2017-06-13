@@ -26,6 +26,7 @@
         <module>txyd-json</module>
 		<module>txyd-mc</module>
         <module>txyd-dubbo</module>
+        <module>txyd-agent</module>
     </modules>
 	<properties>
 		<!-- 自身版本号 -->
